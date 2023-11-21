@@ -31,7 +31,7 @@ app.get('/protected', keycloak.protect(), (req, res) => {
 
 app.get('/dbtest', async (req, res) => {
   const result = await mysql.query('SELECT * FROM test');
-  res.send(result[0][0]);
+  res.send(result[0]);
 });
 
 app.listen(PORT, () => {
