@@ -1,1 +1,18 @@
+<!-- array of tasks is passed to this file where each task is an object consisting of following properties: id, name, completion_date, status -->
 <h1>tasks</h1>
+<!-- basic form for adding tasks - to beautify -->
+<form action="/tasks" method="post">
+  <span>Nazwa zadania</span>
+  <div>
+    <input type="text" name="name" id=""/>
+  </div>
+  <span>termin wykonania zadania</span>
+  <div>
+    <input type="datetime" name="completion_date" id=""/>
+  </div>
+  <span>status zadania</span>
+  <div>
+    <input type="text" name="status" id="">
+  </div>
+  <button>dodaj</button>
+</form>
