@@ -26,7 +26,7 @@ app.use(keycloak.middleware({
 /* config */
 app.use(express.json());
 app.use(express.urlencoded({
-  extended: false
+  extended: true
 }));
 
 /* routers */
