@@ -1,24 +1,5 @@
-<h1>tasks</h1>
-<!-- test -->
-<% if(locals.tasks) { %>
-  <% for(let i = 0; i < tasks.length; i++) { %>
-    <div>
-      <%= tasks[i].name %>
-      &nbsp;
-      <%= tasks[i].completion_date %>
-      &nbsp;
-      <%= tasks[i].status %>
-      <form action="/tasks/:id/edit" method="put">
-        <button>edit</button>
-      </form>
-      <form action="/tasks/<%= tasks[i].name %>?_method=DELETE" method="POST">
-        <button>delete</button>
-      </form>
-    </div>
-  <% } %>
-<% } %>
-<!-- end of test -->
-<form action="/tasks/add" method="POST">
+<h1>zadania</h1>
+<form action="/tasks/add" method="post">
   <label>
     <span>Nazwa zadania</span>
     <div>
@@ -39,3 +20,21 @@
   </label>
   <button>dodaj</button>
 </form>
+<!-- test -->
+<% if(locals.tasks) { %>
+  <% for(let i = 0; i < tasks.length; i++) { %>
+    <div>
+      <a href="/tasks/<%= tasks[i].id %>"><%= tasks[i].name %></a><br/>
+      <%= tasks[i].completion_date %><br/>
+      <%= tasks[i].status %><br/>
+      <form action="/tasks/<%= tasks[i].id %>/edit" method="post">
+        <button>edit</button>
+      </form>
+      <form action="/tasks/<%= tasks[i].id %>?_method=DELETE" method="post">
+        <button>delete</button>
+      </form>
+      <hr/>
+    </div>
+  <% } %>
+<% } %>
+<!-- end of test -->
