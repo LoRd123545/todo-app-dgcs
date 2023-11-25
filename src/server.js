@@ -1,10 +1,10 @@
-/* external libs */
 const express = require('express');
 const expressEjsLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const methodOverride = require('method-override');
 const Keycloak = require('keycloak-connect');
 
+const mysql = require('./config/mysql-config');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const memoryStore = session.MemoryStore();
