@@ -18,7 +18,7 @@ Volume sharing is not available yet, so you need to configure database and keycl
 
 ### DATABASE ([MYSQL](https://www.mysql.com/))
 - create database with name todos and charset utf8mb4
-- create table tasks with 4 field: `id varchar(36) primary key`, `name varchar(50)`, `completion_date datetime`, `status varchar(25)`
+- create table tasks with 4 fields: `id varchar(36) primary key`, `name varchar(50)`, `completion_date datetime`, `status varchar(25)`
 - database ready
 ### [KEYCLOAK](https://www.keycloak.org/)
 - not implemented yet
