@@ -9,23 +9,37 @@ class TaskModel
       status
     } = task;
 
-    await mysql.query(`
+    const task = await mysql.query(`
       INSERT INTO tasks 
       (name, completion_date, status)
       VALUES(?, ?, ?)
     `, [name, completion_date, status]);
+
+    return task[0][0];
   }
 
-  update(name) {
+  async update(name) {
     
   }
 
-  delete(name) {
+  async delete(name) {
+    const task = await mysql.query(`
+      DELETE
+      FROM tasks
+      WHERE name = ?
+    `, [ name ]);
 
+    return task[0][0];
   }
 
-  get(name) {
+  async get(name) {
+    const task = await mysql.query(`
+      SELECT *
+      FROM tasks
+      WHERE name = ?
+    `, [ name ]);
 
+    return task[0][0];
   }
 
   async getAll() {
