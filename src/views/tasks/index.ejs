@@ -1,18 +1,41 @@
-<!-- array of tasks is passed to this file where each task is an object consisting of following properties: id, name, completion_date, status -->
 <h1>tasks</h1>
-<!-- basic form for adding tasks - to beautify -->
-<form action="/tasks" method="post">
-  <span>Nazwa zadania</span>
-  <div>
-    <input type="text" name="name" id=""/>
-  </div>
-  <span>termin wykonania zadania</span>
-  <div>
-    <input type="datetime" name="completion_date" id=""/>
-  </div>
-  <span>status zadania</span>
-  <div>
-    <input type="text" name="status" id="">
-  </div>
+<!-- test -->
+<% if(locals.tasks) { %>
+  <% for(let i = 0; i < tasks.length; i++) { %>
+    <div>
+      <%= tasks[i].name %>
+      &nbsp;
+      <%= tasks[i].completion_date %>
+      &nbsp;
+      <%= tasks[i].status %>
+      <form action="/tasks/:id/edit" method="put">
+        <button>edit</button>
+      </form>
+      <form action="/tasks/<%= tasks[i].name %>?_method=DELETE" method="POST">
+        <button>delete</button>
+      </form>
+    </div>
+  <% } %>
+<% } %>
+<!-- end of test -->
+<form action="/tasks/add" method="POST">
+  <label>
+    <span>Nazwa zadania</span>
+    <div>
+      <input type="text" name="name" id=""/>
+    </div>
+  </label>
+  <label>
+    <span>termin wykonania zadania</span>
+    <div>
+      <input type="datetime" name="completion_date" id=""/>
+    </div>
+  </label>
+  <label>
+    <span>status zadania</span>
+    <div>
+      <input type="text" name="status" id="">
+    </div>
+  </label>
   <button>dodaj</button>
 </form>
