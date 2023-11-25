@@ -9,24 +9,30 @@ router.get('/', async (req, res) => {
   res.render('tasks', {
     tasks: tasks
   });
-  //res.send(tasks);
 });
 
-router.post('/', (req, res) => {
-  const {
-    name,
-    completion_date,
-    status
-  } = req.body;
-
+router.post('/add', (req, res) => {
   const task = {
-    name: name,
-    completion_date: completion_date,
-    status: status
+    name: req.body.name,
+    completion_date: req.body.completion_date,
+    status: req.body.status
   };
 
   taskModel.add(task);
 
+  res.redirect('/tasks');
+});
+
+router.get('/:id', (req, res) => {
+
+});
+
+router.put('/:id/edit', (req, res) => {
+
+});
+
+router.delete('/:id', (req, res) => {
+  taskModel.delete(req.params.id);
   res.redirect('/tasks');
 });
 

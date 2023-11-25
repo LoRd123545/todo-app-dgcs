@@ -2,6 +2,7 @@
 const express = require('express');
 const expressEjsLayouts = require('express-ejs-layouts');
 const session = require('express-session');
+const methodOverride = require('method-override');
 const Keycloak = require('keycloak-connect');
 
 const app = express();
@@ -24,6 +25,7 @@ app.use(keycloak.middleware({
 }));
 
 /* config */
+app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true

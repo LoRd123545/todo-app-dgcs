@@ -21,6 +21,7 @@
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.17.3",
     "keycloak-connect": "^22.0.5",
+    "method-override": "^3.0.0",
     "mysql2": "^3.6.3"
   },
   "devDependencies": {
