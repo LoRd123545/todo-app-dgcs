@@ -32,6 +32,7 @@ services:
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
+# volume mapping
 volumes:
   todo-mysql-data:
   todo-keycloak-data:
