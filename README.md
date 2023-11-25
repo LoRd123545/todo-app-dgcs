@@ -14,7 +14,7 @@ Simple todo app in which you can have account and store, add, update or delete t
 In order to use this app you need to have [docker](https://www.docker.com/) installed on your host machine.
 
 ## INFO:
-Volume sharing is not available yet, so you need to configure database and keycloak on your own. Here is quick tutorial how to:
+You need to configure database and keycloak on your own. Here is quick tutorial how to:
 
 ### DATABASE ([MYSQL](https://www.mysql.com/))
 - create database with name todos and charset utf8mb4
