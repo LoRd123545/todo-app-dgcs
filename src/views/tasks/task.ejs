@@ -1,0 +1,14 @@
+<% if(locals.task) { %>
+  <h1><%= task.name %></h1>
+  <div>
+    identyfikator: <%= task.id %>
+  </div>
+  <div>
+    termin: <%= task.completion_date %>
+  </div>
+  <div>
+    status: <%= task.status %>
+  </div>
+<% } else { %>
+  <h1>No task with this id exists!</h1>
+<% } %>
