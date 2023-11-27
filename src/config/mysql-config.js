@@ -5,7 +5,8 @@ const pool = mysql.createPool({
   user: 'root',
   password: 'secret',
   database: 'todos',
-  charset: 'utf8mb4'
+  charset: 'utf8mb4',
+  dateStrings: true
 }).promise();
 
 module.exports = pool;
