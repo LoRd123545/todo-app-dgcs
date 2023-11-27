@@ -1,0 +1,29 @@
+<form action="/tasks/add" method="post">
+  <label>
+    <span>Nazwa zadania</span>
+    <div>
+      <input type="text" name="name" id=""/>
+    </div>
+  </label>
+  <label>
+    <span>Opis zadania</span>
+    <div>
+      <textarea name="description" id="" cols="30" rows="10" maxlength="500">
+        
+      </textarea>
+    </div>
+  </label>
+  <label>
+    <span>termin wykonania zadania</span>
+    <div>
+      <input type="datetime" name="completion_date" id=""/>
+    </div>
+  </label>
+  <label>
+    <span>status zadania</span>
+    <div>
+      <input type="text" name="status" id="">
+    </div>
+  </label>
+  <button>dodaj</button>
+</form>

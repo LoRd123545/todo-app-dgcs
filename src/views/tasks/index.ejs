@@ -1,37 +1,16 @@
 <h1>zadania</h1>
-<form action="/tasks/add" method="post">
-  <label>
-    <span>Nazwa zadania</span>
-    <div>
-      <input type="text" name="name" id=""/>
-    </div>
-  </label>
-  <label>
-    <span>termin wykonania zadania</span>
-    <div>
-      <input type="datetime" name="completion_date" id=""/>
-    </div>
-  </label>
-  <label>
-    <span>status zadania</span>
-    <div>
-      <input type="text" name="status" id="">
-    </div>
-  </label>
-  <button>dodaj</button>
-</form>
+<a href="/tasks/add">dodaj zadanie</a>
 <!-- test -->
 <% if(locals.tasks) { %>
   <% for(let i = 0; i < tasks.length; i++) { %>
     <div>
+      <hr/>
       <a href="/tasks/<%= tasks[i].id %>"><%= tasks[i].name %></a><br/>
       <%= tasks[i].completion_date %><br/>
       <%= tasks[i].status %><br/>
-      <form action="/tasks/<%= tasks[i].id %>/edit" method="post">
-        <button>edit</button>
-      </form>
+      <button><a href="/tasks/<%= tasks[i].id %>/edit">edytuj</a></button>
       <form action="/tasks/<%= tasks[i].id %>?_method=DELETE" method="post">
-        <button>delete</button>
+        <button>usuń</button>
       </form>
       <hr/>
     </div>

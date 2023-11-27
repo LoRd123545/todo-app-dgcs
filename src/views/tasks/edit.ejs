@@ -1,0 +1,30 @@
+<h2><%= task.name %></h2>
+<form action="/tasks/<%= task.id %>/edit?_method=PUT" method="post">
+  <label>
+    <span>Nazwa zadania</span>
+    <div>
+      <input type="text" name="name" placeholder="<%= task.name %>"/>
+    </div>
+  </label>
+  <label>
+    <span>Opis zadania</span>
+    <div>
+      <textarea name="description" maxlength="500">
+        <%= task.description %>        
+      </textarea>
+    </div>
+  </label>
+  <label>
+    <span>termin wykonania zadania</span>
+    <div>
+      <input type="datetime" name="completion_date" placeholder="<%= task.completion_date %>"/>
+    </div>
+  </label>
+  <label>
+    <span>status zadania</span>
+    <div>
+      <input type="text" name="status" placeholder="<%= task.status %>">
+    </div>
+  </label>
+  <button>zaaktualizuj</button>
+</form>
