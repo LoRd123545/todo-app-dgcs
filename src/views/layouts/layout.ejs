@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>todo app</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="../stylesheets/main.css">
+  <title>Todo-app</title>                 
 </head>
 <body>
-    <%- body %>
+  <div class="container">
+      <%- include('../partials/header.ejs') %>
+      <div class="container__panel--inner">
+          <%- body %>
+      </div>
+      <%- include('../partials/footer.ejs') %>
+  </div>
 </body>
 </html>

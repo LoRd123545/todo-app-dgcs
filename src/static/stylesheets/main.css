@@ -1,0 +1,117 @@
+/*Importing fonts, variables etc.*/
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+@import 'shared/variables.css';
+@import 'shared/header.css';
+@import 'shared/footer.css';
+
+:root{
+  font-family: 'DM Sans', sans-serif;
+  font-size: 20px;
+}
+
+*, *::before, *::after{
+  box-sizing: border-box;
+}
+
+.container{
+  max-width: 1400px;
+  margin: auto;
+  margin-bottom: 3rem;
+}
+
+.container__panel--inner{
+  margin: 0 4rem;
+}
+
+.heading{
+  font-size: 3rem;
+  text-align: center;
+  margin: 0 6rem;
+}
+
+.panel__paragraph{
+  text-align: center;
+  font-weight: 200;
+  margin: 1rem 10rem;
+}
+
+.button{
+  background-color: var(--color-button-green);
+  padding: 0.75rem;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.panel__button--sign-in{
+  text-decoration: none;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  max-width: 10rem;
+}
+
+.box{
+  margin: 6rem 0;
+  max-width: 1400px;
+  display: flex;
+  justify-content: center;
+}
+
+.heading--secondary{
+  font-size: 2rem;
+  text-align: center;
+  color: var(--color-text-green);
+  margin: 0 6rem;
+}
+
+.paragraph{
+  text-align: center;
+  font-weight: 200;
+  margin: 1rem 10rem;
+}
+
+.panel--flex{
+  display: flex;
+  margin: 4rem 0;
+}
+
+.panel__box--left{
+  display: inline-block;
+  width: 50%;
+  border-right: 1px solid var(--color-text-green);
+  padding: 1rem;
+}
+
+.panel__image{
+  display: flex;
+  width: 50%;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel__heading{
+  font-size: 2rem;
+}
+
+.panel_paragraph{
+  font-weight: 200;
+}
+
+.panel__box--left ol li{
+  margin: 3rem 0;
+}
+
+.panel__box--left ol li h4{
+  color: var(--color-text-green);
+}
+
+.heading__quote{
+  text-align: center;
+  margin: 6rem 10rem 0;
+  font-size: 2rem;
+}
+
+.heading__quoteAuthor{
+  text-align: center;
+}
