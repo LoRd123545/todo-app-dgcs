@@ -47,6 +47,7 @@ app.use('/account', accountRouter);
 
 // keycloak test - error
 app.get('/protected', keycloak.protect(), (req, res) => {
+  res.header('Authorization', 'Bearer 09NvIAwA6mZv9uaQfJpbM4UapjIixwCB');
   res.send('Protected');
 });
 
