@@ -6,7 +6,7 @@ Simple todo app in which you can have account and store, add, update or delete t
 - name
 - completion_date
 - status
-- description (not implemented yet)
+- description
 
 # SETUP
 
@@ -16,10 +16,6 @@ In order to use this app you need to have docker installed on your host machine.
 ## INFO:
 You need to configure database and keycloak on your own. Here is quick tutorial how to (run app using command mentioned below and then configure database and keycloak):
 
-### DATABASE MYSQL
-- create database with name todos and charset utf8mb4
-- create table tasks with 4 fields: `id varchar(36) primary key`, `name varchar(50)`, `completion_date datetime`, `status varchar(25)`
-- database ready
 ### KEYCLOAK
 - log into keycloak [admin console](http://localhost:8080)
 - cooming soon
