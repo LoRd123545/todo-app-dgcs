@@ -1,19 +1,27 @@
-<h1>zadania</h1>
-<a href="/tasks/add">dodaj zadanie</a>
-<!-- test -->
-<% if(locals.tasks) { %>
-  <% for(let i = 0; i < tasks.length; i++) { %>
-    <div>
-      <hr/>
-      <a href="/tasks/<%= tasks[i].id %>"><%= tasks[i].name %></a><br/>
-      <%= tasks[i].completion_date %><br/>
-      <%= tasks[i].status %><br/>
-      <button><a href="/tasks/<%= tasks[i].id %>/edit">edytuj</a></button>
-      <form action="/tasks/<%= tasks[i].id %>?_method=DELETE" method="post">
-        <button>usuń</button>
-      </form>
-      <hr/>
-    </div>
+<div class="container">
+  <h1 class="heading">Twoje zadania</h1>
+  <br>
+  <a href="/tasks/add" class="button">Nowe zadanie</a>
+  <br><br><br>
+  <!-- test -->
+  <% if(locals.tasks) { %>
+    <% for(let i = 0; i < tasks.length; i++) { %>
+      <div class="task">
+        <a href="/tasks/<%= tasks[i].id %>" class="task__heading"><%= tasks[i].name %></a>
+        <br>
+        <span class="task__text"><%= tasks[i].status %></span>
+        <span class="task__text"><%= tasks[i].completion_date %></span>
+        <div class="task__icons">
+          <button class="task__button--decoration-none"><a href="/tasks/<%= tasks[i].id %>/edit"><i class="fa-solid fa-pen-to-square"></i></a></button>
+           <form action="/tasks/<%= tasks[i].id %>?_method=DELETE" method="post">
+            <button class="task__button--decoration-none"><i class="fa-solid fa-trash"></i></button>
+          </form>
+        </div>
+      </div>
+    <% } %>
   <% } %>
-<% } %>
-<!-- end of test -->
+  <% if(tasks.length == 0) { %>
+      <h2 class="heading--light">Brak zadań</h2> 
+  <% } %>
+  <!-- end of test -->
+</div>

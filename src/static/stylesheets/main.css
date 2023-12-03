@@ -15,6 +15,7 @@
 
 .container{
   max-width: 1400px;
+  min-height: 600px;
   margin: auto;
   margin-bottom: 3rem;
 }
@@ -41,6 +42,7 @@
   border-radius: 10px;
   color: white;
   font-weight: bold;
+  text-decoration: none;
 }
 
 .panel__button--sign-in{
@@ -94,10 +96,6 @@
   font-size: 2rem;
 }
 
-.panel_paragraph{
-  font-weight: 200;
-}
-
 .panel__box--left ol li{
   margin: 3rem 0;
 }
@@ -114,4 +112,68 @@
 
 .heading__quoteAuthor{
   text-align: center;
+}
+
+/*Tasks*/
+
+.task{
+  margin: 2rem 1rem;
+  padding: 1rem;
+  border: 1px solid #9e9e9e;
+  width: 45%;
+  display: inline-block;
+  border-radius: 10px;
+  background-color: var(--task-background-color);
+  box-shadow: 6px 6px 8px #888888;
+  position: relative;
+}
+
+.task__icons{
+  display: flex;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.task__heading{
+  color: var(--color-text-green);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 30px;
+  margin-left: 5px;
+}
+
+.task__text{
+  margin: 0 5px;
+}
+
+.fa-trash{
+  color: red;
+  font-size: 25px;
+  margin: 0 10px;
+}
+
+.fa-pen-to-square{
+  color: orange;
+  font-size: 25px;
+  margin: 0 10px;
+}
+
+.task__button--decoration-none{
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-align: inherit;
+  font: inherit;
+  border-radius: 0;
+  appearance: none;
+  cursor: pointer;
+}
+
+.heading--light{
+  font-weight: 100;
+  color: var(--task-heading-color);
+  text-align: center;
+  margin: 10rem 0;
 }

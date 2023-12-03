@@ -1,4 +1,6 @@
 :root{
   --color-text-green: hsl(130, 65%, 50%);
   --color-button-green: hsl(130, 65%, 50%);
+  --task-background-color: #d8d8d8;
+  --task-heading-color: #c2c2c2;
 }
