@@ -4,7 +4,7 @@ services:
     image: node:18-alpine
     command: sh -c "npm install && npm run dev"
     ports:
-     - 127.0.0.1:3000:3000
+     - 3000:3000
     working_dir: /app
     volumes:
       - ./:/app
@@ -23,10 +23,10 @@ services:
       MYSQL_DATABASE: todos
   # keycloak service
   keycloak:
-    image: quay.io/keycloak/keycloak:22.0.5
+    image: quay.io/keycloak/keycloak:23.0.1
     command: start-dev
     ports:
-      - 127.0.0.1:8080:8080
+      - 8080:8080
     volumes:
       - todo-keycloak-data:/opt/keycloak/data/
     environment:
