@@ -4,10 +4,24 @@ const session = require('express-session');
 const methodOverride = require('method-override');
 const Keycloak = require('keycloak-connect');
 
-const mysql = require('./config/mysql-config');
+/* handy variables */
 const app = express();
 const PORT = process.env.PORT || 3000;
-const memoryStore = session.MemoryStore();
+const sessionStore = new session.MemoryStore();
+
+/* handy objects */
+const sessionInit = {
+  secret: 'some secret',
+  resave: false,
+  saveUninitialized: true,
+};
+
+const keycloak = new Keycloak({
+  store: sessionStore
+});
+
+/* session config */
+app.use(session(sessionInit));
 
 /* ejs, express ejs layouts and static files config */
 app.set('view engine', 'ejs');
@@ -17,9 +31,6 @@ app.use(expressEjsLayouts);
 app.use(express.static(__dirname + '/static'));
 
 /* keycloak config */
-const keycloak = new Keycloak({
-  store: memoryStore
-});
 app.use(keycloak.middleware({
   logout: '/logout'
 }));
@@ -37,20 +48,19 @@ const aboutRouter = require('./routes/about');
 const faqRouter = require('./routes/faq');
 const accountRouter = require('./routes/account');
 const tasksRouter = require('./routes/tasks');
+const apiRouter = require('./routes/api');
 
 /* app routes */
 app.use('/', homeRouter);
 app.use('/faq', faqRouter);
 app.use('/about', aboutRouter);
-app.use('/tasks', tasksRouter);
-app.use('/account', accountRouter);
+app.use('/tasks', keycloak.protect(), tasksRouter);
+app.use('/account', keycloak.protect(), accountRouter);
 
-// keycloak test - error
-app.get('/protected', keycloak.protect(), (req, res) => {
-  res.header('Authorization', 'Bearer 09NvIAwA6mZv9uaQfJpbM4UapjIixwCB');
-  res.send('Protected');
-});
+/* api */
+app.use('/api', apiRouter);
 
+/* app listens on PORT */
 app.listen(PORT, () => {
   console.log(`alive on localhost:${PORT}!`);
 });

@@ -1,11 +1,14 @@
 {
-  "realm": "test",
-  "auth-server-url": "http://localhost:8080/",
+  "realm": "demo",
+  "auth-server-url": "http://host.docker.internal:8080/",
   "ssl-required": "external",
   "resource": "client1",
+  "verify-token-audience": true,
   "credentials": {
-    "secret": "09NvIAwA6mZv9uaQfJpbM4UapjIixwCB"
+    "secret": "uybBZBiFFnYwJR89OnJVcRwweRfyRSSD"
   },
-  "public-client": true,
-  "confidential-port": 0
+  "confidential-port": 0,
+  "policy-enforcer": {
+    "credentials": {}
+  }
 }
