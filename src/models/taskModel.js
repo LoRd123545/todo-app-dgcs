@@ -3,12 +3,14 @@ import mysql from '../config/mysql-config.js';
 /* all functions return json objects */
 
 /* returns all tasks or error message */
-async function getAllTasks() {
+async function getAllTasks(userID) {
   try {
     const result = await mysql.execute(`
-      SELECT *
+      SELECT
+      id, name, description, completion_date, status
       FROM tasks
-    `);
+      WHERE user_id = ?
+    `,[ userID ]);
 
     return result[0];
   } catch(err) {
@@ -18,13 +20,14 @@ async function getAllTasks() {
 }
 
 /* returns task with given id or error message */
-async function getTask(id) {
+async function getTask(id, userID) {
   try {
     const result = await mysql.execute(`
-      SELECT *
+      SELECT
+      id, name, description, completion_date, status
       FROM tasks
-      WHERE id = ?
-    `, [id]);
+      WHERE id = ? AND user_id = ?
+    `, [ id, userID ]);
 
     if(!result[0][0]) {
       return {
@@ -48,14 +51,15 @@ async function addTask(task) {
     name,
     description,
     completion_date,
-    status
+    status,
+    user_id
   } = task;
 
   try {
     await mysql.execute(`
       INSERT INTO tasks 
-      VALUES(?, ?, ?, ?, ?)
-    `, [id, name, description, completion_date, status]);
+      VALUES(?, ?, ?, ?, ?, ?)
+    `, [id, name, description, completion_date, status, user_id]);
   
     return {
       "message": "successfully added task"
@@ -73,15 +77,16 @@ async function updateTask(task) {
     name,
     description,
     completion_date,
-    status
+    status,
+    user_id
   } = task;
 
   try {
     await mysql.execute(`
       UPDATE tasks
       SET name = ?, description = ?, completion_date = ?, status = ?
-      WHERE id = ?
-    `, [name, description, completion_date, status, id]);
+      WHERE id = ? AND user_id = ?
+    `, [ name, description, completion_date, status, id, user_id ]);
   
     return {
       "message": "successfully updated!"
@@ -93,13 +98,13 @@ async function updateTask(task) {
 }
 
 /* returns error message or success message */
-async function deleteTask(id) {
+async function deleteTask(id, userID) {
   try {
     await mysql.execute(`
       DELETE
       FROM tasks
-      WHERE id = ?
-    `, [id]);
+      WHERE id = ? AND user_id = ?
+    `, [ id, userID ]);
   
     return {
       "message": "successfully deleted!"
@@ -110,12 +115,13 @@ async function deleteTask(id) {
   }
 }
 
-async function deleteAllTasks() {
+async function deleteAllTasks(userID) {
   try {
     await mysql.execute(`
       DELETE
       FROM tasks
-    `);
+      WHERE user_id = ?
+    `, [ userID ]);
 
     return {
       "message": "successfully deleted all tasks!"

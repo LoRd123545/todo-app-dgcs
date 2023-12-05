@@ -19,6 +19,7 @@ import faqRouter from './routes/faq.js';
 import accountRouter from './routes/account.js';
 import tasksRouter from './routes/tasks.js';
 import apiRouter from './routes/api.js';
+import authRouter from './routes/auth.js';
 
 /* handy variables */
 const __filename = fileURLToPath(import.meta.url);
@@ -71,14 +72,11 @@ kcAdminClient.auth({
 
 /* app routes */
 app.use('/', homeRouter);
+app.use('/auth', kc.protect(), authRouter);
 app.use('/faq', faqRouter);
 app.use('/about', aboutRouter);
 app.use('/tasks', kc.protect(), tasksRouter);
 app.use('/account', kc.protect(), accountRouter);
-
-app.get('/protected', kc.protect(), async (req, res) => {
-  res.send(await kcAdminClient.users.find({}));
-});
 
 /* api */
 app.use('/api', apiRouter);
