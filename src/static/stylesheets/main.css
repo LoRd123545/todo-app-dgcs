@@ -114,16 +114,15 @@
   text-align: center;
 }
 
-/*Tasks*/
+/*Task index page*/
 
 .task{
   margin: 2rem 1rem;
   padding: 1rem;
-  border: 1px solid #9e9e9e;
+  border: 2px solid black;
   width: 45%;
   display: inline-block;
   border-radius: 10px;
-  background-color: var(--task-background-color);
   box-shadow: 6px 6px 8px #888888;
   position: relative;
 }
@@ -176,4 +175,47 @@
   color: var(--task-heading-color);
   text-align: center;
   margin: 10rem 0;
+}
+
+/*Tasks*/
+
+.heading--white{
+  color: white;
+}
+
+.task__panel{
+  margin: auto;
+  box-shadow: 0px 0px 8px 5px #888888;
+  border-radius: 10px;
+  min-height: 300px;
+}
+
+.task__header{
+  border-radius: 10px;
+  background-color: var(--task-header-background-color);
+  padding: 1rem;
+}
+
+.task__paragraph--center{
+  margin: 0;
+  text-align: center;
+}
+
+.task__heading--center{
+  text-align: center;
+  margin: 0;
+  margin-top: 1rem;
+}
+
+.task__box{
+  margin: 1rem 10rem;
+}
+
+.task__paragraph--margin-bottom{
+  margin-bottom: 1rem;
+}
+
+.task__paragraph--green{
+  color: var(--color-text-green);
+  font-weight: bold;
 }
