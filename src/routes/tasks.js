@@ -1,8 +1,11 @@
-const express = require('express');
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+import express from 'express';
 const { v4 : uuid } = require('uuid');
 
 const router = express.Router();
-const db = require('../models/taskModel');
+import db from '../models/taskModel.js';
 
 /* render view with all tasks */
 router.get('/', async (req, res) => {
@@ -83,4 +86,4 @@ router.delete('/', async (req, res) => {
   res.json(await db.deleteAllTasks());
 });
 
-module.exports = router;
+export default router;

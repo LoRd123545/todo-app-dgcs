@@ -1,5 +1,4 @@
-const mysql = require('../config/mysql-config');
-const { catchAsync } = require('../middleware/errors');
+import mysql from '../config/mysql-config.js';
 
 /* all functions return json objects */
 
@@ -127,7 +126,7 @@ async function deleteAllTasks() {
   }
 }
 
-module.exports = {
+export default {
   getAllTasks,
   getTask,
   addTask,

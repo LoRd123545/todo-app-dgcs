@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+import mysql from 'mysql2';
 
 const pool = mysql.createPool({
   host: 'mysql',
@@ -18,4 +18,4 @@ pool.query(`
   completion_date datetime, status varchar(20))
 `);
 
-module.exports = pool;
+export default pool;
