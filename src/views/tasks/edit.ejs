@@ -17,14 +17,25 @@
   <label>
     <span>termin wykonania zadania</span>
     <div>
-      <input type="datetime" name="completion_date" placeholder="<%= task.completion_date %>"/>
+      <input type="date" id="due-date" name="completion_date"/>
     </div>
   </label>
   <label>
     <span>status zadania</span>
     <div>
-      <input type="text" name="status" placeholder="<%= task.status %>">
+      <select name="status" id="status"  >
+        <option value="not-started">Not Started</option>
+        <option value="in-progress">In Progress</option>
+        <option value="done">Done</option>
+      </select>
+
     </div>
   </label>
   <button>zaaktualizuj</button>
 </form>
+
+<script>
+  document.getElementById('status').value = '<%= task.status %>';
+  document.getElementById('due-date').value = '<%= task.completion_date %>';
+
+</script>

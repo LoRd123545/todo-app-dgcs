@@ -16,13 +16,17 @@
   <label>
     <span>termin wykonania zadania</span>
     <div>
-      <input type="datetime" name="completion_date" id=""/>
+      <input type="date" name="completion_date" id=""/>
     </div>
   </label>
   <label>
     <span>status zadania</span>
     <div>
-      <input type="text" name="status" id="">
+      <select name="status" id="status">
+        <option value="not-started">Not Started</option>
+        <option value="in-progress">In Progress</option>
+        <option value="done">Done</option>
+      </select>
     </div>
   </label>
   <button>dodaj</button>

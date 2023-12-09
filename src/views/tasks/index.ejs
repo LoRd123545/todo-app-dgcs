@@ -2,7 +2,13 @@
   <h1 class="heading">Twoje zadania</h1>
   <br>
   <a href="/tasks/add" class="button">Nowe zadanie</a>
-  <br><br><br>
+  <select name="filtr" id="filtr">
+    <option value="all">all</option>
+    <option value="done">done</option>
+    <option value="in-progress">In Progress</option>
+    <option value="not-started">Not Started</option>
+  </select>
+  <br><br>
   <!-- test -->
   <% if(locals.tasks) { %>
     <% for(let i = 0; i < tasks.length; i++) { %>
