@@ -13,11 +13,5 @@ Simple todo app in which you can have account and store, add, update or delete t
 ## REQUIREMENTS:
 In order to use this app you need to have docker installed on your host machine.
 
-## INFO:
-You need to configure  keycloak on your own. Here is quick tutorial how to (run app using command mentioned below and then configure keycloak):
-
-### KEYCLOAK
-- log into keycloak [admin console](http://localhost:8080)
-- cooming soon
-
-If you have docker installed, simply run command `docker compose up -d` in terminal in project root directory.
+## RUN
+simply run `docker compose up -d` command in terminal in project root directory

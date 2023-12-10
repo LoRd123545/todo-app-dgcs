@@ -1,12 +1,17 @@
-const express = require('express');
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+import express from 'express';
 const { v4 : uuid } = require('uuid');
 
 const router = express.Router();
-const db = require('../models/taskModel');
+import db from '../models/taskModel.js';
 
 /* render view with all tasks */
 router.get('/', async (req, res) => {
-  const result = await db.getAllTasks();
+  const result = await db.getAllTasks(
+    req.kauth.grant.access_token.content.sub
+  );
 
   //res.json(result); // for tests
   res.render('tasks', {
@@ -26,7 +31,8 @@ router.post('/add', async (req, res) => {
     name: req.body.name || 'unnamed',
     description: req.body.description || 'none',
     completion_date: req.body.completion_date || '2008-5-15 19:30:00',
-    status: req.body.status || 'todo'
+    status: req.body.status || 'todo',
+    user_id: req.kauth.grant.access_token.content.sub
   };
 
   const result = await db.addTask(task);
@@ -37,7 +43,10 @@ router.post('/add', async (req, res) => {
 
 /* render view with form to edit task */
 router.get('/:id/edit', async (req, res) => {
-  const result = await db.getTask(req.params.id);
+  const result = await db.getTask(
+    req.params.id,
+    req.kauth.grant.access_token.content.sub
+  );
 
   res.render('tasks/edit', {
     task: result
@@ -46,7 +55,10 @@ router.get('/:id/edit', async (req, res) => {
 
 /* render view with single task */
 router.get('/:id', async (req, res) => {
-  const result = await db.getTask(req.params.id);
+  const result = await db.getTask(
+    req.params.id,
+    req.kauth.grant.access_token.content.sub
+  );
 
   // res.json(result); // for tests
   res.render('tasks/task', {
@@ -56,13 +68,17 @@ router.get('/:id', async (req, res) => {
 
 /* update task */
 router.put('/:id/edit', async (req, res) => {
-  const oldTask = await db.getTask(req.params.id);
+  const oldTask = await db.getTask(
+    req.params.id,
+    req.kauth.grant.access_token.content.sub
+  );
   const newTask = {
     id: req.params.id,
     name: req.body.name || oldTask.name,
     description: req.body.description || oldTask.description,
     completion_date: req.body.completion_date || oldTask.completion_date,
-    status: req.body.status || oldTask.status
+    status: req.body.status || oldTask.status,
+    user_id: req.kauth.grant.access_token.content.sub
   };
 
   const result = await db.updateTask(newTask);
@@ -73,14 +89,19 @@ router.put('/:id/edit', async (req, res) => {
 
 /* delete task */
 router.delete('/:id', async (req, res) => {
-  const result = await db.deleteTask(req.params.id);
+  const result = await db.deleteTask(
+    req.params.id,
+    req.kauth.grant.access_token.content.sub
+  );
   
   //res.json(result); // for tests
   res.redirect('/tasks');
 });
 
 router.delete('/', async (req, res) => {
-  res.json(await db.deleteAllTasks());
+  res.json(await db.deleteAllTasks(
+    req.kauth.grant.access_token.content.sub
+  ));
 });
 
-module.exports = router;
+export default router;

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "simple todo app",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "dev": "nodemon -L ./src/server.js",
     "production": "node ./src/server.js"
