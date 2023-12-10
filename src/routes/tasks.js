@@ -31,7 +31,7 @@ router.post('/add', async (req, res) => {
     name: req.body.name || 'unnamed',
     description: req.body.description || 'none',
     completion_date: req.body.completion_date || '2008-5-15 19:30:00',
-    status: req.body.status || 'todo',
+    status: req.body.status,
     user_id: req.kauth.grant.access_token.content.sub
   };
 

@@ -1,47 +1,50 @@
 import mysql from '../config/mysql-config.js';
 
+/* database initialization */
+mysql.init().catch(err => {
+  console.log(err);
+  process.exit(1);
+});
+
 /* all functions return json objects */
 
 /* returns all tasks or error message */
 async function getAllTasks(userID) {
-  try {
-    const result = await mysql.execute(`
+  return new Promise((acc, rej) => {
+    mysql.execute(`
       SELECT
       id, name, description, completion_date, status
       FROM tasks
       WHERE user_id = ?
-    `,[ userID ]);
+    `, [ userID ],
+      (err, result) => {
+        if(err) {
+          return rej(err);
+        }
 
-    return result[0];
-  } catch(err) {
-    console.error(err);
-    return err.sqlMessage;
-  }
+        acc(result);
+
+    });
+  });
 }
 
 /* returns task with given id or error message */
 async function getTask(id, userID) {
-  try {
-    const result = await mysql.execute(`
+  return new Promise((acc, rej) => {
+    mysql.execute(`
       SELECT
       id, name, description, completion_date, status
       FROM tasks
       WHERE id = ? AND user_id = ?
-    `, [ id, userID ]);
-
-    if(!result[0][0]) {
-      return {
-        "error": {
-          "desc": "task with this id doesn't exist"
-        }
+    `, [ id, userID ],
+    (err, result) => {
+      if(err) {
+        return rej(err);
       }
-    }
-  
-    return result[0][0];
-  } catch(err) {
-    console.error(err);
-    return err.sqlMessage;
-  }
+
+      acc(result[0]);
+    });
+  });
 }
 
 /* returns error message or success message */
@@ -55,19 +58,21 @@ async function addTask(task) {
     user_id
   } = task;
 
-  try {
-    await mysql.execute(`
-      INSERT INTO tasks 
+  return new Promise((acc, rej) => {
+    mysql.execute(`
+      INSERT INTO tasks
       VALUES(?, ?, ?, ?, ?, ?)
-    `, [id, name, description, completion_date, status, user_id]);
-  
-    return {
-      "message": "successfully added task"
-    };
-  } catch(err) {
-    console.log(err)
-    return err.sqlMessage;
-  }
+    `, [ id, name, description, completion_date, status, user_id ],
+    (err, result) => {
+      if(err) {
+        return rej(err);
+      }
+
+      acc({
+        'message': 'successfully added task'
+      });
+    });
+  });
 }
 
 /* returns error message or success message */
@@ -81,55 +86,61 @@ async function updateTask(task) {
     user_id
   } = task;
 
-  try {
-    await mysql.execute(`
+  return new Promise((acc, rej) => {
+    mysql.execute(`
       UPDATE tasks
       SET name = ?, description = ?, completion_date = ?, status = ?
       WHERE id = ? AND user_id = ?
-    `, [ name, description, completion_date, status, id, user_id ]);
-  
-    return {
-      "message": "successfully updated!"
-    };
-  } catch(err) {
-    console.log(err)
-    return err.sqlMessage;
-  }
+    `, [ name, description, completion_date, status, id, user_id ],
+    (err, result) => {
+      if(err) {
+        return rej(err);
+      }
+
+      acc({
+        'message': 'successfully updated!'
+      });
+    });
+  });
 }
 
 /* returns error message or success message */
 async function deleteTask(id, userID) {
-  try {
-    await mysql.execute(`
+  return new Promise((acc, rej) => {
+    mysql.execute(`
       DELETE
       FROM tasks
       WHERE id = ? AND user_id = ?
-    `, [ id, userID ]);
-  
-    return {
-      "message": "successfully deleted!"
-    };
-  } catch(err) {
-    console.error(err);
-    return err.sqlMessage;
-  }
+    `, [ id, userID ],
+    (err, result) => {
+      if(err) {
+        return rej(err);
+      }
+
+      acc({
+        'message': `successfully deleted!`
+      });
+    });
+  });
 }
 
 async function deleteAllTasks(userID) {
-  try {
-    await mysql.execute(`
+  return new Promise((acc, rej) => {
+    mysql.execute(`
       DELETE
       FROM tasks
       WHERE user_id = ?
-    `, [ userID ]);
+    `, [ userID ],
+    (err, result) => {
+      if(err) {
+        return rej(err);
+      }
 
-    return {
-      "message": "successfully deleted all tasks!"
-    };
-  } catch(err) {
-    console.error(err);
-    return err.sqlMessage;
-  }
+      acc({
+        'message': 'successfully deleted all tasks!'
+      });
+    });
+  });
 }
 
 export default {
