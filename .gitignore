@@ -132,3 +132,4 @@ dist
 # other
 plans/
 .vscode
+secrets
