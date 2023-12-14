@@ -13,9 +13,9 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_PASSWORD_FILE: run/secrets/db_password
-    secrets:
-      - db_password
+      #MYSQL_PASSWORD_FILE: run/secrets/db_password
+    # secrets:
+    #   - db_password
   # mysql service
   mysql:
     image: mysql:8.0
@@ -24,12 +24,12 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-    secrets:
-      - db_root_password
+    # secrets:
+    #   - db_root_password
   # keycloak service
   keycloak:
     image: quay.io/keycloak/keycloak:latest
-    command: start-dev
+    command: start-dev --import-realm
     ports:
       - 8080:8080
     volumes:
@@ -37,18 +37,18 @@ services:
     environment:
       - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
-      - KEYCLOAK_ADMIN_PASSWORD_FILE=run/secrets/keycloak_admin_password
-    secrets:
-      - keycloak_admin_password
+      #- KEYCLOAK_ADMIN_PASSWORD_FILE=run/secrets/keycloak_admin_password
+    # secrets:
+    #   - keycloak_admin_password
 # volume mapping
 volumes:
   todo-mysql-data:
   todo-keycloak-data:
 # secrets
-secrets:
-  db_password:
-    file: ./db_password.txt
-  db_root_password:
-    file: ./db_root_password.txt
-  keycloak_admin_password:
-    file: ./keycloak_admin_password.txt
+# secrets:
+#   db_password:
+#     file: ./db_password.txt
+#   db_root_password:
+#     file: ./db_root_password.txt
+#   keycloak_admin_password:
+#     file: ./keycloak_admin_password.txt
