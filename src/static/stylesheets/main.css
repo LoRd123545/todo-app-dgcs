@@ -5,6 +5,8 @@
 @import 'shared/footer.css';
 @import 'shared/select.css';
 @import 'shared/datetime.css';
+@import 'shared/text.css';
+@import 'shared/textarea.css';
 
 :root{
   font-family: 'DM Sans', sans-serif;
@@ -286,3 +288,26 @@
   transition: 0.5s;
 }
 
+/*add task and edit task page*/
+
+.form__panel{
+  margin: auto;
+  box-shadow: 0px 0px 8px 5px #888888;
+  border-radius: 10px;
+  min-height: 300px;
+  max-width: 1000px;
+}
+
+.form__header{
+  border-radius: 10px;
+  background-color: var(--color-button-green-dark);
+  padding: 1rem;
+}
+
+.form__box{
+  margin: 2rem;
+}
+
+.wrapper__button{
+  margin: 0 16rem;
+}
