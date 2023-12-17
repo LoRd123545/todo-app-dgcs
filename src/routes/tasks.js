@@ -10,8 +10,12 @@ import db from '../models/taskModel.js';
 
 /* render view with all tasks */
 router.get('/', async (req, res) => {
+  console.log(req.query.status);
+
   const result = await db.getAllTasks(
-    req.kauth.grant.access_token.content.sub
+    req.kauth.grant.access_token.content.sub, {
+      status: req.query.status
+    }
   );
 
   //res.json(result); // for tests
@@ -26,18 +30,11 @@ router.get('/add', async(req, res) => {
 });
 /* add task */
 router.post('/add', async (req, res) => {
-  let date;
-  if(req.body.completion_date === '') {
-    date = dateFormat.asString('yyyy-MM-dd hh:mm:ss');
-  }
-  else {
-    date = dateFormat.asString('yyyy-MM-dd hh:mm:ss', new Date(req.body.completion_date));
-  }
   const task = {
     id: uuid(),
     name: req.body.name || 'unnamed',
     description: req.body.description || 'none',
-    completion_date: date,
+    completion_date: req.body.completion_date,
     status: req.body.status,
     user_id: req.kauth.grant.access_token.content.sub
   };

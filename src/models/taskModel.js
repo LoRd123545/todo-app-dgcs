@@ -9,14 +9,16 @@ mysql.init().catch(err => {
 /* all functions return json objects */
 
 /* returns all tasks or error message */
-async function getAllTasks(userID) {
+async function getAllTasks(userID, {
+  status = '%'
+}) {
   return new Promise((acc, rej) => {
     mysql.execute(`
       SELECT
       id, name, description, completion_date, status
       FROM tasks
-      WHERE user_id = ?
-    `, [ userID ],
+      WHERE user_id = ? AND status LIKE ?
+    `, [ userID, status ],
       (err, result) => {
         if(err) {
           return rej(err);
@@ -52,10 +54,20 @@ async function addTask(task) {
     id,
     name,
     description,
-    completion_date,
     status,
     user_id
   } = task;
+
+  let {
+    completion_date
+  } = task;
+
+  if(completion_date === '') {
+    completion_date = dateFormat.asString('yyyy-MM-dd hh:mm:ss');
+  }
+  else {
+    completion_date = dateFormat.asString('yyyy-MM-dd hh:mm:ss', new Date(completion_date));
+  }
 
   return new Promise((acc, rej) => {
     mysql.execute(`
