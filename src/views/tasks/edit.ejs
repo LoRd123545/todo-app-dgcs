@@ -17,12 +17,12 @@
   <label>
     <span>termin wykonania zadania</span>
     <div>
-      <input type="date" id="due-date" name="completion_date"/>
+      <input type="datetime-local" id="due-date" name="completion_date" step="1"/>
     </div>
   </label>
   <label>
     <span>status zadania</span>
-    <div>
+    <div class="select">
       <select name="status" id="status"  >
         <option value="not-started">Not Started</option>
         <option value="in-progress">In Progress</option>
@@ -31,7 +31,8 @@
 
     </div>
   </label>
-  <button>zaaktualizuj</button>
+  <br>
+  <button class="button">zaaktualizuj</button>
 </form>
 
 <script>
