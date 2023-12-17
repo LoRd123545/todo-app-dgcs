@@ -8,6 +8,8 @@ services:
     working_dir: /app
     volumes:
       - ./:/app
+    extra_hosts:
+      - host.docker.internal:host-gateway
     environment:
       MYSQL_HOST: ${MYSQL_HOST}
       MYSQL_USER: ${MYSQL_USER}
