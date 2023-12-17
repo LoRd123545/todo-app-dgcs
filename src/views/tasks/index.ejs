@@ -1,13 +1,16 @@
 <div class="container">
   <h1 class="heading">Twoje zadania</h1>
   <br>
+  <br>
   <a href="/tasks/add" class="button">Nowe zadanie</a>
-  <select name="filtr" id="filtr">
-    <option value="all">all</option>
-    <option value="done">done</option>
-    <option value="in-progress">In Progress</option>
-    <option value="not-started">Not Started</option>
-  </select>
+  <div class="select container__select">
+    <select name="filtr" id="filtr">
+      <option value="all">Wszystkie</option>
+      <option value="done">Zakończone</option>
+      <option value="in-progress">W trakcie</option>
+      <option value="not-started">Do zrobienia</option>
+    </select>
+  </div>
   <br><br>
   <!-- test -->
   <% if(locals.tasks) { %>
