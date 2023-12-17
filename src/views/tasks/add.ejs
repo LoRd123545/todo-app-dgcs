@@ -16,18 +16,19 @@
   <label>
     <span>termin wykonania zadania</span>
     <div>
-      <input type="date" name="completion_date" id=""/>
+      <input type="datetime-local" name="completion_date" step="1"/>
     </div>
   </label>
   <label>
     <span>status zadania</span>
-    <div>
+    <div class="select">
       <select name="status" id="status">
-        <option value="not-started">Not Started</option>
-        <option value="in-progress">In Progress</option>
-        <option value="done">Done</option>
+        <option value="not-started">Do zrobienia</option>
+        <option value="in-progress">W trakcie</option>
+        <option value="done">Zakończone</option>
       </select>
     </div>
+    <br>
   </label>
-  <button>dodaj</button>
+  <button class="button">Dodaj</button>
 </form>
