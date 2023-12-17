@@ -20,7 +20,7 @@ select::-ms-expand{
   position: relative;
   display: flex;
   width: 19.5rem;
-  height: 3rem;
+  height: 2.75rem;
   line-height: 3;
   background: var(--color-button-green);
   overflow: hidden;
@@ -45,4 +45,8 @@ select{
   cursor: pointer;
   pointer-events: none;
   transition: 0.2 all ease;
+}
+
+.wrapper label{
+  color: grey;
 }
