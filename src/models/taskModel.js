@@ -23,7 +23,6 @@ async function getAllTasks(userID) {
         }
 
         acc(result);
-
     });
   });
 }

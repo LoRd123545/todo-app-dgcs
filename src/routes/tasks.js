@@ -2,6 +2,7 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
 import express from 'express';
+import dateFormat from 'date-format';
 const { v4 : uuid } = require('uuid');
 
 const router = express.Router();
@@ -23,14 +24,20 @@ router.get('/', async (req, res) => {
 router.get('/add', async(req, res) => {
   res.render('tasks/add');
 });
-
 /* add task */
 router.post('/add', async (req, res) => {
+  let date;
+  if(req.body.completion_date === '') {
+    date = dateFormat.asString('yyyy-MM-dd hh:mm:ss');
+  }
+  else {
+    date = dateFormat.asString('yyyy-MM-dd hh:mm:ss', new Date(req.body.completion_date));
+  }
   const task = {
     id: uuid(),
     name: req.body.name || 'unnamed',
     description: req.body.description || 'none',
-    completion_date: req.body.completion_date || '2008-5-15 19:30:00',
+    completion_date: date,
     status: req.body.status,
     user_id: req.kauth.grant.access_token.content.sub
   };
@@ -68,6 +75,13 @@ router.get('/:id', async (req, res) => {
 
 /* update task */
 router.put('/:id/edit', async (req, res) => {
+  let date;
+  if(req.body.completion_date === '') {
+    date = dateFormat.asString('yyyy-MM-dd hh:mm:ss');
+  }
+  else {
+    date = dateFormat.asString('yyyy-MM-dd hh:mm:ss', new Date(req.body.completion_date));
+  }
   const oldTask = await db.getTask(
     req.params.id,
     req.kauth.grant.access_token.content.sub
@@ -76,7 +90,7 @@ router.put('/:id/edit', async (req, res) => {
     id: req.params.id,
     name: req.body.name || oldTask.name,
     description: req.body.description || oldTask.description,
-    completion_date: req.body.completion_date || oldTask.completion_date,
+    completion_date: date || oldTask.completion_date,
     status: req.body.status || oldTask.status,
     user_id: req.kauth.grant.access_token.content.sub
   };
