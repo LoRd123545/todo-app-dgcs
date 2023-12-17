@@ -1,0 +1,31 @@
+textarea{
+  margin: auto;
+  resize: none;
+  outline: none;
+  width: 20rem;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid silver;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 1rem;
+}
+
+textarea:focus ~ label{
+  transform: translateY(-5px);
+  color: var(--color-text-green);
+}
+
+.textarea-data{
+  position: relative;
+}
+
+.textarea-data label{
+  position: absolute;
+  left: 0;
+  bottom: 160px;
+  color: grey;
+  pointer-events: none;
+  transition: 0.3s ease;
+}
