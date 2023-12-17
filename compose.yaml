@@ -9,7 +9,7 @@ services:
     volumes:
       - ./:/app
     extra_hosts:
-      - "--add-host=host.docker.internal:host-gateway"
+      - host.docker.internal:host-gateway
     environment:
       MYSQL_HOST: ${MYSQL_HOST}
       MYSQL_USER: ${MYSQL_USER}
