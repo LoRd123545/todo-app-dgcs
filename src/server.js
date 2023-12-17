@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 /* packages */
+import { fetch, setGlobalDispatcher, Agent} from 'undici';
 import dotenv from 'dotenv'
 import express from 'express';
 import expressEjsLayouts from 'express-ejs-layouts';
@@ -24,6 +25,8 @@ import accountRouter from './routes/account.js';
 import tasksRouter from './routes/tasks.js';
 import apiRouter from './routes/api.js';
 import authRouter from './routes/auth.js';
+
+setGlobalDispatcher(new Agent({connect: { timeout: 20_000 }}));
 
 /* environment variables */
 dotenv.config();
