@@ -19,8 +19,8 @@ services:
     # secrets:
     #   - db_password
     depends_on:
-      - mysql
       - keycloak
+      - mysql
   # mysql service
   mysql:
     image: mysql:8.0
