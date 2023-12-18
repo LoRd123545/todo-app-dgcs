@@ -18,6 +18,9 @@ services:
       #MYSQL_PASSWORD_FILE: run/secrets/db_password
     # secrets:
     #   - db_password
+    depends_on:
+      - mysql
+      - keycloak
   # mysql service
   mysql:
     image: mysql:8.0
