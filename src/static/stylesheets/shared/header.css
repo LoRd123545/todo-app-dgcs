@@ -39,6 +39,10 @@
   text-decoration: underline;
 }
 
+.header__nav li a:link{
+  color: black;
+}
+
 .header__nav li a:visited{
   color: black
 }
