@@ -10,8 +10,6 @@ import db from '../models/taskModel.js';
 
 /* render view with all tasks */
 router.get('/', async (req, res) => {
-  console.log(req.query.status);
-
   const result = await db.getAllTasks(
     req.kauth.grant.access_token.content.sub, {
       status: req.query.status
