@@ -133,3 +133,5 @@ dist
 plans/
 .vscode
 secrets
+.crt
+.key
