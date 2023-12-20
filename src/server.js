@@ -3,9 +3,11 @@
 /* node js modules */
 import path from 'path';
 import { fileURLToPath } from 'url';
+import https from 'https';
+import http from 'http';
+import fs from 'fs';
 
 /* packages */
-import { fetch, setGlobalDispatcher, Agent} from 'undici';
 import dotenv from 'dotenv'
 import express from 'express';
 import expressEjsLayouts from 'express-ejs-layouts';
@@ -25,8 +27,6 @@ import accountRouter from './routes/account.js';
 import tasksRouter from './routes/tasks.js';
 import apiRouter from './routes/api.js';
 import authRouter from './routes/auth.js';
-
-setGlobalDispatcher(new Agent({connect: { timeout: 20_000 }}));
 
 /* environment variables */
 dotenv.config();
@@ -49,6 +49,12 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = PORT || 3000;
 const sessionStore = new session.MemoryStore();
+
+/* https config */
+const httpsOptions = {
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.crt')
+};
 
 /* session config */
 const sessionInit = {
@@ -104,9 +110,13 @@ app.use('/account', kc.protect(), accountRouter);
 app.use('/api', apiRouter);
 
 db.init().then((message) => {
+  // https.createServer(httpsOptions, app).listen(port, () => {
+  //   console.log(message);
+  //   console.log(`alive on localhost:${port}!`);
+  // });
   app.listen(port, () => {
     console.log(message);
-    console.log(`alive on localhost:${PORT}!`);
+    console.log(`alive on localhost:${port}!`);
   });
 }).catch(err => {
   console.error(err);
