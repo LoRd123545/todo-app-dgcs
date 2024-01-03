@@ -51,10 +51,10 @@ const port = PORT || 3000;
 const sessionStore = new session.MemoryStore();
 
 /* https config */
-const httpsOptions = {
-  key: fs.readFileSync('server.key'),
-  cert: fs.readFileSync('server.crt')
-};
+// const httpsOptions = {
+//   key: fs.readFileSync('server.key'),
+//   cert: fs.readFileSync('server.crt')
+// };
 
 /* session config */
 const sessionInit = {
