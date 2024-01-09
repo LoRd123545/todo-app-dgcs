@@ -25,7 +25,7 @@
 }
 
 .container__panel--inner{
-  margin: 0 4rem;
+  margin: 4rem;
 }
 
 .heading{
@@ -37,6 +37,9 @@
 .panel__paragraph{
   text-align: center;
   font-weight: 200;
+}
+
+.panel__paragraph--margin{
   margin: 1rem 10rem;
 }
 
@@ -89,13 +92,15 @@
 .panel__box--left{
   display: inline-block;
   width: 50%;
+  padding: 1.5rem;
+}
+
+.panel__box--border-right{
   border-right: 1px solid var(--color-text-green);
-  padding: 1rem;
 }
 
 .panel__image{
   display: flex;
-  width: 50%;
   align-items: center;
   justify-content: center;
 }
@@ -310,4 +315,27 @@
 
 .wrapper__button{
   margin: 0 16rem;
+}
+
+/*About page*/
+
+.panel--margin{
+  margin: 8rem 10rem 0 10rem;
+}
+
+.panel__image--round{
+  border-radius: 1rem;
+}
+
+.panel__heading{
+  margin-top: 0;
+}
+
+.panel__text--upper{
+  font-weight: bold;
+  color: var(--color-text-upper);
+}
+
+.panel__text--color-green{
+  color: var(--color-text-green);
 }
