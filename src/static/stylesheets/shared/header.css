@@ -47,15 +47,35 @@
   transition: 0.2s;
 }
 
-.header__nav li a:hover{
-  text-decoration: underline;
-  font-size: 1.02rem;
-}
-
 .header__nav li a:link{
   color: black;
 }
 
 .header__nav li a:visited{
   color: black
+}
+
+/*underline animation for links*/
+
+.header__nav li a {
+  display: inline-block;
+  position: relative;
+}
+
+.header__nav li a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.header__nav li a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
