@@ -11,36 +11,65 @@ mysql.init().catch(err => {
 /* all functions return json objects */
 
 /* returns all tasks or error message */
-async function getAllTasks(userID, {
-  status = '%'
-}) {
-  return new Promise((acc, rej) => {
-    mysql.execute(`
-      SELECT
-      id, name, description, completion_date, status
-      FROM tasks
-      WHERE user_id = ? AND status LIKE ?
-    `, [ userID, status ],
-      (err, result) => {
-        if(err) {
-          return rej(err);
-        }
+async function getAllTasks(user_id, filters, sort) {
 
-        acc(result);
+  const availableFilters = filters.available;
+  const orderBy = ['asc', 'desc'];
+
+  if(!availableFilters.includes(sort.column)) {
+    sort.column = 'completion_date';
+  }
+
+  if(!orderBy.includes(sort.value)) {
+    sort.value = 'desc';
+  }
+
+  let sql = `
+    SELECT
+    id, name, description, completion_date, status
+    FROM tasks
+    WHERE user_id = ?
+  `;
+
+  if(Object.keys(filters.query).length > 0) {
+    Object.keys(filters.query).forEach(elem => {
+      const fragment = ` AND ${elem} = ?`;
+      sql += fragment;
+    });
+  }
+
+  sql += ` ORDER BY ${sort.column} ${sort.value}`;
+
+  const params = [ user_id ];
+
+  Object.values(filters.query).forEach(elem => {
+    params.push(elem);
+  });
+
+  return new Promise((acc, rej) => {
+    mysql.execute(sql, params, (err, result) => {
+      if(err) {
+        return rej(err);
+      }
+
+      acc(result);
     });
   });
 }
 
 /* returns task with given id or error message */
-async function getTask(id, userID) {
+async function getTask(id, user_id) {
+  const sql = `
+    SELECT
+    id, name, description, completion_date, status
+    FROM tasks
+    WHERE id = ? AND user_id = ?
+  `;
+
+  const params = [ id, user_id ];
+
   return new Promise((acc, rej) => {
-    mysql.execute(`
-      SELECT
-      id, name, description, completion_date, status
-      FROM tasks
-      WHERE id = ? AND user_id = ?
-    `, [ id, userID ],
-    (err, result) => {
+    mysql.execute(sql, params, (err, result) => {
       if(err) {
         return rej(err);
       }
@@ -64,25 +93,23 @@ async function addTask(task) {
     completion_date
   } = task;
 
-  if(completion_date === '') {
-    completion_date = dateFormat.asString('yyyy-MM-dd hh:mm:ss');
-  }
-  else {
-    completion_date = dateFormat.asString('yyyy-MM-dd hh:mm:ss', new Date(completion_date));
-  }
+  completion_date = dateFormat.asString('yyyy-MM-dd hh:mm:ss', new Date(completion_date));
+
+  const sql = `
+    INSERT INTO tasks
+    VALUES(?, ?, ?, ?, ?, ?)
+  `;
+
+  const params = [ id, name, description, completion_date, status, user_id ];
 
   return new Promise((acc, rej) => {
-    mysql.execute(`
-      INSERT INTO tasks
-      VALUES(?, ?, ?, ?, ?, ?)
-    `, [ id, name, description, completion_date, status, user_id ],
-    (err, result) => {
+    mysql.execute(sql, params, (err, result) => {
       if(err) {
         return rej(err);
       }
 
       acc({
-        'message': 'successfully added task'
+        'message': 'successfully added!'
       });
     });
   });
@@ -94,18 +121,26 @@ async function updateTask(task) {
     id,
     name,
     description,
-    completion_date,
     status,
     user_id
   } = task;
 
+  let {
+    completion_date
+  } = task;
+
+  completion_date = dateFormat.asString('yyyy-MM-dd hh:mm:ss', new Date(completion_date));
+
+  const sql = `
+    UPDATE tasks
+    SET name = ?, description = ?, completion_date = ?, status = ?
+    WHERE id = ? AND user_id = ?
+  `;
+
+  const params = [ name, description, completion_date, status, id, user_id ];
+
   return new Promise((acc, rej) => {
-    mysql.execute(`
-      UPDATE tasks
-      SET name = ?, description = ?, completion_date = ?, status = ?
-      WHERE id = ? AND user_id = ?
-    `, [ name, description, completion_date, status, id, user_id ],
-    (err, result) => {
+    mysql.execute(sql, params, (err) => {
       if(err) {
         return rej(err);
       }
@@ -118,14 +153,17 @@ async function updateTask(task) {
 }
 
 /* returns error message or success message */
-async function deleteTask(id, userID) {
+async function deleteTask(id, user_id) {
+  const sql = `
+    DELETE
+    FROM tasks
+    WHERE id = ? AND user_id = ?
+  `;
+
+  const params = [ id, user_id ];
+
   return new Promise((acc, rej) => {
-    mysql.execute(`
-      DELETE
-      FROM tasks
-      WHERE id = ? AND user_id = ?
-    `, [ id, userID ],
-    (err, result) => {
+    mysql.execute(sql, params, (err) => {
       if(err) {
         return rej(err);
       }
@@ -137,14 +175,17 @@ async function deleteTask(id, userID) {
   });
 }
 
-async function deleteAllTasks(userID) {
+async function deleteAllTasks(user_id) {
+  const sql = `
+    DELETE
+    FROM tasks
+    WHERE user_id = ?
+  `;
+
+  const params = [ user_id ];
+
   return new Promise((acc, rej) => {
-    mysql.execute(`
-      DELETE
-      FROM tasks
-      WHERE user_id = ?
-    `, [ userID ],
-    (err, result) => {
+    mysql.execute(sql, params, (err) => {
       if(err) {
         return rej(err);
       }
