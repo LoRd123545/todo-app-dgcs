@@ -339,3 +339,7 @@
 .panel__text--color-green{
   color: var(--color-text-green);
 }
+
+.panel__paragraph--align-left{
+  text-align: left;
+}

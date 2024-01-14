@@ -14,7 +14,7 @@
   text-decoration: none;
   font-size: var(--nav-title-font-size);
   font-weight: var(--nav-title-font-weight);
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .header__heading:hover{
@@ -32,7 +32,7 @@
 
 .header__nav ul{
   display: flex;
-  margin: 0;
+  margin: 0.75rem 0;
   padding: 0;
 }
 
@@ -43,13 +43,8 @@
 .header__nav li a{
   text-decoration: none;
   font-weight: var(--nav-link-font-weight);
-  padding: 3rem;
-  transition: .2s;
-}
-
-.header__nav li a:hover{
-  text-decoration: underline;
-  font-size: 1.02rem;
+  margin: 0 3rem;
+  transition: 0.2s;
 }
 
 .header__nav li a:link{
@@ -58,4 +53,29 @@
 
 .header__nav li a:visited{
   color: black
+}
+
+/*underline animation for links*/
+
+.header__nav li a {
+  display: inline-block;
+  position: relative;
+}
+
+.header__nav li a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.header__nav li a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }

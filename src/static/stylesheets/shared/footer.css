@@ -35,7 +35,7 @@
 .footer__nav li a{
   text-decoration: none;
   font-weight: var(--nav-link-font-weight);
-  padding: 3rem;
+  margin: 0 3rem;
 }
 
 .footer__nav li a:visited, .footer__heading:visited{
