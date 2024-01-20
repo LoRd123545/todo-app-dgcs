@@ -2,7 +2,6 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
 import express from 'express';
-import dateFormat from 'date-format';
 import getFilters from '../middleware/utils.js';
 const { v4 : uuid } = require('uuid');
 

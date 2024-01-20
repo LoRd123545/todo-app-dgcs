@@ -8,7 +8,7 @@ import http from 'http';
 import fs from 'fs';
 
 /* packages */
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 import express from 'express';
 import expressEjsLayouts from 'express-ejs-layouts';
 import session from 'express-session';
@@ -27,6 +27,7 @@ import accountRouter from './routes/account.js';
 import tasksRouter from './routes/tasks.js';
 import apiRouter from './routes/api.js';
 import authRouter from './routes/auth.js';
+import adminRouter from './routes/admin.js';
 
 /* environment variables */
 dotenv.config();
@@ -105,6 +106,7 @@ app.use('/faq', faqRouter);
 app.use('/about', aboutRouter);
 app.use('/tasks', kc.protect(), tasksRouter);
 app.use('/account', kc.protect(), accountRouter);
+app.use('/admin', kc.protect('admin'), adminRouter);
 
 /* api */
 app.use('/api', apiRouter);

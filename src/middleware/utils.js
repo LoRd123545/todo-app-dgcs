@@ -24,6 +24,11 @@ async function getFilters(req, res, next) {
   });
 }
 
+async function getUserID(req, res, next) {
+  req.user_id = req.kauth.grant.access_token.content.sub;
+  next();
+};
+
 export default {
   getFilters
 };
