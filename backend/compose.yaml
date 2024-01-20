@@ -21,6 +21,8 @@ services:
     depends_on:
       - keycloak
       - mysql
+  app-frontend:
+    image: nginx:latest-alpine
   # mysql service
   mysql:
     image: mysql:8.0
