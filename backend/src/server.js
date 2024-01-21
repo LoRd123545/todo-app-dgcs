@@ -10,7 +10,7 @@ import fs from 'fs';
 /* packages */
 import dotenv from 'dotenv';
 import express from 'express';
-import expressEjsLayouts from 'express-ejs-layouts';
+// import expressEjsLayouts from 'express-ejs-layouts'; /* move to frontend */
 import session from 'express-session';
 import methodOverride from 'method-override';
 import KcAdminClient from '@keycloak/keycloak-admin-client';
@@ -25,12 +25,13 @@ import aboutRouter from './routes/about.js';
 import faqRouter from './routes/faq.js';
 import accountRouter from './routes/account.js';
 import tasksRouter from './routes/tasks.js';
-import apiRouter from './routes/api.js';
 import authRouter from './routes/auth.js';
 import adminRouter from './routes/admin.js';
 
 /* environment variables */
-dotenv.config();
+dotenv.config({
+  path: '../.env'
+});
 
 const {
   PORT: PORT,
@@ -78,11 +79,12 @@ const kcAdminClient = new KcAdminClient({
 });
 
 /* ejs, express ejs layouts and static files config */
-app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views');
-app.set('layout', 'layouts/layout');
-app.use(expressEjsLayouts);
-app.use(express.static(__dirname + '/static'));
+/* move to frontend */
+// app.set('view engine', 'ejs');
+// app.set('views', __dirname + '/views');
+// app.set('layout', 'layouts/layout');
+// app.use(expressEjsLayouts);
+// app.use(express.static(__dirname + '/static'));
 
 /* general config */
 app.use(methodOverride('_method'));
@@ -107,9 +109,6 @@ app.use('/about', aboutRouter);
 app.use('/tasks', kc.protect(), tasksRouter);
 app.use('/account', kc.protect(), accountRouter);
 app.use('/admin', kc.protect('admin'), adminRouter);
-
-/* api */
-app.use('/api', apiRouter);
 
 db.init().then((message) => {
   // https.createServer(httpsOptions, app).listen(port, () => {

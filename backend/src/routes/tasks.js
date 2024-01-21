@@ -23,20 +23,14 @@ router.get('/', getFilters.getFilters, async (req, res) => {
   const user_id = req.kauth.grant.access_token.content.sub;
   const result = await db.getAllTasks(user_id, filters, sortBy);
 
-  if(req.query.mode === 'dev') {
-    res.json(result); // for tests
-  }
-  else {
-    res.render('tasks', {
-      tasks: result
-    });
-  }
+  res.json(result);
 });
 
 /* GET tasks/add */
-router.get('/add', async(req, res) => {
-  res.render('tasks/add');
-});
+/* move to frontend */
+// router.get('/add', async(req, res) => {
+//   res.render('tasks/add');
+// });
 
 /* POST tasks/add */
 router.post('/add', async (req, res) => {
@@ -59,6 +53,7 @@ router.post('/add', async (req, res) => {
 });
 
 /* GET tasks/:id/edit */
+/* move to frontend */
 router.get('/:id/edit', async (req, res) => {
   const result = await db.getTask(
     req.params.id,
@@ -77,14 +72,7 @@ router.get('/:id', async (req, res) => {
     req.kauth.grant.access_token.content.sub
   );
 
-  if(req.query.mode === 'dev') {
-    res.json(result); // for tests
-  }
-  else {
-    res.render('tasks/task', {
-      task: result
-    });
-  }
+  res.json(result);
 });
 
 /* PUT tasks/:id/edit */
@@ -105,13 +93,7 @@ router.put('/:id/edit', async (req, res) => {
 
   const result = await db.updateTask(newTask);
 
-  if(req.query.mode === 'dev') {
-    res.json(result); // for tests
-  }
-  else {
-    res.redirect('/tasks');
-  }
-
+  res.json(result);
 });
 
 /* DELETE tasks/:id */
@@ -121,25 +103,14 @@ router.delete('/:id', async (req, res) => {
     req.kauth.grant.access_token.content.sub
   );
 
-  if(req.query.mode === 'dev') {
-    res.json(result); // for tests
-  }
-  else {
-    res.redirect('/tasks');
-  }
-  
+  res.json(result);
 });
 
 /* DELETE tasks */
 router.delete('/', async (req, res) => {
   const result = await db.deleteAllTasks(req.kauth.grant.access_token.content.sub);
 
-  if(req.query.mode === 'dev') {
-    res.json(result); // for tests
-  }
-  else {
-    res.redirect('/tasks');
-  }
+  res.json(result);
 });
 
 export default router;

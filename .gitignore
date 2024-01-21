@@ -130,8 +130,4 @@ dist
 .pnp.*
 
 # other
-plans/
 .vscode
-secrets
-.crt
-.key

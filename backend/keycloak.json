@@ -1,6 +1,6 @@
 {
   "realm": "demo",
-  "auth-server-url": "http://host.docker.internal:8080/",
+  "auth-server-url": "http://host.docker.internal:9000/",
   "ssl-required": "external",
   "resource": "client1",
   "verify-token-audience": true,

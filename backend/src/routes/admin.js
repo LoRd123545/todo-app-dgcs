@@ -63,14 +63,7 @@ router.get('/users/:id/tasks', getFilters.getFilters, async (req, res) => {
     sortBy
   );
 
-  if(req.query.mode === 'dev') {
-    res.json(tasks); // for tests
-  }
-  else {
-    res.render('tasks', {
-      tasks: tasks
-    });
-  }
+  res.json(tasks);
 });
 
 export default router;

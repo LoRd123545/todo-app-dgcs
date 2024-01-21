@@ -3,7 +3,10 @@ import express from 'express';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.render('faq');
-})
+  //res.render('faq');
+  res.json({
+    'message': 'comming soon!'
+  });
+});
 
 export default router;
