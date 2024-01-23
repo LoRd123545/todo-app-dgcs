@@ -14,4 +14,5 @@ Simple todo app in which you can have account and store, add, update or delete t
 In order to use this app you need to have docker installed on your host machine.
 
 ## RUN
-simply run `docker compose up -d` command in terminal in project root directory, then log into [keycloak admin console](http://localhost:8080) and import realm using `realm-export.json`, then import client using client.json and at the end create user with name and password `admin` with privileges(roles) to manage, query and view users.
+1. run `docker compose up -d` in terminal in project root directory
+2. access app in browser on [localhost:3000](http://localhost:3000)
