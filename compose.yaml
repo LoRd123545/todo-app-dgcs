@@ -17,10 +17,11 @@ services:
       - mysql
   # app frontend service
   frontend:
-    image: nginx:latest
-    command: 
+    image: node:18-alpine
+    working_dir: /app/vite-project
+    command: sh -c "npm install && npm run dev"
     ports:
-      - 4000:80
+      - 4000:5173
     volumes:
       - ./frontend/:/app
     depends_on:
@@ -41,7 +42,9 @@ services:
     ports:
       - 9000:8080
     volumes:
+      # storing keycloak data
       - todo-keycloak-data:/opt/keycloak/data/
+      # for importing keycloak realm
       - ./backend/keycloak:/opt/keycloak/data/import/
     env_file:
       - .env
