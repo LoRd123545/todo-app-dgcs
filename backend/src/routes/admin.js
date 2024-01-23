@@ -1,9 +1,8 @@
-import express from 'express';
+import { Router } from 'express';
 import KcAdminClient from '@keycloak/keycloak-admin-client';
 import dotenv from 'dotenv';
-import getFilters from '../middleware/utils.js';
+import { getFilters } from '../middleware/utils.js';
 import db from '../models/taskModel.js';
-import axios from 'axios';
 
 dotenv.config();
 
@@ -30,7 +29,7 @@ kcAdminClient.auth({
   clientSecret: KEYCLOAK_CLIENT_SECRET
 });
 
-const router = express.Router();
+const router = Router();
 
 router.get('/users', async (req, res) => {
   const users = await kcAdminClient.users.find({});
@@ -46,7 +45,7 @@ router.get('/users/:id', async (req, res) => {
   res.json(user);
 });
 
-router.get('/users/:id/tasks', getFilters.getFilters, async (req, res) => {
+router.get('/users/:id/tasks', getFilters, async (req, res) => {
   const sortBy = {
     column: req.query.sortBy || 'completion_date',
     value: req.query.orderBy || 'desc'

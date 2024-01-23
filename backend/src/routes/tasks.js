@@ -1,15 +1,13 @@
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
+import { Router } from 'express';
+import { v4 as uuid } from 'uuid';
 
-import express from 'express';
-import getFilters from '../middleware/utils.js';
-const { v4 : uuid } = require('uuid');
-
-const router = express.Router();
+import { getFilters } from '../middleware/utils.js';
 import db from '../models/taskModel.js';
 
+const router = Router();
+
 /* GET tasks */
-router.get('/', getFilters.getFilters, async (req, res) => {
+router.get('/', getFilters, async (req, res) => {
   const sortBy = {
     column: req.query.sortBy || 'completion_date',
     value: req.query.orderBy || 'desc'
@@ -21,19 +19,14 @@ router.get('/', getFilters.getFilters, async (req, res) => {
   };
 
   const user_id = req.kauth.grant.access_token.content.sub;
+
   const result = await db.getAllTasks(user_id, filters, sortBy);
 
   res.json(result);
 });
 
-/* GET tasks/add */
-/* move to frontend */
-// router.get('/add', async(req, res) => {
-//   res.render('tasks/add');
-// });
-
-/* POST tasks/add */
-router.post('/add', async (req, res) => {
+/* POST tasks/ */
+router.post('/', async (req, res) => {
   const task = {
     id: uuid(),
     name: req.body.name || 'unnamed',
@@ -44,25 +37,8 @@ router.post('/add', async (req, res) => {
   };
 
   const result = await db.addTask(task);
-  if(req.query.mode === 'dev') {
-    res.json(result); // for tests
-  }
-  else {
-    res.redirect('/tasks');
-  }
-});
 
-/* GET tasks/:id/edit */
-/* move to frontend */
-router.get('/:id/edit', async (req, res) => {
-  const result = await db.getTask(
-    req.params.id,
-    req.kauth.grant.access_token.content.sub
-  );
-
-  res.render('tasks/edit', {
-    task: result
-  });
+  res.json(result);
 });
 
 /* GET tasks/:id */

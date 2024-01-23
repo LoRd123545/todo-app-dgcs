@@ -29,6 +29,6 @@ async function getUserID(req, res, next) {
   next();
 };
 
-export default {
+export {
   getFilters
 };
