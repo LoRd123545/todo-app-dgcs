@@ -1,10 +1,13 @@
 import { Router } from 'express';
 import KcAdminClient from '@keycloak/keycloak-admin-client';
 import dotenv from 'dotenv';
-import { getFilters } from '../middleware/utils.js';
-import db from '../models/taskModel.js';
 
-dotenv.config();
+import { getFilters } from '../middleware/utils.js';
+import db from '../models/task.js';
+
+dotenv.config({
+  path: '../.env'
+});
 
 const {
   KEYCLOAK_BASE_URL: KEYCLOAK_BASE_URL,

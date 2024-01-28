@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { v4 as uuid } from 'uuid';
 
 import { getFilters } from '../middleware/utils.js';
-import db from '../models/taskModel.js';
+import db from '../models/task.js';
 
 const router = Router();
 
@@ -18,14 +18,19 @@ router.get('/', getFilters, async (req, res) => {
     available: req.availableFilters
   };
 
-  const user_id = req.kauth.grant.access_token.content.sub;
+  const userID = req.kauth.grant.access_token.content.sub;
 
-  const result = await db.getAllTasks(user_id, filters, sortBy);
-
-  res.json(result);
+  db.getAllTasks(userID, filters, sortBy)
+    .then(result => {
+      res.json(result);
+    })
+    .catch(err => {
+      console.err(err);
+      res.sendStatus(500);
+    });
 });
 
-/* POST tasks/ */
+/* POST tasks */
 router.post('/', async (req, res) => {
   const task = {
     id: uuid(),
@@ -33,12 +38,17 @@ router.post('/', async (req, res) => {
     description: req.body.description || 'none',
     completion_date: req.body.completion_date || '',
     status: req.body.status || 'not-started',
-    user_id: req.kauth.grant.access_token.content.sub
+    userID: req.kauth.grant.access_token.content.sub
   };
 
-  const result = await db.addTask(task);
-
-  res.json(result);
+  db.addTask(task)
+    .then(result => {
+      res.json(result);
+    })
+    .catch(err => {
+      console.err(err);
+      res.sendStatus(500);
+    });
 });
 
 /* GET tasks/:id */
@@ -46,13 +56,18 @@ router.get('/:id', async (req, res) => {
   const result = await db.getTask(
     req.params.id,
     req.kauth.grant.access_token.content.sub
-  );
-
-  res.json(result);
+  )
+    .then(result => {
+      res.json(result);
+    })
+    .catch(err => {
+      console.err(err);
+      res.sendStatus(500);
+    });
 });
 
-/* PUT tasks/:id/edit */
-router.put('/:id/edit', async (req, res) => {
+/* PUT tasks/:id */
+router.put('/:id', async (req, res) => {
   const oldTask = await db.getTask(
     req.params.id,
     req.kauth.grant.access_token.content.sub
@@ -64,12 +79,17 @@ router.put('/:id/edit', async (req, res) => {
     description: req.body.description || oldTask.description,
     completion_date: req.body.completion_date || oldTask.completion_date,
     status: req.body.status || oldTask.status,
-    user_id: req.kauth.grant.access_token.content.sub
+    userID: req.kauth.grant.access_token.content.sub
   };
 
-  const result = await db.updateTask(newTask);
-
-  res.json(result);
+  db.updateTask(newTask)
+    .then(result => {
+      res.json(result);
+    })
+    .catch(err => {
+      console.err(err);
+      res.sendStatus(500);
+    });
 });
 
 /* DELETE tasks/:id */
@@ -77,16 +97,26 @@ router.delete('/:id', async (req, res) => {
   const result = await db.deleteTask(
     req.params.id,
     req.kauth.grant.access_token.content.sub
-  );
-
-  res.json(result);
+  )
+    .then(result => {
+      res.json(result);
+    })
+    .catch(err => {
+      console.err(err);
+      res.sendStatus(500);
+    });
 });
 
 /* DELETE tasks */
 router.delete('/', async (req, res) => {
-  const result = await db.deleteAllTasks(req.kauth.grant.access_token.content.sub);
-
-  res.json(result);
+  db.deleteAllTasks(req.kauth.grant.access_token.content.sub)
+    .then(result => {
+      res.json(result);
+    })
+    .catch(err => {
+      console.err(err);
+      res.sendStatus(500);
+    });
 });
 
 export default router;

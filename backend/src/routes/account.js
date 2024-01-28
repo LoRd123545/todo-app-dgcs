@@ -1,9 +1,18 @@
-import express from 'express';
+import { Router } from 'express';
+import dotenv from 'dotenv';
 
-const router = express.Router();
+dotenv.config({
+  path: '../.env'
+});
+
+const router = Router();
+
+const {
+  KEYCLOAK_BASE_URL
+} = process.env;
 
 router.get('/', (req, res) => {
-  res.redirect('http://host.docker.internal:8080/realms/demo/account');
+  res.redirect(`${KEYCLOAK_BASE_URL}/realms/demo/account`);
 });
 
 export default router;

@@ -11,7 +11,7 @@ mysql.init().catch(err => {
 /* all functions return json objects */
 
 /* returns all tasks or error message */
-async function getAllTasks(user_id, filters, sort) {
+async function getAllTasks(userID, filters, sort) {
 
   const availableFilters = filters.available;
   const orderBy = ['asc', 'desc'];
@@ -40,13 +40,13 @@ async function getAllTasks(user_id, filters, sort) {
 
   sql += ` ORDER BY ${sort.column} ${sort.value}`;
 
-  const params = [ user_id ];
+  const params = [ userID ];
 
   Object.values(filters.query).forEach(elem => {
     params.push(elem);
   });
 
-  return new Promise((acc, rej) => {
+  const queryPromise =  new Promise((acc, rej) => {
     mysql.execute(sql, params, (err, result) => {
       if(err) {
         return rej(err);
@@ -55,10 +55,12 @@ async function getAllTasks(user_id, filters, sort) {
       acc(result);
     });
   });
+
+  return queryPromise;
 }
 
 /* returns task with given id or error message */
-async function getTask(id, user_id) {
+async function getTask(id, userID) {
   const sql = `
     SELECT
     id, name, description, completion_date, status
@@ -66,9 +68,9 @@ async function getTask(id, user_id) {
     WHERE id = ? AND user_id = ?
   `;
 
-  const params = [ id, user_id ];
+  const params = [ id, userID ];
 
-  return new Promise((acc, rej) => {
+  const queryPromise =  new Promise((acc, rej) => {
     mysql.execute(sql, params, (err, result) => {
       if(err) {
         return rej(err);
@@ -77,6 +79,8 @@ async function getTask(id, user_id) {
       acc(result[0]);
     });
   });
+
+  return queryPromise;
 }
 
 /* returns error message or success message */
@@ -86,7 +90,7 @@ async function addTask(task) {
     name,
     description,
     status,
-    user_id
+    userID
   } = task;
 
   let {
@@ -100,19 +104,21 @@ async function addTask(task) {
     VALUES(?, ?, ?, ?, ?, ?)
   `;
 
-  const params = [ id, name, description, completion_date, status, user_id ];
+  const params = [ id, name, description, completion_date, status, userID ];
 
-  return new Promise((acc, rej) => {
+  const queryPromise = new Promise((acc, rej) => {
     mysql.execute(sql, params, (err, result) => {
       if(err) {
         return rej(err);
       }
 
       acc({
-        'message': 'successfully added!'
+        message: 'successfully added!'
       });
     });
   });
+
+  return queryPromise;
 }
 
 /* returns error message or success message */
@@ -122,7 +128,7 @@ async function updateTask(task) {
     name,
     description,
     status,
-    user_id
+    userID
   } = task;
 
   let {
@@ -137,64 +143,70 @@ async function updateTask(task) {
     WHERE id = ? AND user_id = ?
   `;
 
-  const params = [ name, description, completion_date, status, id, user_id ];
+  const params = [ name, description, completion_date, status, id, userID ];
 
-  return new Promise((acc, rej) => {
+  const queryPromise = new Promise((acc, rej) => {
     mysql.execute(sql, params, (err) => {
       if(err) {
         return rej(err);
       }
 
       acc({
-        'message': 'successfully updated!'
+        message: 'successfully updated!'
       });
     });
   });
+
+  return queryPromise;
 }
 
 /* returns error message or success message */
-async function deleteTask(id, user_id) {
+async function deleteTask(id, userID) {
   const sql = `
     DELETE
     FROM tasks
     WHERE id = ? AND user_id = ?
   `;
 
-  const params = [ id, user_id ];
+  const params = [ id, userID ];
 
-  return new Promise((acc, rej) => {
+  const queryPromise = new Promise((acc, rej) => {
     mysql.execute(sql, params, (err) => {
       if(err) {
         return rej(err);
       }
 
       acc({
-        'message': `successfully deleted!`
+        message: 'successfully deleted!'
       });
     });
   });
+
+  return queryPromise;
 }
 
-async function deleteAllTasks(user_id) {
+async function deleteAllTasks(userID) {
   const sql = `
     DELETE
     FROM tasks
     WHERE user_id = ?
   `;
 
-  const params = [ user_id ];
+  const params = [ userID ];
 
-  return new Promise((acc, rej) => {
+  const queryPromise = new Promise((acc, rej) => {
     mysql.execute(sql, params, (err) => {
       if(err) {
         return rej(err);
       }
 
       acc({
-        'message': 'successfully deleted all tasks!'
+        message: 'successfully deleted all tasks!'
       });
     });
   });
+
+  return queryPromise;
 }
 
 export default {

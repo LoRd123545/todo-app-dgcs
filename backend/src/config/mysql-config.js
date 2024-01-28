@@ -30,7 +30,7 @@ async function init() {
       IF NOT EXISTS
       tasks
       (id varchar(36) primary key, name varchar(50), description varchar(500),
-      completion_date datetime, status varchar(20), user_id varchar(36))
+      completion_date datetime, status varchar(20), userID varchar(36))
     `, err => {
       if(err) {
         return rej(err);
@@ -60,8 +60,25 @@ async function execute(dbQuery, params, callback) {
   });
 }
 
+async function model(tableName) {
+  const sql = `SHOW COLUMNS FROM ${tableName}`;
+
+  const queryPromise = new Promise((acc, rej) => {
+    pool.execute(sql, [], (err, data) => {
+      if(err) {
+        rej(err);
+      }
+
+      acc(data);
+    });
+  });
+
+  return queryPromise;
+}
+
 export default {
   init,
   teardown,
-  execute
+  execute,
+  model
 };

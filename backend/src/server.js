@@ -1,16 +1,15 @@
 'use strict';
 
 /* node js modules */
-import path from 'path';
-import { fileURLToPath } from 'url';
-import https from 'https';
-import http from 'http';
-import fs from 'fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import https from 'node:https';
+import http from 'node:http';
+import fs from 'node:fs';
 
 /* packages */
 import dotenv from 'dotenv';
 import express from 'express';
-// import expressEjsLayouts from 'express-ejs-layouts'; /* move to frontend */
 import session from 'express-session';
 import methodOverride from 'method-override';
 import KcAdminClient from '@keycloak/keycloak-admin-client';
@@ -34,15 +33,15 @@ dotenv.config({
 });
 
 const {
-  PORT: PORT,
-  SESSION_SECRET: SESSION_SECRET,
-  KEYCLOAK_BASE_URL: KEYCLOAK_BASE_URL,
-  KEYCLOAK_REALM: KEYCLOAK_REALM,
-  KEYCLOAK_CLIENT_USER: KEYCLOAK_CLIENT_USER,
-  KEYCLOAK_CLIENT_USER_PASSWORD: KEYCLOAK_CLIENT_USER_PASSWORD,
-  KEYCLOAK_GRANT_TYPE: KEYCLOAK_GRANT_TYPE,
-  KEYCLOAK_CLIENT: KEYCLOAK_CLIENT,
-  KEYCLOAK_CLIENT_SECRET: KEYCLOAK_CLIENT_SECRET
+  PORT,
+  SESSION_SECRET,
+  KEYCLOAK_BASE_URL,
+  KEYCLOAK_REALM,
+  KEYCLOAK_CLIENT_USER,
+  KEYCLOAK_CLIENT_USER_PASSWORD,
+  KEYCLOAK_GRANT_TYPE,
+  KEYCLOAK_CLIENT,
+  KEYCLOAK_CLIENT_SECRET
 } = process.env;
 
 /* handy variables */
@@ -78,14 +77,6 @@ const kcAdminClient = new KcAdminClient({
   realmName: KEYCLOAK_REALM
 });
 
-/* ejs, express ejs layouts and static files config */
-/* move to frontend */
-// app.set('view engine', 'ejs');
-// app.set('views', __dirname + '/views');
-// app.set('layout', 'layouts/layout');
-// app.use(expressEjsLayouts);
-// app.use(express.static(__dirname + '/static'));
-
 /* general config */
 app.use(methodOverride('_method'));
 app.use(express.json());
@@ -110,26 +101,28 @@ app.use('/tasks', kc.protect(), tasksRouter);
 app.use('/account', kc.protect(), accountRouter);
 app.use('/admin', kc.protect('admin'), adminRouter);
 
-db.init().then((message) => {
-  // https.createServer(httpsOptions, app).listen(port, () => {
-  //   console.log(message);
-  //   console.log(`alive on localhost:${port}!`);
-  // });
-  app.listen(port, () => {
-    console.log(message);
-    console.log(`alive on localhost:${port}!`);
+db.init().
+  then((message) => {
+    // https.createServer(httpsOptions, app).listen(port, () => {
+    //   console.log(message);
+    //   console.log(`alive on localhost:${port}!`);
+    // });
+    app.listen(port, () => {
+      console.log(message);
+      console.log(`alive on localhost:${port}!`);
+    });
+  })
+  .catch(err => {
+    console.error(err);
+    process.exit(1);
   });
-}).catch(err => {
-  console.error(err);
-  process.exit(1);
-});
 
 const gracefulShutdown = () => {
   db.teardown()
-    .catch(() => {})
-    .then(() => {
-      process.exit();
-    })
+  .then(() => {
+    process.exit();
+  })
+  .catch(() => {})
 };
 
 process.on('SIGINT', gracefulShutdown);

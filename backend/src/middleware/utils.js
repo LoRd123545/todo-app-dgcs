@@ -1,6 +1,7 @@
-import mysql from '../config/mysql-config.js';
 import qs from 'qs';
 import _ from 'lodash';
+
+import mysql from '../config/mysql-config.js';
 
 mysql.init().catch(err => {
   console.log(err);
@@ -8,26 +9,24 @@ mysql.init().catch(err => {
 });
 
 async function getFilters(req, res, next) {
-  const sql = `SHOW COLUMNS FROM tasks`;
-
-  mysql.execute(sql, [], (err, rows) => {
-    let availableFilters = [];
-    let filters = qs.parse(req.query);
-
-    rows.forEach(elem => {
-      availableFilters.push(Object.values(elem)[0]);
+  mysql.model('tasks')
+    .then(result => {
+      let availableFilters = [];
+      let filters = qs.parse(req.query);
+  
+      result.forEach(elem => {
+        availableFilters.push(Object.values(elem)[0]);
+      });
+  
+      req.filters = _.pickBy(filters, (value, key) => availableFilters.indexOf(key) > -1);
+      req.availableFilters = availableFilters;
+      next();
+    })
+    .catch(err => {
+      console.error(err);
+      res.sendStatus(500);
     });
-
-    req.filters = _.pickBy(filters, (value, key) => availableFilters.indexOf(key) > -1);
-    req.availableFilters = availableFilters;
-    next();
-  });
 }
-
-async function getUserID(req, res, next) {
-  req.user_id = req.kauth.grant.access_token.content.sub;
-  next();
-};
 
 export {
   getFilters
