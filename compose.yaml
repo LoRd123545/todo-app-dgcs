@@ -1,7 +1,8 @@
 services:
   # app backend service
   backend:
-    image: node:18-alpine
+    # build: backend
+    image: node:alpine
     command: sh -c "npm install && npm run dev"
     ports:
      - 3000:3000
@@ -17,17 +18,16 @@ services:
       - mysql
   # app frontend service
   frontend:
-    image: node:18-alpine
-    working_dir: /app/vite-project
-    command: sh -c "npm install && npm run dev"
-    ports:
-      - 4000:5173
+    build: frontend/frontend
     volumes:
-      - ./frontend/:/app
+      - ./frontend/frontend/src/:/app/src
+      - ./frontend/frontend/public/:/app/public
     depends_on:
       - keycloak
       - mysql
       - backend
+    ports:
+      - 4000:8080
   # mysql service
   mysql:
     image: mysql:8.0
