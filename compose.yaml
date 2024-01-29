@@ -22,6 +22,9 @@ services:
     volumes:
       - ./frontend/frontend/src/:/app/src
       - ./frontend/frontend/public/:/app/public
+      - type: bind
+        source: ./frontend/frontend/package.json
+        target: /app/package.json
     depends_on:
       - keycloak
       - mysql
