@@ -1,12 +1,23 @@
+import { createBrowserRouter, createRoutesFromElements, Router, Route, RouterProvider} from 'react-router-dom';
 import "../public/stylesheets/main.css";
-import Header from "./partials/Header.jsx";
-import Footer from "./partials/Footer.jsx";
+import Header from "./partials/Header";
+import Footer from "./partials/Footer";
+import Root from "./routes/root";
+
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+  },
+]);
+
 
 function App() {
   return (
     <>
       <Header />
-      <h1>todo app</h1>
+      <RouterProvider router={router} />
       <Footer />
     </>
   );
