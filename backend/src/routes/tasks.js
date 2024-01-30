@@ -25,7 +25,7 @@ router.get('/', getFilters, async (req, res) => {
       res.json(result);
     })
     .catch(err => {
-      console.err(err);
+      console.error(err);
       res.sendStatus(500);
     });
 });
@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
       res.json(result);
     })
     .catch(err => {
-      console.err(err);
+      console.error(err);
       res.sendStatus(500);
     });
 });
@@ -61,7 +61,7 @@ router.get('/:id', async (req, res) => {
       res.json(result);
     })
     .catch(err => {
-      console.err(err);
+      console.error(err);
       res.sendStatus(500);
     });
 });
@@ -87,7 +87,7 @@ router.put('/:id', async (req, res) => {
       res.json(result);
     })
     .catch(err => {
-      console.err(err);
+      console.error(err);
       res.sendStatus(500);
     });
 });
@@ -102,7 +102,7 @@ router.delete('/:id', async (req, res) => {
       res.json(result);
     })
     .catch(err => {
-      console.err(err);
+      console.error(err);
       res.sendStatus(500);
     });
 });
@@ -114,7 +114,7 @@ router.delete('/', async (req, res) => {
       res.json(result);
     })
     .catch(err => {
-      console.err(err);
+      console.error(err);
       res.sendStatus(500);
     });
 });
