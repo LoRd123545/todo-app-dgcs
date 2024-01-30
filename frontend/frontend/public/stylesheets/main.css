@@ -12,3 +12,114 @@
 *, *::before, *::after{
   box-sizing: border-box;
 }
+
+
+.container{
+  max-width: 1400px;
+  min-height: 60vh;
+  margin: auto;
+  margin-bottom: 3rem;
+}
+
+.container__panel--inner{
+  margin: 4rem;
+}
+
+.heading{
+  font-size: 3rem;
+  text-align: center;
+  margin: 0 6rem;
+}
+
+.panel__paragraph{
+  text-align: center;
+  font-weight: 200;
+}
+
+.panel__paragraph--margin{
+  margin: 1rem 10rem;
+}
+
+.button{
+  background-color: var(--color-button-green);
+  padding: 0.75rem;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  font-size: 18px;
+  min-width: 11rem;
+  cursor: pointer;
+}
+
+.panel__button--sign-in{
+  text-decoration: none;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  max-width: 10rem;
+}
+
+.box{
+  margin: 6rem 0;
+  max-width: 1400px;
+  display: flex;
+  justify-content: center;
+}
+
+.heading--secondary{
+  font-size: 2rem;
+  text-align: center;
+  color: var(--color-text-green);
+  margin: 0 6rem;
+}
+
+.paragraph{
+  text-align: center;
+  font-weight: 200;
+  margin: 1rem 10rem;
+}
+
+.panel--flex{
+  display: flex;
+  margin: 4rem 0;
+}
+
+.panel__box--left{
+  display: inline-block;
+  width: 50%;
+  padding: 1.5rem;
+}
+
+.panel__box--border-right{
+  border-right: 1px solid var(--color-text-green);
+}
+
+.panel__image{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel__heading{
+  font-size: 2rem;
+}
+
+.panel__box--left ol li{
+  margin: 3rem 0;
+}
+
+.panel__box--left ol li h4{
+  color: var(--color-text-green);
+}
+
+.heading__quote{
+  text-align: center;
+  margin: 6rem 10rem 0;
+  font-size: 2rem;
+}
+
+.heading__quoteAuthor{
+  text-align: center;
+}
