@@ -1,0 +1,14 @@
+/*Importing fonts, variables etc.*/
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+@import 'shared/variables.css';
+@import 'shared/header.css';
+@import 'shared/footer.css';
+
+:root{
+  font-family: 'DM Sans', sans-serif;
+  font-size: 20px;
+}
+
+*, *::before, *::after{
+  box-sizing: border-box;
+}
