@@ -1,14 +1,12 @@
 {
   "realm": "demo",
   "auth-server-url": "http://host.docker.internal:9000/",
-  "ssl-required": "external",
+  "ssl-required": "none",
   "resource": "client1",
   "verify-token-audience": true,
   "credentials": {
-    "secret": "uybBZBiFFnYwJR89OnJVcRwweRfyRSSD"
+    "secret": "d4OGNdadl0ToDRnxNkBziZlFExFz17PW"
   },
-  "confidential-port": 0,
-  "policy-enforcer": {
-    "credentials": {}
-  }
+  "use-resource-role-mappings": true,
+  "confidential-port": 0
 }
