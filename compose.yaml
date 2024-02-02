@@ -40,7 +40,7 @@ services:
       - .env
   # keycloak service
   keycloak:
-    image: quay.io/keycloak/keycloak:23.06
+    image: quay.io/keycloak/keycloak:23.0.6
     command: start-dev --import-realm
     ports:
       - 9000:8080
