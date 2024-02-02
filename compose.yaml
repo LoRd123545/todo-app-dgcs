@@ -2,7 +2,7 @@ services:
   # app backend service
   backend:
     # build: backend
-    image: node:alpine
+    image: node:21-alpine
     command: sh -c "npm install && npm run dev"
     ports:
      - 3000:3000
@@ -40,7 +40,7 @@ services:
       - .env
   # keycloak service
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
+    image: quay.io/keycloak/keycloak:23.06
     command: start-dev --import-realm
     ports:
       - 9000:8080
