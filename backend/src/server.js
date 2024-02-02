@@ -19,13 +19,11 @@ import Kc from 'keycloak-connect';
 import db from './config/mysql-config.js'
 
 /* routers */
-import homeRouter from './routes/home.js';
-import aboutRouter from './routes/about.js';
-import faqRouter from './routes/faq.js';
 import accountRouter from './routes/account.js';
 import tasksRouter from './routes/tasks.js';
 import authRouter from './routes/auth.js';
 import adminRouter from './routes/admin.js';
+import homeRouter from './routes/home.js'
 
 /* environment variables */
 dotenv.config({
@@ -95,11 +93,15 @@ kcAdminClient.auth({
 /* app routes */
 app.use('/', homeRouter);
 app.use('/auth', kc.protect(), authRouter);
-app.use('/faq', faqRouter);
-app.use('/about', aboutRouter);
 app.use('/tasks', kc.protect(), tasksRouter);
 app.use('/account', kc.protect(), accountRouter);
 app.use('/admin', kc.protect('admin'), adminRouter);
+
+app.use('*', async (req, res) => {
+  res.json({
+    message: 'Don\'t know what you\'re looking for bruh'
+  });
+});
 
 db.init().
   then((message) => {

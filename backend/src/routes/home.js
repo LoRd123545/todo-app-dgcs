@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   res.json({
-    message: 'comming soon!'
+    message: 'Welcome to todo-app rest api!'
   });
 });
 
