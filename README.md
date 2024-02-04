@@ -29,6 +29,7 @@ delete all tasks: `DELETE /tasks`\
 
 # KEYCLOAK
 keycloak container is running on [host.docker.internal:9000](host.docker.internal:9000), so preprend all url's listed below with it.\
+\
 token: `POST /realms/:realm/protocol/openid-connect/token`\
 \
 `:realm` parameter stands for keycloak realm in which app is running which name is `demo`\
