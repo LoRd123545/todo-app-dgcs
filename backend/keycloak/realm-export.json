@@ -496,6 +496,11 @@
       "realmRoles": [
         "default-roles-demo"
       ],
+      "clientRoles": {
+        "client1": [
+          "admin"
+        ]
+      },
       "notBefore": 0,
       "groups": []
     }
