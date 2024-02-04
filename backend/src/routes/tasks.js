@@ -1,9 +1,13 @@
+import { EventEmitter } from 'node:events';
+
 import { Router } from 'express';
 import { v4 as uuid } from 'uuid';
+import schedule from 'node-schedule';
 
 import { getFilters } from '../middleware/utils.js';
 import db from '../models/task.js';
 
+import emitter from '../middleware/events.js';
 const router = Router();
 
 /* GET tasks */
@@ -12,12 +16,10 @@ router.get('/', getFilters, async (req, res) => {
     column: req.query.sortBy || 'completion_date',
     value: req.query.orderBy || 'desc'
   };
-
   const filters = {
-    query: req.filters,
-    available: req.availableFilters
-  };
-
+    availableFilters: req.availableFilters,
+    query: req.filters
+  }
   const userID = req.kauth.grant.access_token.content.sub;
 
   db.getAllTasks(userID, filters, sortBy)
@@ -40,6 +42,18 @@ router.post('/', async (req, res) => {
     status: req.body.status || 'not-started',
     userID: req.kauth.grant.access_token.content.sub
   };
+
+  const dueDate = new Date(task.completion_date);
+  const currentDate = new Date();
+
+  if(currentDate.getTime() < dueDate.getTime()) {
+    schedule.scheduleJob(task.id.toString(), dueDate, () => {
+      emitter.emit('task-expired', {
+        userID: task.userID,
+        taskID: task.id
+      });
+    });
+  }
 
   db.addTask(task)
     .then(result => {

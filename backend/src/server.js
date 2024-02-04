@@ -1,5 +1,3 @@
-'use strict';
-
 /* node js modules */
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -14,16 +12,19 @@ import session from 'express-session';
 import methodOverride from 'method-override';
 import KcAdminClient from '@keycloak/keycloak-admin-client';
 import Kc from 'keycloak-connect';
+import { Server } from 'socket.io';
 
 /* project modules */
-import db from './config/mysql-config.js'
+import db from './config/mysql-config.js';
+import emitter from './middleware/events.js';
 
 /* routers */
 import accountRouter from './routes/account.js';
 import tasksRouter from './routes/tasks.js';
 import authRouter from './routes/auth.js';
 import adminRouter from './routes/admin.js';
-import homeRouter from './routes/home.js'
+import homeRouter from './routes/home.js';
+import notFoundRouter from './routes/not-found.js';
 
 /* environment variables */
 dotenv.config({
@@ -46,8 +47,10 @@ const {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
+const server = http.createServer(app);
 const port = PORT || 3000;
 const sessionStore = new session.MemoryStore();
+const io = new Server(server);
 
 /* https config */
 // const httpsOptions = {
@@ -96,10 +99,12 @@ app.use('/auth', kc.protect(), authRouter);
 app.use('/tasks', kc.protect(), tasksRouter);
 app.use('/account', kc.protect(), accountRouter);
 app.use('/admin', kc.protect('admin'), adminRouter);
+app.use('*', notFoundRouter);
 
-app.use('*', async (req, res) => {
-  res.json({
-    message: 'Don\'t know what you\'re looking for bruh'
+io.on('connection', socket => {
+  console.log('connected');
+  socket.on('disconnect', () => {
+    console.log('disconnected');
   });
 });
 
@@ -109,7 +114,7 @@ db.init().
     //   console.log(message);
     //   console.log(`alive on localhost:${port}!`);
     // });
-    app.listen(port, () => {
+    server.listen(port, () => {
       console.log(message);
       console.log(`alive on localhost:${port}!`);
     });

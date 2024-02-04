@@ -2,26 +2,22 @@ import dateFormat from 'date-format';
 
 import mysql from '../config/mysql-config.js';
 
-/* database initialization */
 mysql.init().catch(err => {
   console.log(err);
   process.exit(1);
 });
 
-/* all functions return json objects */
-
-/* returns all tasks or error message */
 async function getAllTasks(userID, filters, sort) {
-
-  const availableFilters = filters.available;
+  const filters1 = filters.query;
+  const availableFilters = filters.availableFilters;
   const orderBy = ['asc', 'desc'];
-
-  if(!availableFilters.includes(sort.column)) {
-    sort.column = 'completion_date';
-  }
 
   if(!orderBy.includes(sort.value)) {
     sort.value = 'desc';
+  }
+
+  if(!availableFilters.includes(sort.column)) {
+    sort.column = 'completion_date';
   }
 
   let sql = `
@@ -31,20 +27,13 @@ async function getAllTasks(userID, filters, sort) {
     WHERE user_id = ?
   `;
 
-  if(Object.keys(filters.query).length > 0) {
-    Object.keys(filters.query).forEach(elem => {
-      const fragment = ` AND ${elem} = ?`;
-      sql += fragment;
-    });
-  }
+  Object.keys(filters1).forEach(elem => sql += ` AND ${elem} = ?`);
 
   sql += ` ORDER BY ${sort.column} ${sort.value}`;
 
   const params = [ userID ];
 
-  Object.values(filters.query).forEach(elem => {
-    params.push(elem);
-  });
+  Object.values(filters1).forEach(elem => params.push(elem));
 
   const queryPromise =  new Promise((acc, rej) => {
     mysql.execute(sql, params, (err, result) => {
@@ -59,7 +48,6 @@ async function getAllTasks(userID, filters, sort) {
   return queryPromise;
 }
 
-/* returns task with given id or error message */
 async function getTask(id, userID) {
   const sql = `
     SELECT
@@ -83,7 +71,6 @@ async function getTask(id, userID) {
   return queryPromise;
 }
 
-/* returns error message or success message */
 async function addTask(task) {
   const {
     id,
@@ -121,7 +108,6 @@ async function addTask(task) {
   return queryPromise;
 }
 
-/* returns error message or success message */
 async function updateTask(task) {
   const {
     id,
@@ -160,7 +146,6 @@ async function updateTask(task) {
   return queryPromise;
 }
 
-/* returns error message or success message */
 async function deleteTask(id, userID) {
   const sql = `
     DELETE

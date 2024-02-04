@@ -1,4 +1,3 @@
-import qs from 'qs';
 import _ from 'lodash';
 
 import mysql from '../config/mysql-config.js';
@@ -11,15 +10,10 @@ mysql.init().catch(err => {
 async function getFilters(req, res, next) {
   mysql.model('tasks')
     .then(result => {
-      let availableFilters = [];
-      let filters = qs.parse(req.query);
+      let filters = req.query;
   
-      result.forEach(elem => {
-        availableFilters.push(Object.values(elem)[0]);
-      });
-  
-      req.filters = _.pickBy(filters, (value, key) => availableFilters.indexOf(key) > -1);
-      req.availableFilters = availableFilters;
+      req.filters = _.pickBy(filters, (value, key) => result.indexOf(key) > -1);
+      req.availableFilters = result;
       next();
     })
     .catch(err => {
