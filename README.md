@@ -8,6 +8,30 @@ Simple todo app in which you can have account and store, add, update or delete t
 - status
 - description
 
+# APP REST API
+Backend container is running on [localhost:3000](localhost:3000), so preprend all url's listed below with it.
+In order to fetch data from listed below url's you need to pass token in `authorization` header of each request in format `Bearer <token>`
+get all tasks: `GET /tasks`
+get one task: `GET /tasks/:id`
+add task: `POST /tasks`
+update task: `PUT /tasks/:id`
+delete task: `DELETE /tasks/:id`
+delete all tasks: `DELETE /tasks`
+`:id` is dynamic parameter that stands for task id (you can find out id's of all tasks by fetching data using first route)
+
+# KEYCLOAK
+keycloak container is running on [host.docker.internal:9000](host.docker.internal:9000), so preprend all url's listed below with it.
+token: `POST /realms/:realm/protocol/openid-connect/token`
+`:realm` parameter stands for keycloak realm in which app is running which name is `demo`
+in order to obtain access token you need to pass following data in request body:
+`client_id` - `client1`
+`client_secret` - in keycloak.json file
+`grant_type` - `password`
+`username` - `admin`
+`password` - `admin`
+
+for sending http requests I recommend postman
+
 # SETUP
 
 ## REQUIREMENTS:
