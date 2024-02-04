@@ -10,7 +10,7 @@ Simple todo app in which you can have account and store, add, update or delete t
 - user_id
 
 # APP REST API
-Backend container is running on [localhost:3000](localhost:3000), so preprend all url's listed below with it.\
+Backend container is running on [localhost:3000](http://localhost:3000), so preprend all url's listed below with it.\
 In order to fetch data from listed below url's you need to pass token in `authorization` header of each request in format `Bearer <token>`\
 \
 get all tasks: `GET /tasks`\
@@ -28,7 +28,7 @@ delete all tasks: `DELETE /tasks`\
 `:id` is dynamic parameter that stands for task id (you can find out id's of all tasks by fetching data using first route)\
 
 # KEYCLOAK
-keycloak container is running on [host.docker.internal:9000](host.docker.internal:9000), so preprend all url's listed below with it.\
+keycloak container is running on [host.docker.internal:9000](http://host.docker.internal:9000), so preprend all url's listed below with it.\
 \
 token: `POST /realms/:realm/protocol/openid-connect/token`\
 \
