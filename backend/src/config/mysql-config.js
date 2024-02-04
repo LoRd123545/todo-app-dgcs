@@ -69,7 +69,13 @@ async function model(tableName) {
         rej(err);
       }
 
-      acc(data);
+      let columns = [];
+
+      data.forEach(elem => {
+        columns.push(Object.values(elem)[0]);
+      });
+
+      acc(columns);
     });
   });
 
