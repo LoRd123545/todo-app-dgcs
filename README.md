@@ -7,6 +7,7 @@ Simple todo app in which you can have account and store, add, update or delete t
 - completion_date
 - status
 - description
+- user_id
 
 # APP REST API
 Backend container is running on [localhost:3000](localhost:3000), so preprend all url's listed below with it.\
