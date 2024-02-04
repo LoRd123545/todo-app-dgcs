@@ -24,7 +24,8 @@
     "lodash": "^4.17.21",
     "method-override": "^3.0.0",
     "mysql2": "^3.6.3",
-    "qs": "^6.11.2",
+    "node-schedule": "^2.1.1",
+    "socket.io": "^4.7.4",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
