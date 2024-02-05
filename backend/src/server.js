@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import https from 'node:https';
 import http from 'node:http';
 import fs from 'node:fs';
+import cors from 'cors';
 
 /* packages */
 import dotenv from 'dotenv';
@@ -50,7 +51,11 @@ const app = express();
 const server = http.createServer(app);
 const port = PORT || 3000;
 const sessionStore = new session.MemoryStore();
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:4000'
+  }
+});
 
 /* https config */
 // const httpsOptions = {
@@ -79,6 +84,7 @@ const kcAdminClient = new KcAdminClient({
 });
 
 /* general config */
+app.use(cors());
 app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({
