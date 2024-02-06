@@ -31,14 +31,6 @@ kcAdminClient.auth({
 
 const emitter = new EventEmitter();
 
-emitter.on('task-expired', async data => {
-  const user = await kcAdminClient.users.findOne({
-    id: data.userID
-  });
-  const taskID = data.taskID;
-  const username = user.username;
 
-  console.log(`${username}'s task with id = ${taskID} has just expired!`);
-});
 
 export default emitter;

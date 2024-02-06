@@ -108,9 +108,21 @@ app.use('/admin', kc.protect('admin'), adminRouter);
 app.use('*', notFoundRouter);
 
 io.on('connection', socket => {
-  console.log('connected');
+  emitter.on('task-expired', async data => {
+    const user = await kcAdminClient.users.findOne({
+      id: data.userID
+    });
+    const taskID = data.taskID;
+    const username = user.username;
+
+    socket.emit('task-expired', {
+      taskID: taskID,
+      username: username
+    });
+  });
+  console.log(`connected ${socket.id}`);
   socket.on('disconnect', () => {
-    console.log('disconnected');
+    console.log(`disconnected`);
   });
 });
 
