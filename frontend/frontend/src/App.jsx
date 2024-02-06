@@ -1,24 +1,28 @@
-import { createBrowserRouter, createRoutesFromElements, Router, Route, RouterProvider} from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom';
 import "../public/stylesheets/main.css";
-import Header from "./partials/Header";
-import Footer from "./partials/Footer";
-import Root from "./routes/root";
+
+import Root from "./routes/Root";
+import Faq from "./routes/Faq";
+
+//Layouts
+import RootLayout from "./layouts/RootLayout.jsx";
 
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Root />,
-  },
-]);
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<RootLayout />} >
+      <Route index element={<Root />} />
+      <Route path="faq" element={<Faq/ >} />
+    </Route>
+  )
+  
+);
 
 
 function App() {
   return (
     <>
-      <Header />
       <RouterProvider router={router} />
-      <Footer />
     </>
   );
 }
