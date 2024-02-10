@@ -111,14 +111,23 @@ io.on('connection', socket => {
   emitter.on('task-expired', async data => {
     const user = await kcAdminClient.users.findOne({
       id: data.userID
-    });
-    const taskID = data.taskID;
-    const username = user.username;
+    })
+      .then((userData) => {
+        const taskID = data.taskID;
+        const username = userData.username;
 
-    socket.emit('task-expired', {
-      taskID: taskID,
-      username: username
-    });
+        socket.emit('task-expired', {
+          taskID: taskID,
+          username: username
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        socket.emit('error', {
+          message: "error"
+        })
+      })
+    
   });
   console.log(`connected ${socket.id}`);
   socket.on('disconnect', () => {

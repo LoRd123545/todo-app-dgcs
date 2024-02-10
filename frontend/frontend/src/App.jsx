@@ -26,6 +26,9 @@ const router = createBrowserRouter(
 function App() {
   // for tests
   useEffect(() => {
+    socket.on('error', err => {
+      console.error(err);
+    })
     socket.on('task-expired', data => {
       console.log(`${data.username}'s task with id = ${data.taskID} has just expired!`);
     });
