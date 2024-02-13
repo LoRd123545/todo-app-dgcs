@@ -1,35 +1,37 @@
+import { Link } from "react-router-dom";
+
 function Header() {
   return (
     <header className="header">
       <nav className="header__nav">
-        <a className="header__heading" href="/">
+        <Link className="header__heading" to="/">
           Todo-app
-        </a>
+        </Link>
         <ul>
           <li>
-            <a className="header__link" href="/faq">
+            <Link className="header__link" to="/faq">
               FAQ
-            </a>
+            </Link>
           </li>
           <li>
-            <a className="header__link" href="/about">
+            <Link className="header__link" to="/about">
               About
-            </a>
+            </Link>
           </li>
           <li>
-            <a className="header__link" href="/tasks">
+            <Link className="header__link" to="/tasks">
               Zadania
-            </a>
+            </Link>
           </li>
           <li>
-            <a className="header__link" href="/account">
+            <Link className="header__link" to="/account">
               Konto
-            </a>
+            </Link>
           </li>
           <li>
-            <a className="header__link" href="/logout">
+            <Link className="header__link" to="/logout">
               Wyloguj się
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
