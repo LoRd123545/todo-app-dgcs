@@ -1,20 +1,22 @@
+import { Link } from "react-router-dom";
+
 function Footer() {
   return (
     <footer className="footer">
       <nav className="footer__nav">
-        <a className="footer__heading" href="/">
+        <Link className="footer__heading" to="/">
           Todo-app
-        </a>
+        </Link>
         <ul>
           <li>
-            <a className="footer__link" href="/faq">
+            <Link className="footer__link" to="/faq">
               FAQ
-            </a>
+            </Link>
           </li>
           <li>
-            <a className="footer__link" href="/about">
+            <Link className="footer__link" to="/about">
               About
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
