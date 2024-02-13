@@ -244,8 +244,8 @@
   margin-top: 5rem;
 }
 
-.container__panel--blue{
-  background-color: rgba(4, 0, 56, 0.5);
+.container__panel--green{
+  background-color: rgba(0, 46, 6, 0.5);
   padding: 1rem;
   border-radius: 3rem;
   -webkit-box-shadow: 4px 4px 50px 5px rgba(66, 68, 90, 1);
