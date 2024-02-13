@@ -9,7 +9,7 @@ function PageNotFound() {
           backgroundImage: `url(../public/images/PageNotFoundBackground.png)`,
         }}
       >
-        <div className="container__panel--blue">
+        <div className="container__panel--green">
           <h1 className="heading heading--big text--white text--shadow">404</h1>
           <h3 className="heading heading--medium text--white text--shadow">
             Ups!
