@@ -5,8 +5,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon -L ./src/server.js",
-    "production": "node ./src/server.js"
+    "dev": "nodemon -L src/server.js",
+    "production": "node src/server.js"
   },
   "keywords": [
     "todo",
