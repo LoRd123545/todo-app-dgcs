@@ -4,9 +4,9 @@ import { fileURLToPath } from 'node:url';
 import https from 'node:https';
 import http from 'node:http';
 import fs from 'node:fs';
-import cors from 'cors';
 
 /* packages */
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import session from 'express-session';
@@ -84,7 +84,9 @@ const kcAdminClient = new KcAdminClient({
 });
 
 /* general config */
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:4000'
+}));
 app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({
