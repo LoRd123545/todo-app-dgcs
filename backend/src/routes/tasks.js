@@ -1,5 +1,3 @@
-import { EventEmitter } from 'node:events';
-
 import { Router } from 'express';
 import { v4 as uuid } from 'uuid';
 import schedule from 'node-schedule';

@@ -1,23 +1,19 @@
 /* node js modules */
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import https from 'node:https';
 import http from 'node:http';
-import fs from 'node:fs';
 
 /* packages */
 import cors from 'cors';
-import dotenv from 'dotenv';
 import express from 'express';
 import session from 'express-session';
-import methodOverride from 'method-override';
-import KcAdminClient from '@keycloak/keycloak-admin-client';
 import Kc from 'keycloak-connect';
 import { Server } from 'socket.io';
 
 /* project modules */
 import db from './config/mysql-config.js';
 import emitter from './middleware/events.js';
+import keycloak from './config/kc-config.js';
 
 /* routers */
 import accountRouter from './routes/account.js';
@@ -28,20 +24,9 @@ import homeRouter from './routes/home.js';
 import notFoundRouter from './routes/not-found.js';
 
 /* environment variables */
-dotenv.config({
-  path: '../.env'
-});
-
 const {
   PORT,
   SESSION_SECRET,
-  KEYCLOAK_BASE_URL,
-  KEYCLOAK_REALM,
-  KEYCLOAK_CLIENT_USER,
-  KEYCLOAK_CLIENT_USER_PASSWORD,
-  KEYCLOAK_GRANT_TYPE,
-  KEYCLOAK_CLIENT,
-  KEYCLOAK_CLIENT_SECRET
 } = process.env;
 
 /* handy variables */
@@ -56,12 +41,6 @@ const io = new Server(server, {
     origin: 'http://localhost:4000'
   }
 });
-
-/* https config */
-// const httpsOptions = {
-//   key: fs.readFileSync('server.key'),
-//   cert: fs.readFileSync('server.crt')
-// };
 
 /* session config */
 const sessionInit = {
@@ -78,28 +57,17 @@ const kc = new Kc({
 app.use(kc.middleware({
   logout: '/logout'
 }));
-const kcAdminClient = new KcAdminClient({
-  baseUrl: KEYCLOAK_BASE_URL,
-  realmName: KEYCLOAK_REALM
-});
+
+const kcAdminClient = keycloak.init();
 
 /* general config */
 app.use(cors({
   origin: 'http://localhost:4000'
 }));
-app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
-
-kcAdminClient.auth({
-  username: KEYCLOAK_CLIENT_USER,
-  password: KEYCLOAK_CLIENT_USER_PASSWORD,
-  grantType: KEYCLOAK_GRANT_TYPE,
-  clientId: KEYCLOAK_CLIENT,
-  clientSecret: KEYCLOAK_CLIENT_SECRET
-});
 
 /* app routes */
 app.use('/', homeRouter);
@@ -109,40 +77,50 @@ app.use('/account', kc.protect(), accountRouter);
 app.use('/admin', kc.protect('admin'), adminRouter);
 app.use('*', notFoundRouter);
 
-io.on('connection', socket => {
-  emitter.on('task-expired', async data => {
-    const user = await kcAdminClient.users.findOne({
-      id: data.userID
-    })
-      .then((userData) => {
-        const taskID = data.taskID;
-        const username = userData.username;
+// const handleConnect = async (socket) => {
+  
+// }
 
-        socket.emit('task-expired', {
-          taskID: taskID,
-          username: username
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-        socket.emit('error', {
-          message: "error"
-        })
-      })
-    
-  });
+// const handleTaskExpiration = async (data) => {
+  
+// }
+
+io.on('connection', socket => {
   console.log(`connected ${socket.id}`);
+  emitter.on('task-expired', async (data) => {
+    const user = await kcAdminClient.users.findOne({
+    id: data.userID
+  })
+    .then((userData) => {
+      const taskID = data.taskID;
+      const username = userData.username;
+      socket.emit('task-expired', {
+        taskID: taskID,
+        username: username
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      socket.emit('error', {
+        message: "error"
+      })
+    });
+  });
   socket.on('disconnect', () => {
-    console.log(`disconnected`);
+    console.log(`disconnected ${socket.id}`);
   });
 });
 
+// io.on('connect', socket => {
+  
+// });
+
+// io.on('disconnect', () => {
+//   emitter.off('task-expired', handleTaskExpiration);
+// })
+
 db.init().
   then((message) => {
-    // https.createServer(httpsOptions, app).listen(port, () => {
-    //   console.log(message);
-    //   console.log(`alive on localhost:${port}!`);
-    // });
     server.listen(port, () => {
       console.log(message);
       console.log(`alive on localhost:${port}!`);
@@ -154,11 +132,16 @@ db.init().
   });
 
 const gracefulShutdown = () => {
-  db.teardown()
-  .then(() => {
-    process.exit();
-  })
-  .catch(() => {})
+  server.close(() => {
+    io.close();
+    db.teardown()
+    .then(() => {
+      process.exit();
+    })
+    .catch(() => {})
+
+    console.log('server closed!');
+  });
 };
 
 process.on('SIGINT', gracefulShutdown);
