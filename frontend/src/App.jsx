@@ -8,6 +8,7 @@ import "../public/stylesheets/main.css";
 
 import Root from "./routes/Root";
 import Faq from "./routes/Faq";
+import About from "./routes/About"
 import PageNotFound from "./routes/PageNotFound.jsx";
 
 //Layouts
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootLayout />}>
       <Route index element={<Root />} />
       <Route path="faq" element={<Faq />} />
+      <Route path="about" element={<About />} />
       <Route path="*" element={<PageNotFound />} />
     </Route>
   )

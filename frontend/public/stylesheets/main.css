@@ -151,7 +151,7 @@
 }
 
 
-/*FAQ*/
+/* FAQ */
 
 .faq{
   min-height: 60vh;
@@ -207,7 +207,33 @@
   transition: 0.5s;
 }
 
-/*Page not found*/
+/* About page */
+
+.panel--margin{
+  margin: 8rem 10rem 0 10rem;
+}
+
+.panel__image--round{
+  border-radius: 1rem;
+}
+
+.panel__heading{
+  margin-top: 0;
+}
+
+.panel__text--upper{
+  font-weight: bold;
+  color: var(--color-text-upper);
+}
+
+.panel__text--color-green{
+  color: var(--color-text-green);
+}
+
+.panel__paragraph--align-left{
+  text-align: left;
+}
+/* Page not found */
 
 .container__panel--image{
   width: 70rem;
