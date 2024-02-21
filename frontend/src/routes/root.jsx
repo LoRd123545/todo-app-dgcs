@@ -20,7 +20,7 @@ export default function Root() {
       </div>
       {/* background image */}
       <div className="box">
-        <img src="/images/home-background.png" alt="deer next to a tree"></img>
+        <img src="../public/images/home-background.png" alt="deer next to a tree"></img>
       </div>
       <h3 className="heading heading--secondary">Organizuj, Planuj, Realizuj</h3>
       <p className="paragraph">Czy czujesz się przytłoczony ilością obowiązków? Nasza aplikacja TODO pomaga Ci w prosty i skuteczny sposób zapanować nad codziennymi zadaniami. Niech nieprzemyślane zadania nie sprawiają Ci kłopotów - zacznij zarządzać nimi sprawnie!</p>
@@ -46,7 +46,7 @@ export default function Root() {
         </div>
         {/* image on the right */}
         <div className="panel__image">
-          <img src="/images/home-checklist.png" width="350" height="350" alt="checklist"></img>
+          <img src="../public/images/home-checklist.png" width="350" height="350" alt="checklist"></img>
         </div>
       </div>
       {/* quote on the bottom of the page */}
