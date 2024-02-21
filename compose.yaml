@@ -28,7 +28,7 @@ services:
       - backend
     ports:
       - 4000:8080
-  # mysql service
+  # database service
   mysql:
     image: mysql:8.0
     volumes:
@@ -45,7 +45,7 @@ services:
       # storing keycloak data
       - todo-keycloak-data:/opt/keycloak/data/
       # for importing keycloak realm
-      - ./backend/keycloak/:/opt/keycloak/data/import/
+      - ./keycloak/:/opt/keycloak/data/import/
     env_file:
       - .env
     healthcheck:
