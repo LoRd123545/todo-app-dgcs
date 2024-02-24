@@ -1,0 +1,23 @@
+input[type="datetime-local"]{
+  background-color: var(--color-button-green);
+  padding: 12px;
+  width: 19.5rem;
+  color: white;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+}
+
+input[type=datetime-local]::-webkit-calendar-picker-indicator {
+	background-color: white;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.wrapper label{
+  color: grey;
+}
