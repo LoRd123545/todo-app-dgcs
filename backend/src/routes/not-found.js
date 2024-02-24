@@ -1,11 +1,16 @@
 import { Router } from 'express';
 
-const router = Router();
+const api = () => {
+  const router = Router();
 
-router.get('*', async (req, res) => {
-  res.json({
-    message: 'Don\'t know what you\'re looking for bruh'
+  router.get('*', async (req, res) => {
+    res.json({
+      message: 'Don\'t know what you\'re looking for bruh'
+    });
   });
-});
 
-export default router;
+  return router;
+}
+
+
+export default api;

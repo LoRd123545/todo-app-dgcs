@@ -1,11 +1,16 @@
 import express from 'express';
 
-const router = express.Router();
+const api = () => {
+  const router = express.Router();
 
-router.get('/', async (req, res) => {
-  res.json({
-    message: 'Welcome to todo-app rest api!'
+  router.get('/', async (req, res) => {
+    res.json({
+      message: 'Welcome to todo-app rest api!'
+    });
   });
-});
 
-export default router;
+  return router;
+}
+
+
+export default api;
