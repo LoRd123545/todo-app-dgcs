@@ -3,6 +3,10 @@
 @import 'shared/variables.css';
 @import 'shared/header.css';
 @import 'shared/footer.css';
+@import 'shared/datetime.css';
+@import 'shared/select.css';
+@import 'shared/text.css';
+@import 'shared/textarea.css';
 
 :root{
   font-family: 'DM Sans', sans-serif;
@@ -277,4 +281,95 @@
   -webkit-box-shadow: 4px 4px 50px 5px rgba(66, 68, 90, 1);
   -moz-box-shadow: 4px 4px 50px 5px rgba(66, 68, 90, 1);
   box-shadow: 4px 4px 50px 5px rgba(66, 68, 90, 1);
+}
+
+/*Tasks*/
+
+.task{
+  margin: 2rem 1rem;
+  padding: 1rem;
+  border: 2px solid black;
+  width: 45%;
+  display: inline-block;
+  border-radius: 10px;
+  position: relative;
+}
+
+.task__icons{
+  display: flex;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.task__heading{
+  color: var(--color-text-green);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 30px;
+  margin-left: 5px;
+}
+
+.task__text{
+  margin: 0 5px;
+}
+
+.fa-trash{
+  color: red;
+  font-size: 25px;
+  margin: 0 10px;
+}
+
+.fa-pen-to-square{
+  color: orange;
+  font-size: 25px;
+  margin: 0 10px;
+}
+
+.task__button--decoration-none{
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-align: inherit;
+  font: inherit;
+  border-radius: 0;
+  appearance: none;
+  cursor: pointer;
+}
+
+.heading--light{
+  font-weight: 100;
+  color: var(--task-heading-color);
+  text-align: center;
+  margin: 10rem 0;
+}
+
+.container__select{
+  top: -2rem;
+  margin: auto;
+}
+
+/* Task add and edit page*/
+
+.form__panel{
+  margin: auto;
+  box-shadow: 0px 0px 8px 5px #888888;
+  border-radius: 10px;
+  min-height: 300px;
+  max-width: 1000px;
+}
+
+.form__header{
+  border-radius: 10px;
+  background-color: var(--color-button-green-dark);
+  padding: 1rem;
+}
+
+.form__box{
+  margin: 2rem;
+}
+
+.wrapper__button{
+  margin: 0 16rem;
 }
