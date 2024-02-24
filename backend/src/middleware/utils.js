@@ -1,25 +1,12 @@
 import _ from 'lodash';
-
-import mysql from '../config/mysql-config.js';
-
-mysql.init().catch(err => {
-  console.log(err);
-  process.exit(1);
-});
+import Task from '../models/task.js';
 
 async function getFilters(req, res, next) {
-  mysql.model('tasks')
-    .then(result => {
-      let filters = req.query;
-  
-      req.filters = _.pickBy(filters, (value, key) => result.indexOf(key) > -1);
-      req.availableFilters = result;
-      next();
-    })
-    .catch(err => {
-      console.error(err);
-      res.sendStatus(500);
-    });
+  const avaiableFilters = Object.keys(Task.schema.paths);
+  const filters = req.query;
+
+  req.filters = _.pickBy(filters, (value, key) => avaiableFilters.indexOf(key) > -1);
+  next();
 }
 
 export {
