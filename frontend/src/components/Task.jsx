@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-
-//Need to import fontawesome icons because the delete and edit icons aren't showing up
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function Task(props) {
   return (
@@ -15,13 +15,13 @@ function Task(props) {
       </div>
       <div className="task__icons">
         <button className="task__button--decoration-none">
-          <Link to="{props.id}/edit">
-            <i className="fa-solid fa-pen-to-square"></i>
+          <Link to={`${props.id}/edit`}>
+            <FontAwesomeIcon icon={faPenToSquare} />
           </Link>
         </button>
         <form action="/tasks/<%= tasks[i].id %>?_method=DELETE" method="post">
           <button className="task__button--decoration-none">
-            <i class="fa-solid fa-trash"></i>
+            <FontAwesomeIcon icon={faTrash} />
           </button>
         </form>
       </div>
