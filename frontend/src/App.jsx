@@ -12,6 +12,7 @@ import About from "./routes/About";
 import PageNotFound from "./routes/PageNotFound.jsx";
 import TaskIndex from "./routes/TaskIndex.jsx";
 import TaskAdd from "./routes/TaskAdd.jsx";
+import TaskEdit from "./routes/TaskEdit.jsx";
 
 //Layouts
 import RootLayout from "./layouts/RootLayout.jsx";
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
       <Route path="about" element={<About />} />
       <Route path="tasks" element={<TaskIndex />} />
       <Route path="tasks/add" element={<TaskAdd />} />
+      <Route path="tasks/:id/edit" element={<TaskEdit />} />
       <Route path="*" element={<PageNotFound />} />
     </Route>
   )
