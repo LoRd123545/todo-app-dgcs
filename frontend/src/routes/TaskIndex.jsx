@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Task from "../components/Task";
 
@@ -18,6 +18,10 @@ function TaskIndex() {
       completion_date: "15-03-2024",
     },
   ]);
+
+  // useEffect(() => {
+  //   fetch('http://host.docker.internal:9000')
+  // }, []);
 
   /*
   Fetching tasks - not working

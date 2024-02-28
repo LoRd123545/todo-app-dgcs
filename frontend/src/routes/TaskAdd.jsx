@@ -44,7 +44,7 @@ function TaskAdd() {
         <h1 className="heading text--white ">Dodaj zadanie</h1>
       </div>
       <div className="form__box">
-        <form onSubmit={(e) => submit(e)}>
+        <form onSubmit={submit}>
           <label>
             <div className="wrapper">
               <div className="input-data">
@@ -53,7 +53,7 @@ function TaskAdd() {
                   name="name"
                   id="name"
                   value={data.name}
-                  onChange={(e) => handle(e)}
+                  onChange={handle}
                 />
                 <label>Nazwa Zadania</label>
               </div>
@@ -66,10 +66,10 @@ function TaskAdd() {
                   name="description"
                   cols="30"
                   rows="10"
-                  maxlength="500"
+                  maxLength="500"
                   id="description"
                   value={data.description}
-                  onChange={(e) => handle(e)}
+                  onChange={handle}
                 ></textarea>
                 <label>Opis zadania</label>
               </div>
