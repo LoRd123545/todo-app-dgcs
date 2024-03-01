@@ -3,6 +3,8 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
+  Routes,
+  Router,
 } from "react-router-dom";
 import "../public/stylesheets/main.css";
 
@@ -16,6 +18,7 @@ import TaskEdit from "./routes/TaskEdit.jsx";
 
 //Layouts
 import RootLayout from "./layouts/RootLayout.jsx";
+import TasksLayout from "./layouts/TasksLayout.jsx";
 import io from "socket.io-client";
 import { useEffect } from "react";
 
@@ -23,15 +26,23 @@ const socket = io("http://localhost:3000");
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<RootLayout />}>
-      <Route index element={<Root />} />
-      <Route path="faq" element={<Faq />} />
-      <Route path="about" element={<About />} />
-      <Route path="tasks" element={<TaskIndex />} />
-      <Route path="tasks/add" element={<TaskAdd />} />
-      <Route path="tasks/:id/edit" element={<TaskEdit />} />
-      <Route path="*" element={<PageNotFound />} />
-    </Route>
+    <>
+      <Route path="/" element={<RootLayout />}>
+        <>
+          <Route index element={<Root />} />
+          <Route path="faq" element={<Faq />} />
+          <Route path="about" element={<About />} />
+        </>
+        {/* tasks */}
+        <Route path="tasks" element={<TaskIndex />}>
+          <Route path="add" element={<TaskAdd />} />
+          <Route path=":id/edit" element={<TaskEdit />} />
+        </Route>
+        <>
+          <Route path="*" element={<PageNotFound />} />
+        </>
+      </Route>
+    </>
   )
 );
 
