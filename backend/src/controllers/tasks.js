@@ -51,9 +51,9 @@ const add = async (req, res, next) => {
     await task.save();
   } catch (err) {
     console.error(err);
-    res.status(500).json({
+    return res.status(500).json({
       message: 'error occured while adding task'
-    })
+    });
   }
 
   const dueDate = new Date(task.dueDate);
