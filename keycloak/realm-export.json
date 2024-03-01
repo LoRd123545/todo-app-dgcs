@@ -48,6 +48,44 @@
   "roles": {
     "realm": [
       {
+        "id": "19346234-8e08-448d-ad7e-13d14be94e9b",
+        "name": "todo-app-admin",
+        "description": "todo app user with access to other users accounts and resources",
+        "composite": true,
+        "composites": {
+          "client": {
+            "backend": [
+              "admin"
+            ],
+            "frontend": [
+              "admin"
+            ]
+          }
+        },
+        "clientRole": false,
+        "containerId": "d43b2b68-b8d3-4e98-9290-7d518f2104d0",
+        "attributes": {}
+      },
+      {
+        "id": "9af5111e-b3b4-4d3a-9c75-5b7e464a2e4f",
+        "name": "todo-app-user",
+        "description": "todo app regular user with access to its account and resources",
+        "composite": true,
+        "composites": {
+          "client": {
+            "backend": [
+              "user"
+            ],
+            "frontend": [
+              "user"
+            ]
+          }
+        },
+        "clientRole": false,
+        "containerId": "d43b2b68-b8d3-4e98-9290-7d518f2104d0",
+        "attributes": {}
+      },
+      {
         "id": "644e1582-07e0-490a-bae8-4d91f15bf5b4",
         "name": "default-roles-demo",
         "description": "${role_default-roles}",
@@ -302,6 +340,26 @@
       ],
       "security-admin-console": [],
       "admin-cli": [],
+      "backend": [
+        {
+          "id": "3a7d6891-6475-45cf-adda-48dd66135c81",
+          "name": "user",
+          "description": "regular user with access to its account and resources",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "3a8514e7-2357-4d0d-83e1-705caa74b296",
+          "attributes": {}
+        },
+        {
+          "id": "924b1c63-56d4-4ceb-bc3c-45a6e3553a60",
+          "name": "admin",
+          "description": "user with access to other users accounts and resources",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "3a8514e7-2357-4d0d-83e1-705caa74b296",
+          "attributes": {}
+        }
+      ],
       "account-console": [],
       "broker": [
         {
@@ -429,10 +487,53 @@
           "containerId": "dd6d4eb8-064f-4cd3-ad79-40ba2814b12d",
           "attributes": {}
         }
+      ],
+      "frontend": [
+        {
+          "id": "3d02fdc5-1123-4362-87ae-8d960f7e8766",
+          "name": "user",
+          "description": "regular user with access to its account and resources",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "cf347cf5-3749-4605-8379-85c8721a1b8b",
+          "attributes": {}
+        },
+        {
+          "id": "f7f70a64-18ce-4ce2-9937-c6d27c2ab814",
+          "name": "admin",
+          "description": "user with access to other users accounts and resources",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "cf347cf5-3749-4605-8379-85c8721a1b8b",
+          "attributes": {}
+        }
       ]
     }
   },
-  "groups": [],
+  "groups": [
+    {
+      "id": "03cc290e-4f5d-4892-a01d-32b83b4f3e03",
+      "name": "todo-app-admins",
+      "path": "/todo-app-admins",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [
+        "todo-app-admin"
+      ],
+      "clientRoles": {}
+    },
+    {
+      "id": "3911fae5-6b1e-4cc4-bb6e-e12de48aeddb",
+      "name": "todo-app-regular-users",
+      "path": "/todo-app-regular-users",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [
+        "todo-app-user"
+      ],
+      "clientRoles": {}
+    }
+  ],
   "defaultRole": {
     "id": "644e1582-07e0-490a-bae8-4d91f15bf5b4",
     "name": "default-roles-demo",
@@ -558,7 +659,6 @@
       "defaultClientScopes": [
         "web-origins",
         "acr",
-        "roles",
         "profile",
         "email"
       ],
@@ -613,7 +713,6 @@
       "defaultClientScopes": [
         "web-origins",
         "acr",
-        "roles",
         "profile",
         "email"
       ],
@@ -653,8 +752,62 @@
       "defaultClientScopes": [
         "web-origins",
         "acr",
-        "roles",
         "profile",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "id": "3a8514e7-2357-4d0d-83e1-705caa74b296",
+      "clientId": "backend",
+      "name": "nodejs-backend",
+      "description": "node js backend",
+      "rootUrl": "http://localhost:3000",
+      "adminUrl": "http://localhost:3000",
+      "baseUrl": "/",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "**********",
+      "redirectUris": [
+        "/"
+      ],
+      "webOrigins": [
+        "http://localhost:3000"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "publicClient": false,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "oidc.ciba.grant.enabled": "false",
+        "client.secret.creation.time": "1709329201",
+        "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "/",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "display.on.consent.screen": "false",
+        "backchannel.logout.revoke.offline.tokens": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "good-service",
         "email"
       ],
       "optionalClientScopes": [
@@ -693,7 +846,6 @@
       "defaultClientScopes": [
         "web-origins",
         "acr",
-        "roles",
         "profile",
         "email"
       ],
@@ -721,7 +873,8 @@
         "http://localhost:3000/*"
       ],
       "webOrigins": [
-        "http://localhost:3000"
+        "",
+        "*"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -798,7 +951,58 @@
       "defaultClientScopes": [
         "web-origins",
         "acr",
-        "roles",
+        "profile",
+        "good-service",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "id": "cf347cf5-3749-4605-8379-85c8721a1b8b",
+      "clientId": "frontend",
+      "name": "react-frontend",
+      "description": "react frontend",
+      "rootUrl": "http://localhost:4000",
+      "adminUrl": "http://localhost:4000",
+      "baseUrl": "/",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "redirectUris": [
+        "/"
+      ],
+      "webOrigins": [
+        "http://localhost:4000"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "publicClient": true,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "oidc.ciba.grant.enabled": "false",
+        "post.logout.redirect.uris": "/",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "backchannel.logout.session.required": "true",
+        "backchannel.logout.revoke.offline.tokens": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
         "profile",
         "good-service",
         "email"
@@ -839,7 +1043,6 @@
       "defaultClientScopes": [
         "web-origins",
         "acr",
-        "roles",
         "profile",
         "email"
       ],
@@ -904,7 +1107,6 @@
       "defaultClientScopes": [
         "web-origins",
         "acr",
-        "roles",
         "profile",
         "email"
       ],
@@ -945,60 +1147,6 @@
             "user.attribute.region": "region",
             "access.token.claim": "true",
             "user.attribute.locality": "locality"
-          }
-        }
-      ]
-    },
-    {
-      "id": "1014e30d-926b-4faf-8aad-1848500dc4b5",
-      "name": "roles",
-      "description": "OpenID Connect scope for add user roles to the access token",
-      "protocol": "openid-connect",
-      "attributes": {
-        "include.in.token.scope": "false",
-        "display.on.consent.screen": "true",
-        "consent.screen.text": "${rolesScopeConsentText}"
-      },
-      "protocolMappers": [
-        {
-          "id": "c8bff57f-1741-44ef-bd22-afb5c8dacaea",
-          "name": "realm roles",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usermodel-realm-role-mapper",
-          "consentRequired": false,
-          "config": {
-            "introspection.token.claim": "true",
-            "multivalued": "true",
-            "user.attribute": "foo",
-            "access.token.claim": "true",
-            "claim.name": "realm_access.roles",
-            "jsonType.label": "String"
-          }
-        },
-        {
-          "id": "a748c051-a97a-46f5-8215-9521d770b743",
-          "name": "audience resolve",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-audience-resolve-mapper",
-          "consentRequired": false,
-          "config": {
-            "introspection.token.claim": "true",
-            "access.token.claim": "true"
-          }
-        },
-        {
-          "id": "01b9ce74-def2-4494-b8c9-94b78aeddb1c",
-          "name": "client roles",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usermodel-client-role-mapper",
-          "consentRequired": false,
-          "config": {
-            "introspection.token.claim": "true",
-            "multivalued": "true",
-            "user.attribute": "foo",
-            "access.token.claim": "true",
-            "claim.name": "resource_access.${client_id}.roles",
-            "jsonType.label": "String"
           }
         }
       ]
@@ -1047,6 +1195,61 @@
             "single": "false",
             "attribute.nameformat": "Basic",
             "attribute.name": "Role"
+          }
+        }
+      ]
+    },
+    {
+      "id": "3518d7c6-f200-49a3-8f45-aa9b7038b7f5",
+      "name": "roles",
+      "description": "OpenID Connect scope for add user roles to the access token",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "false",
+        "display.on.consent.screen": "true",
+        "gui.order": "",
+        "consent.screen.text": ""
+      },
+      "protocolMappers": [
+        {
+          "id": "d8822309-3c6e-46fc-83ef-ee56c3556871",
+          "name": "audience resolve",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-resolve-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "access.token.claim": "true"
+          }
+        },
+        {
+          "id": "846e0e0b-20c6-4b58-b195-2522a64805a8",
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "multivalued": "true",
+            "user.attribute": "foo",
+            "access.token.claim": "true",
+            "claim.name": "realm_access.roles",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "8047e4ec-c8f7-407a-a164-79b1d851a3e6",
+          "name": "client roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-client-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "multivalued": "true",
+            "user.attribute": "foo",
+            "access.token.claim": "true",
+            "claim.name": "resource_access.${client_id}.roles",
+            "jsonType.label": "String"
           }
         }
       ]
@@ -1429,6 +1632,36 @@
       ]
     },
     {
+      "id": "0ad4917f-1ff1-4695-927b-6b795bd1626b",
+      "name": "todo-app",
+      "description": "",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "gui.order": "",
+        "consent.screen.text": ""
+      },
+      "protocolMappers": [
+        {
+          "id": "e9df5cc1-8878-415d-ba3e-622b1536ec8c",
+          "name": "roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-client-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "jsonType.label": "String",
+            "usermodel.clientRoleMapping.clientId": "frontend"
+          }
+        }
+      ]
+    },
+    {
       "id": "ea46814b-d655-492b-a0de-421ee820ec98",
       "name": "offline_access",
       "description": "OpenID Connect built-in scope: offline_access",
@@ -1488,10 +1721,10 @@
     "role_list",
     "profile",
     "email",
-    "roles",
     "web-origins",
     "acr",
-    "good-service"
+    "good-service",
+    "roles"
   ],
   "defaultOptionalClientScopes": [
     "offline_access",
