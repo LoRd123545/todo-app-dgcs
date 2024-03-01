@@ -2,7 +2,7 @@ import { useState } from "react";
 import Axios from "axios";
 
 function TaskAdd() {
-  const url = "http://localhost:3000/tasks/add";
+  const url = "http://localhost:3000/tasks/";
   const [data, setData] = useState({
     name: "",
     description: "",
@@ -12,23 +12,23 @@ function TaskAdd() {
 
   function submit(e) {
     e.preventDefault();
-    Axios.post(
-      url,
-      {
-        name: data.name,
-        description: data.description,
-        completion_date: data.completion_date,
-        status: data.status,
-      },
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((res) => {
-      console.log(res.data);
-    });
+    // Axios.post(
+    //   url,
+    //   {
+    //     name: data.name,
+    //     description: data.description,
+    //     completion_date: data.completion_date,
+    //     status: data.status,
+    //   },
+    //   {
+    //     headers: {
+    //       "Access-Control-Allow-Origin": "*",
+    //       "Content-Type": "application/json",
+    //     },
+    //   }
+    // ).then((res) => {
+    //   console.log(res.data);
+    // });
   }
 
   function handle(e) {
