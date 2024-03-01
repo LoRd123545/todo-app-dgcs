@@ -46,6 +46,7 @@ const sessionInit = {
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
+  // store: sessionStore,
 };
 app.use(session(sessionInit));
 
