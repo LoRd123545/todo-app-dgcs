@@ -9,9 +9,9 @@ export default defineConfig({
     strictPort: true,
   },
   server: {
-    proxy: {
-      '/tasks': 'http://host.docker.internal:3000/'
-    },
+    // proxy: {
+    //   '/tasks': 'http://host.docker.internal:3000/'
+    // },
     watch: {
       usePolling: true
     },
