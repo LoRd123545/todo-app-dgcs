@@ -5,7 +5,6 @@ import emitter from '../middleware/events.js';
 
 const find = async (req, res, next) => {
   // data validation
-
   const sortBy = {
     favourite: 'desc'
   };
