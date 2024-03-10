@@ -1,25 +1,49 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Task from "../components/Task";
+import useAuth from "../hooks/useAuth";
+import axios from "axios";
 
 function TaskIndex() {
   //showing tasks is working - these are tasks made for tests
   const [tasks, setTasks] = useState([
     {
-      id: "1",
-      name: "jeden",
-      status: "not-started",
-      completion_date: "12-02-2024",
-    },
-    {
-      id: "2",
-      name: "dwa",
-      status: "in-progress",
-      completion_date: "15-03-2024",
+      id: "dsd",
+      name: "dsd",
+      completion_date: "12-12-2008",
+      status: "gg",
     },
   ]);
+  const [isLoggedIn, token] = useAuth();
 
-  return (
+  axios.defaults.headers.get["Content-Type"] = "application/json";
+  axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
+
+  axios
+    .get("http://localhost:3000/tasks", {
+      method: "get",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      withCredentials: false,
+    })
+    .then((res) => {
+      console.log(res.data);
+      setTasks(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  // fetch(`http://backend:3000/tasks`, {
+  //   mode: "cors",
+  //   method: "GET",
+  // })
+  //   .then((response) => response.json())
+  //   .then((json) => setTasks(json))
+  //   .catch((err) => console.error(err));
+
+  return isLoggedIn ? (
     <>
       <div className="container">
         <h1 className="heading">Twoje zadania</h1>
@@ -51,6 +75,8 @@ function TaskIndex() {
         })}
       </div>
     </>
+  ) : (
+    <div>Log in</div>
   );
 }
 

@@ -62,7 +62,7 @@ const kcAdminClient = keycloak.init();
 
 /* general config */
 app.use(cors({
-  origin: 'http://localhost:4000'
+  origin: '*'//'http://frontend:8080'
 }));
 app.use(express.json());
 app.use(express.urlencoded({

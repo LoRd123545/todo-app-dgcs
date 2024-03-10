@@ -28,19 +28,14 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<RootLayout />}>
-        <>
-          <Route index element={<Root />} />
-          <Route path="faq" element={<Faq />} />
-          <Route path="about" element={<About />} />
-        </>
+        <Route index element={<Root />} />
+        <Route path="faq" element={<Faq />} />
+        <Route path="about" element={<About />} />
         {/* tasks */}
-        <Route path="tasks" element={<TaskIndex />}>
-          <Route path="add" element={<TaskAdd />} />
-          <Route path=":id/edit" element={<TaskEdit />} />
-        </Route>
-        <>
-          <Route path="*" element={<PageNotFound />} />
-        </>
+        <Route path="tasks" element={<TaskIndex />} />
+        <Route path="tasks/add" element={<TaskAdd />} />
+        <Route path="tasks/:id/edit" element={<TaskEdit />} />
+        <Route path="*" element={<PageNotFound />} />
       </Route>
     </>
   )
