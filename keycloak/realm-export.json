@@ -3,7 +3,7 @@
   "realm": "demo",
   "displayName": "Todo-app",
   "displayNameHtml": "",
-  "notBefore": 0,
+  "notBefore": 1709985186,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
   "refreshTokenMaxReuse": 0,
@@ -585,6 +585,22 @@
   "webAuthnPolicyPasswordlessExtraOrigins": [],
   "users": [
     {
+      "id": "9f09df31-acc6-48af-93d6-bf8a8bd42714",
+      "createdTimestamp": 1709739418708,
+      "username": "service-account-backend",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "serviceAccountClientId": "backend",
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-demo"
+      ],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
       "id": "38796431-ae4c-42bb-a709-676fc59dcaf7",
       "createdTimestamp": 1706909180294,
       "username": "service-account-client1",
@@ -767,35 +783,38 @@
       "clientId": "backend",
       "name": "nodejs-backend",
       "description": "node js backend",
-      "rootUrl": "http://localhost:3000",
-      "adminUrl": "http://localhost:3000",
-      "baseUrl": "/",
+      "rootUrl": "",
+      "adminUrl": "",
+      "baseUrl": "",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "/"
+        "http://localhost:3000/*"
       ],
       "webOrigins": [
-        "http://localhost:3000"
+        "",
+        "http://backend:3000",
+        "*",
+        "http://frontend:8080"
       ],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
       "publicClient": false,
       "frontchannelLogout": true,
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "client.secret.creation.time": "1709329201",
+        "client.secret.creation.time": "1709483393",
         "backchannel.logout.session.required": "true",
-        "post.logout.redirect.uris": "/",
+        "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -803,11 +822,58 @@
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": true,
       "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "1c9a3413-9e28-4e2a-ba42-c8a35f200e43",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "client_id",
+            "introspection.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "client_id",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "b5f6bbf4-cabc-4c8a-b87b-93211e53b3a7",
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientHost",
+            "introspection.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "5adab0bf-12b3-409e-ab45-8488602e208f",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientAddress",
+            "introspection.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String"
+          }
+        }
+      ],
       "defaultClientScopes": [
         "web-origins",
         "acr",
         "profile",
-        "good-service",
+        "todo-app",
         "email"
       ],
       "optionalClientScopes": [
@@ -873,8 +939,8 @@
         "http://localhost:3000/*"
       ],
       "webOrigins": [
-        "",
-        "*"
+        "http://localhost:3000",
+        "http://localhost:4000"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -952,7 +1018,6 @@
         "web-origins",
         "acr",
         "profile",
-        "good-service",
         "email"
       ],
       "optionalClientScopes": [
@@ -967,18 +1032,20 @@
       "clientId": "frontend",
       "name": "react-frontend",
       "description": "react frontend",
-      "rootUrl": "http://localhost:4000",
-      "adminUrl": "http://localhost:4000",
-      "baseUrl": "/",
+      "rootUrl": "",
+      "adminUrl": "",
+      "baseUrl": "",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/"
+        "http://localhost:4000/*"
       ],
       "webOrigins": [
-        "http://localhost:4000"
+        "http://backend:3000",
+        "*",
+        "http://frontend:8080"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -992,9 +1059,10 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "post.logout.redirect.uris": "/",
-        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "display.on.consent.screen": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -1004,7 +1072,7 @@
         "web-origins",
         "acr",
         "profile",
-        "good-service",
+        "todo-app",
         "email"
       ],
       "optionalClientScopes": [
@@ -1275,34 +1343,6 @@
             "introspection.token.claim": "true",
             "access.token.claim": "true",
             "userinfo.token.claim": "true"
-          }
-        }
-      ]
-    },
-    {
-      "id": "7235bae4-5a40-487a-8713-8321bab71c4c",
-      "name": "good-service",
-      "description": "",
-      "protocol": "openid-connect",
-      "attributes": {
-        "include.in.token.scope": "true",
-        "display.on.consent.screen": "true",
-        "gui.order": "",
-        "consent.screen.text": ""
-      },
-      "protocolMappers": [
-        {
-          "id": "fe8fc966-3686-4e3d-b52e-d7b614788f04",
-          "name": "my-app-audience",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-audience-mapper",
-          "consentRequired": false,
-          "config": {
-            "included.client.audience": "client1",
-            "id.token.claim": "false",
-            "access.token.claim": "true",
-            "introspection.token.claim": "true",
-            "userinfo.token.claim": "false"
           }
         }
       ]
@@ -1658,6 +1698,20 @@
             "jsonType.label": "String",
             "usermodel.clientRoleMapping.clientId": "frontend"
           }
+        },
+        {
+          "id": "840f7806-991b-4eb3-91a9-d565f5456a0b",
+          "name": "test",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "frontend",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "introspection.token.claim": "true",
+            "userinfo.token.claim": "false"
+          }
         }
       ]
     },
@@ -1723,8 +1777,8 @@
     "email",
     "web-origins",
     "acr",
-    "good-service",
-    "roles"
+    "roles",
+    "todo-app"
   ],
   "defaultOptionalClientScopes": [
     "offline_access",
