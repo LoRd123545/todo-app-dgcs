@@ -12,18 +12,18 @@ function Task(props) {
         <br />
         <span className="task__text">{props.status}</span>
         <span className="task__text">{props.completion_date}</span>
-      </div>
-      <div className="task__icons">
-        <button className="task__button--decoration-none">
-          <Link to={`${props.id}/edit`}>
-            <FontAwesomeIcon icon={faPenToSquare} />
-          </Link>
-        </button>
-        <form action="/tasks/<%= tasks[i].id %>?_method=DELETE" method="post">
+        <div className="task__icons">
           <button className="task__button--decoration-none">
-            <FontAwesomeIcon icon={faTrash} />
+            <Link to={`${props.id}/edit`}>
+              <FontAwesomeIcon icon={faPenToSquare} />
+            </Link>
           </button>
-        </form>
+          <button className="task__button--decoration-none">
+            <Link to={`${props.id}/delete`}>
+              <FontAwesomeIcon icon={faTrash} />
+            </Link>
+          </button>
+        </div>
       </div>
     </>
   );

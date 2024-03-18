@@ -4,6 +4,7 @@ import Task from "../components/Task";
 import axios from "axios";
 import useAuth from "../useAuth";
 import { useKeycloak } from "@react-keycloak/web";
+import keycloak from "../keycloak.js";
 
 function TaskIndex() {
   const [tasks, setTasks] = useState([]);
@@ -11,12 +12,17 @@ function TaskIndex() {
   //axios.defaults.headers.get["Content-Type"] = "application/json";
   //axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
 
-  //const [isLogin, token] = useAuth();
-  const [initialized, keycloak] = useKeycloak();
-  const token = keycloak.token;
+  const [isLogin, token] = useAuth();
+
+  keycloak.onTokenExpired = () => {
+    console.log("Token expired!");
+    keycloak.updateToken(30);
+  };
+  //const [initialized, keycloak] = useKeycloak();
+  //const token = keycloak.token;
 
   useEffect(() => {
-    console.log(token);
+    //console.log(token);
     axios
       .get("http://localhost:3000/tasks", {
         method: "get",
@@ -26,7 +32,6 @@ function TaskIndex() {
         withCredentials: false,
       })
       .then((res) => {
-        console.log(res);
         setTasks(res.data);
       })
       .catch((err) => {
@@ -65,11 +70,11 @@ function TaskIndex() {
         {tasks.map((task) => {
           return (
             <Task
-              key={task.id}
-              id={task.id}
+              key={task._id}
+              id={task._id}
               name={task.name}
               status={task.status}
-              completion_date={task.completion_date}
+              completion_date={task.dueDate}
             />
           );
         })}

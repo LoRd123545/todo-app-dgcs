@@ -11,10 +11,10 @@ import keycloak from "./keycloak.js";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <ReactKeycloakProvider authClient={keycloak}>
+      {/* <ReactKeycloakProvider authClient={keycloak}>
         <App />
-      </ReactKeycloakProvider>
-      {/* <App /> */}
+      </ReactKeycloakProvider> */}
+      <App />
     </BrowserRouter>
   </React.StrictMode>
 );

@@ -1,46 +1,54 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import Keycloak from "keycloak-js";
+import React, { useState, useEffect, useRef } from "react";
+import client from "./keycloak.js";
 
-const client = new Keycloak("/keycloak.json");
+//const client = new Keycloak("/keycloak.json");
+localStorage.setItem("keycloakInitialized", false);
 
 const useAuth = () => {
-  const isRun = useRef(false);
+  //const isRun = useRef(0);
   const [token, setToken] = useState(null);
   const [isLogin, setLogin] = useState(false);
 
-  const init = useCallback(client.init);
-
   useEffect(() => {
-    console.log(isRun.current);
+    //console.log(isRun.current);
 
-    if (isRun.current) return;
+    //if (isRun.current > 0) return;
+    //console.log(typeof localStorage.getItem("keycloakInitialized") === "true");
+    //debugger;
+    if (localStorage.getItem("keycloakInitialized") === "true") return;
 
-    isRun.current = true;
+    localStorage.setItem("keycloakInitialized", true);
+    //isRun.current++;
 
-    console.log("inside function");
+    // async () => {
+    //   try {
+    //     const res = await client.init({
+    //       onLoad: "login-required",
+    //     });
 
-    // try {
-    //   const res = client.init({
-    //     onLoad: "login-required",
-    //   });
+    //     setLogin(res);
+    //     setToken(client.token);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // };
+    //console.log("run");
+    client
+      .init({
+        onLoad: "login-required",
+      })
+      .then((res) => {
+        setLogin(res);
+        setToken(client.token);
+        //console.log("successfully initialized keycloak!");
+      });
 
-    //   setLogin(res);
-    //   setToken(client.res);
-    // } catch (err) {
-    //   console.log(err);
-    // }
-    init({
-      onLoad: "check-sso",
-    }).then((res) => {
-      setLogin(res);
-      setToken(client.token);
-    });
-  }, [token]);
+    return () => {
+      console.log("destroyed");
+    };
+  }, []);
 
-  console.log("outside function");
-  //console.log(client.token);
-
-  return [isLogin, token];
+  return [isLogin, client.token];
 };
 
 export default useAuth;

@@ -7,9 +7,7 @@ import {
   //Router,
 } from "react-router-dom";
 import io from "socket.io-client";
-import { useEffect, useState, useRef } from "react";
-import { ReactKeycloakProvider } from "@react-keycloak/web";
-import Keycloak from "keycloak-js";
+import { useEffect } from "react";
 
 // routes
 import Root from "./routes/Root";
@@ -19,6 +17,8 @@ import PageNotFound from "./routes/PageNotFound.jsx";
 import TaskIndex from "./routes/TaskIndex.jsx";
 import TaskAdd from "./routes/TaskAdd.jsx";
 import TaskEdit from "./routes/TaskEdit.jsx";
+import TaskView from "./routes/TaskView.jsx";
+import TaskDelete from "./routes/TaskDelete.jsx";
 
 // layouts
 import RootLayout from "./layouts/RootLayout.jsx";
@@ -26,8 +26,6 @@ import TasksLayout from "./layouts/TasksLayout.jsx";
 
 // styles
 import "../public/stylesheets/main.css";
-
-import useAuth from "./useAuth.jsx";
 
 const socket = io("http://localhost:3000");
 
@@ -47,8 +45,6 @@ const socket = io("http://localhost:3000");
 //   )
 // );
 
-//const keycloak = new Keycloak("/keycloak.json");
-
 function App() {
   // for tests
   useEffect(() => {
@@ -62,22 +58,6 @@ function App() {
     });
   }, [socket]);
 
-  // const keycloak = new Keycloak("/keycloak.json");
-
-  // const initialized = useRef(false);
-
-  // useEffect(() => {
-  //   if (initialized.current) {
-  //     return;
-  //   }
-
-  //   initialized.current = true;
-
-  //   keycloak.init({
-  //     onLoad: "login-required",
-  //   });
-  // }, []);
-
   return (
     <>
       {/* <RouterProvider router={router} /> */}
@@ -88,8 +68,10 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="tasks" element={<TasksLayout />}>
             <Route index element={<TaskIndex />}></Route>
+            <Route path=":id" element={<TaskView />}></Route>
             <Route path="add" element={<TaskAdd />}></Route>
             <Route path=":id/edit" element={<TaskEdit />}></Route>
+            <Route path=":id/delete" element={<TaskDelete />}></Route>
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Route>
