@@ -3,7 +3,7 @@
   "realm": "demo",
   "displayName": "Todo-app",
   "displayNameHtml": "",
-  "notBefore": 1709985186,
+  "notBefore": 1710778891,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
   "refreshTokenMaxReuse": 0,
@@ -1695,6 +1695,7 @@
             "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
+            "claim.name": "roles",
             "jsonType.label": "String",
             "usermodel.clientRoleMapping.clientId": "frontend"
           }
@@ -1706,7 +1707,7 @@
           "protocolMapper": "oidc-audience-mapper",
           "consentRequired": false,
           "config": {
-            "included.client.audience": "frontend",
+            "included.client.audience": "backend",
             "id.token.claim": "false",
             "access.token.claim": "true",
             "introspection.token.claim": "true",
