@@ -28,38 +28,24 @@ delete all tasks: `DELETE /tasks`\
 `:id` is dynamic parameter that stands for task id (you can find out id's of all tasks by fetching data using first route)\
 
 # KEYCLOAK
-keycloak container is running on [host.docker.internal:9000](http://host.docker.internal:9000), so preprend all url's listed below with it.\
-\
-token: `POST /realms/:realm/protocol/openid-connect/token`\
-\
-`:realm` parameter stands for keycloak realm in which app is running which name is `demo`\
-In order to obtain access token you need to pass following data in request body:\
-\
-`client_id` - `client1`\
-`client_secret` - in keycloak.json file\
-`grant_type` - `password`\
-`username` - `admin`\
-`password` - `admin`\
-
-make sure to include `Content-type: application/x-www-form-urlencoded` header in token request.
-
-for sending http requests I recommend postman
+keycloak container is running on [host.docker.internal:9000](http://host.docker.internal:9000)
 
 # SETUP
 
-## REQUIREMENTS:
+## REQUIREMENTS
 In order to use this app you need to have docker installed on your host machine.
 
 ## RUN
 1. run `docker compose up -d` in terminal in project root directory
 2. open keycloak in browser on [localhost:9000](http://localhost:9000)
-3. head in to `users` tab
-4. if user with name `admin` exists that's it else follow steps below
-5. click `add user`
-6. fill the `username` field with value `admin`, then scroll down and click `create`
-7. head in to `credentials` tab, click `set password` and set password to be admin and switch of `temporary` option and click save
-8. go to `role mapping` tab, click assign role, then from the dropdown select `filter by clients`
-9. in the search field type admin and click enter
-10. select `admin` role and click `asign`
-11. access app in browser on [localhost:3000](http://localhost:3000)
-12. when you're requested to log in, do it with username and password from previous steps
+3. go to `demo` realm
+4. head in to `users` tab
+5. if user with name `admin` exists that's it else follow steps below
+6. click `add user`
+7. fill the `username` field with value `admin`, then scroll down and click `create`
+8. head in to `credentials` tab, click `set password` and set password to be admin and switch of `temporary` option and click save
+9. go to `role mapping` tab, click assign role, then from the dropdown select `filter by clients`
+10. in the search field type admin and click enter
+11. select `todo-app-admin` role and click `assign`
+12. access app in browser on [localhost:3000](http://localhost:3000)
+13. when you're requested to log in, do it with username and password from previous steps
