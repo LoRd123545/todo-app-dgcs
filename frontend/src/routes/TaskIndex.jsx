@@ -1,49 +1,48 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Task from "../components/Task";
-import useAuth from "../hooks/useAuth";
 import axios from "axios";
+import useAuth from "../useAuth";
+import { useKeycloak } from "@react-keycloak/web";
 
 function TaskIndex() {
-  //showing tasks is working - these are tasks made for tests
-  const [tasks, setTasks] = useState([
-    {
-      id: "dsd",
-      name: "dsd",
-      completion_date: "12-12-2008",
-      status: "gg",
-    },
-  ]);
-  const [isLoggedIn, token] = useAuth();
+  const [tasks, setTasks] = useState([]);
 
-  axios.defaults.headers.get["Content-Type"] = "application/json";
-  axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
+  //axios.defaults.headers.get["Content-Type"] = "application/json";
+  //axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
 
-  axios
-    .get("http://localhost:3000/tasks", {
-      method: "get",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-      withCredentials: false,
-    })
-    .then((res) => {
-      console.log(res.data);
-      setTasks(res.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  //const [isLogin, token] = useAuth();
+  const [initialized, keycloak] = useKeycloak();
+  const token = keycloak.token;
 
-  // fetch(`http://backend:3000/tasks`, {
-  //   mode: "cors",
-  //   method: "GET",
-  // })
-  //   .then((response) => response.json())
-  //   .then((json) => setTasks(json))
-  //   .catch((err) => console.error(err));
+  useEffect(() => {
+    console.log(token);
+    axios
+      .get("http://localhost:3000/tasks", {
+        method: "get",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        withCredentials: false,
+      })
+      .then((res) => {
+        console.log(res);
+        setTasks(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [token]);
 
-  return isLoggedIn ? (
+  // if (!initialized) {
+  //   return <p>Loading...</p>;
+  // }
+
+  // if (!keycloak.authenticated) {
+  //   return <p>Authenticating...</p>;
+  // }
+
+  return (
     <>
       <div className="container">
         <h1 className="heading">Twoje zadania</h1>
@@ -66,6 +65,7 @@ function TaskIndex() {
         {tasks.map((task) => {
           return (
             <Task
+              key={task.id}
               id={task.id}
               name={task.name}
               status={task.status}
@@ -75,8 +75,6 @@ function TaskIndex() {
         })}
       </div>
     </>
-  ) : (
-    <div>Log in</div>
   );
 }
 

@@ -1,13 +1,17 @@
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
+  //createBrowserRouter,
+  //createRoutesFromElements,
   Route,
-  RouterProvider,
+  //RouterProvider,
   Routes,
-  Router,
+  //Router,
 } from "react-router-dom";
-import "../public/stylesheets/main.css";
+import io from "socket.io-client";
+import { useEffect, useState, useRef } from "react";
+import { ReactKeycloakProvider } from "@react-keycloak/web";
+import Keycloak from "keycloak-js";
 
+// routes
 import Root from "./routes/Root";
 import Faq from "./routes/Faq";
 import About from "./routes/About";
@@ -16,30 +20,34 @@ import TaskIndex from "./routes/TaskIndex.jsx";
 import TaskAdd from "./routes/TaskAdd.jsx";
 import TaskEdit from "./routes/TaskEdit.jsx";
 
-//Layouts
+// layouts
 import RootLayout from "./layouts/RootLayout.jsx";
 import TasksLayout from "./layouts/TasksLayout.jsx";
-import io from "socket.io-client";
-import { useEffect } from "react";
+
+// styles
+import "../public/stylesheets/main.css";
+
+import useAuth from "./useAuth.jsx";
 
 const socket = io("http://localhost:3000");
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <>
-      <Route path="/" element={<RootLayout />}>
-        <Route index element={<Root />} />
-        <Route path="faq" element={<Faq />} />
-        <Route path="about" element={<About />} />
-        {/* tasks */}
-        <Route path="tasks" element={<TaskIndex />} />
-        <Route path="tasks/add" element={<TaskAdd />} />
-        <Route path="tasks/:id/edit" element={<TaskEdit />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Route>
-    </>
-  )
-);
+// const router = createBrowserRouter(
+//   createRoutesFromElements(
+//     <Route path="/" element={<RootLayout />}>
+//       <Route index element={<Root />} />
+//       <Route path="faq" element={<Faq />} />
+//       <Route path="about" element={<About />} />
+//       <Route path="tasks">
+//         <Route index element={TaskIndex}></Route>
+//         <Route path="add" element={TaskAdd}></Route>
+//         <Route path=":id/edit" element={TaskEdit}></Route>
+//       </Route>
+//       <Route path="*" element={<PageNotFound />} />
+//     </Route>
+//   )
+// );
+
+//const keycloak = new Keycloak("/keycloak.json");
 
 function App() {
   // for tests
@@ -54,9 +62,38 @@ function App() {
     });
   }, [socket]);
 
+  // const keycloak = new Keycloak("/keycloak.json");
+
+  // const initialized = useRef(false);
+
+  // useEffect(() => {
+  //   if (initialized.current) {
+  //     return;
+  //   }
+
+  //   initialized.current = true;
+
+  //   keycloak.init({
+  //     onLoad: "login-required",
+  //   });
+  // }, []);
+
   return (
     <>
-      <RouterProvider router={router} />
+      {/* <RouterProvider router={router} /> */}
+      <Routes>
+        <Route path="/" element={<RootLayout />}>
+          <Route index element={<Root />} />
+          <Route path="faq" element={<Faq />} />
+          <Route path="about" element={<About />} />
+          <Route path="tasks" element={<TasksLayout />}>
+            <Route index element={<TaskIndex />}></Route>
+            <Route path="add" element={<TaskAdd />}></Route>
+            <Route path=":id/edit" element={<TaskEdit />}></Route>
+          </Route>
+          <Route path="*" element={<PageNotFound />} />
+        </Route>
+      </Routes>
     </>
   );
 }

@@ -1,5 +1,8 @@
 import { Outlet } from "react-router-dom";
+import { useKeycloak } from "keycloak-react-web";
 
-export default function TasksLayout() {
-  return <Outlet></Outlet>;
+function TasksLayout() {
+  return <Outlet />;
 }
+
+export default TasksLayout;
