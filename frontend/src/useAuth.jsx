@@ -6,7 +6,7 @@ localStorage.setItem("keycloakInitialized", false);
 
 const useAuth = () => {
   //const isRun = useRef(0);
-  const [token, setToken] = useState(null);
+  //const [token, setToken] = useState(null);
   const [isLogin, setLogin] = useState(false);
 
   useEffect(() => {
@@ -39,13 +39,16 @@ const useAuth = () => {
       })
       .then((res) => {
         setLogin(res);
-        setToken(client.token);
+        //setToken(client.token);
         //console.log("successfully initialized keycloak!");
+      })
+      .catch((err) => {
+        console.error("keycloak initialization error: " + err);
       });
 
-    return () => {
-      console.log("destroyed");
-    };
+    // return () => {
+    //   console.log("destroyed");
+    // };
   }, []);
 
   return [isLogin, client.token];

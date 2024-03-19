@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Task from "../components/Task";
 import axios from "axios";
 import useAuth from "../useAuth";
-import { useKeycloak } from "@react-keycloak/web";
+//import { useKeycloak } from "@react-keycloak/web";
 import keycloak from "../keycloak.js";
 
 function TaskIndex() {
@@ -13,11 +13,8 @@ function TaskIndex() {
   //axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
 
   const [isLogin, token] = useAuth();
+  const authenticated = keycloak.authenticated;
 
-  keycloak.onTokenExpired = () => {
-    console.log("Token expired!");
-    keycloak.updateToken(30);
-  };
   //const [initialized, keycloak] = useKeycloak();
   //const token = keycloak.token;
 
@@ -25,7 +22,6 @@ function TaskIndex() {
     //console.log(token);
     axios
       .get("http://localhost:3000/tasks", {
-        method: "get",
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -47,7 +43,7 @@ function TaskIndex() {
   //   return <p>Authenticating...</p>;
   // }
 
-  return (
+  return authenticated ? (
     <>
       <div className="container">
         <h1 className="heading">Twoje zadania</h1>
@@ -80,6 +76,8 @@ function TaskIndex() {
         })}
       </div>
     </>
+  ) : (
+    <div>Loading...</div>
   );
 }
 

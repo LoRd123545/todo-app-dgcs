@@ -1,34 +1,34 @@
 import { useState } from "react";
-import Axios from "axios";
+import axios from "axios";
+import useAuth from "../useAuth";
+import { useNavigate } from "react-router-dom";
 
 function TaskAdd() {
+  const [isLogin, token] = useAuth();
+  const navigate = useNavigate();
+
   const url = "http://localhost:3000/tasks/";
   const [data, setData] = useState({
     name: "",
     description: "",
-    completion_date: "",
+    dueDate: "",
     status: "",
   });
 
   function submit(e) {
     e.preventDefault();
-    // Axios.post(
-    //   url,
-    //   {
-    //     name: data.name,
-    //     description: data.description,
-    //     completion_date: data.completion_date,
-    //     status: data.status,
-    //   },
-    //   {
-    //     headers: {
-    //       "Access-Control-Allow-Origin": "*",
-    //       "Content-Type": "application/json",
-    //     },
-    //   }
-    // ).then((res) => {
-    //   console.log(res.data);
-    // });
+    axios
+      .post("http://localhost:3000/tasks/", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        navigate("/tasks");
+      })
+      .catch((err) => {
+        console.error("error while adding task: " + err);
+      });
   }
 
   function handle(e) {
@@ -81,10 +81,10 @@ function TaskAdd() {
               <div>
                 <input
                   type="datetime-local"
-                  name="completion_date"
+                  name="dueDate"
                   step="1"
-                  id="completion_date"
-                  value={data.completion_date}
+                  id="dueDate"
+                  value={data.dueDate}
                   onChange={(e) => handle(e)}
                 />
               </div>

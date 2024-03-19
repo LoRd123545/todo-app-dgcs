@@ -11,6 +11,7 @@ import { useEffect } from "react";
 
 // routes
 import Root from "./routes/Root";
+import Logout from "./routes/Logout";
 import Faq from "./routes/Faq";
 import About from "./routes/About";
 import PageNotFound from "./routes/PageNotFound.jsx";
@@ -66,6 +67,7 @@ function App() {
           <Route index element={<Root />} />
           <Route path="faq" element={<Faq />} />
           <Route path="about" element={<About />} />
+          <Route path="logout" element={<Logout />} />
           <Route path="tasks" element={<TasksLayout />}>
             <Route index element={<TaskIndex />}></Route>
             <Route path=":id" element={<TaskView />}></Route>
