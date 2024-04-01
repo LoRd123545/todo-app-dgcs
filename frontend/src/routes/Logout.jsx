@@ -1,20 +1,15 @@
 import { useEffect } from "react";
-import keycloak from "../keycloak.js";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import useAuth from "../useAuth";
 
 function Logout() {
-  const navigate = useNavigate();
+  const [authenticated, keycloak] = useAuth();
 
   useEffect(() => {
-    if (keycloak.authenticated) {
-      keycloak.logout();
-      navigate("/");
-    }
+    if (keycloak.authenticated === true) keycloak.logout();
+  }, [keycloak]);
 
-    navigate("../");
-  }, []);
-
-  return <></>;
+  return <Navigate to="/" />;
 }
 
 export default Logout;

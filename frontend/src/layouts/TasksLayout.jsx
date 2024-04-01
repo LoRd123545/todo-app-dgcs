@@ -1,17 +1,20 @@
-import { Outlet } from "react-router-dom";
-import { useKeycloak } from "keycloak-react-web";
-import keycloak from "../keycloak.js";
+import { Outlet, Navigate } from "react-router-dom";
 import useAuth from "../useAuth.jsx";
 
 function TasksLayout() {
-  useAuth();
+  const [authenticated, keycloak] = useAuth();
 
   keycloak.onTokenExpired = () => {
     console.log("Token expired!");
     keycloak.updateToken(30);
   };
 
-  return <Outlet />;
+  return (
+    <>
+      {/* <Navigate to="/tasks" /> */}
+      <Outlet />
+    </>
+  );
 }
 
 export default TasksLayout;

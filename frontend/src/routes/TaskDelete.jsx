@@ -1,12 +1,14 @@
 import useAuth from "../useAuth";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function TaskDelete() {
-  const [isLogin, token] = useAuth();
+  const [tasks, setTasks] = useState();
+  const [isLogin, keycloak] = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
+  const token = keycloak.token;
 
   useEffect(() => {
     axios
@@ -15,13 +17,15 @@ function TaskDelete() {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => {})
+      .then((res) => {
+        setTasks(res.data);
+      })
       .catch((err) => {
         console.error("error while deleting task: " + err);
       });
 
     navigate("/tasks");
-  }, [token]);
+  }, [token, tasks]);
 
   return <></>;
 }

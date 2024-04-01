@@ -3,23 +3,14 @@ import { Link } from "react-router-dom";
 import Task from "../components/Task";
 import axios from "axios";
 import useAuth from "../useAuth";
-//import { useKeycloak } from "@react-keycloak/web";
-import keycloak from "../keycloak.js";
 
 function TaskIndex() {
   const [tasks, setTasks] = useState([]);
 
-  //axios.defaults.headers.get["Content-Type"] = "application/json";
-  //axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
-
-  const [isLogin, token] = useAuth();
-  const authenticated = keycloak.authenticated;
-
-  //const [initialized, keycloak] = useKeycloak();
-  //const token = keycloak.token;
+  const [authenticated, keycloak] = useAuth();
+  const token = keycloak.token;
 
   useEffect(() => {
-    //console.log(token);
     axios
       .get("http://localhost:3000/tasks", {
         headers: {
@@ -28,20 +19,18 @@ function TaskIndex() {
         withCredentials: false,
       })
       .then((res) => {
-        setTasks(res.data);
+        if (res.status === 200) {
+          setTasks(res.data);
+        } else {
+          console.log("unauthorized");
+          setTasks([]);
+        }
+        console.log(res.status);
       })
       .catch((err) => {
-        console.error(err);
+        console.error("err: " + err);
       });
   }, [token]);
-
-  // if (!initialized) {
-  //   return <p>Loading...</p>;
-  // }
-
-  // if (!keycloak.authenticated) {
-  //   return <p>Authenticating...</p>;
-  // }
 
   return authenticated ? (
     <>

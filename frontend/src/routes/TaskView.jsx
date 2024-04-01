@@ -5,9 +5,10 @@ import Task from "../components/Task";
 import { useParams } from "react-router-dom";
 
 function TaskView() {
-  const [isLogin, token] = useAuth();
+  const [authenticated, keycloak] = useAuth();
   const [task, setTask] = useState({});
   const { id } = useParams();
+  const token = keycloak.token;
 
   useEffect(() => {
     axios
@@ -23,7 +24,7 @@ function TaskView() {
       .catch((err) => {
         console.error("error while fetching single task: " + err);
       });
-  }, [token]);
+  }, [token, task]);
 
   return (
     <Task

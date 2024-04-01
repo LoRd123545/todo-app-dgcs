@@ -4,8 +4,9 @@ import useAuth from "../useAuth";
 import { useNavigate } from "react-router-dom";
 
 function TaskAdd() {
-  const [isLogin, token] = useAuth();
+  const [isLogin, keycloak] = useAuth();
   const navigate = useNavigate();
+  const token = keycloak.token;
 
   const url = "http://localhost:3000/tasks/";
   const [data, setData] = useState({

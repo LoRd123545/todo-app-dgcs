@@ -10,6 +10,7 @@ import session from 'express-session';
 import Kc from 'keycloak-connect';
 import { Server } from 'socket.io';
 import mongoose from 'mongoose';
+import MongoStore from 'connect-mongo'
 
 /* project modules */
 import emitter from './middleware/events.js';
@@ -29,8 +30,8 @@ const {
 } = process.env;
 
 /* handy variables */
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 const app = express();
 const server = http.createServer(app);
 const port = PORT || 3000;
@@ -46,13 +47,14 @@ const sessionInit = {
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-  // store: sessionStore,
+  store: MongoStore.create({
+    mongoUrl: process.env.CONNECTION_URI
+  }),
 };
 app.use(session(sessionInit));
 
 /* keycloak config */
 const kc = new Kc({
-  store: sessionStore
 });
 app.use(kc.middleware({
   logout: '/logout'
@@ -77,53 +79,74 @@ app.use('/admin', kc.protect('admin'), adminRouter());
 app.use('*', notFoundRouter());
 
 io.on('connection', socket => {
-  console.log(`connected ${socket.id}`);
-  emitter.on('task-expired', async (data) => {
-    socket.emit('task-expired', {
-      taskID: data.taskID,
-      username: data.username
-    });
-  });
+  console.log(`websocket: connected ${socket.id}`);
+  // emitter.on('task-expired', async (data) => {
+  //   socket.emit('task-expired', {
+  //     taskID: data.taskID,
+  //     username: data.username
+  //   });
+  // });
   socket.on('disconnect', () => {
-    console.log(`disconnected ${socket.id}`);
+    console.log(`websocket: disconnected ${socket.id}`);
   });
 });
 
+emitter.on('task-expired', (data) => {
+  console.log(data);
+  io/*.to(data.username)*/.emit('task-expired', data);
+});
+
+// connecting to mongodb
 mongoose.connect(process.env.CONNECTION_URI, {
   dbName: process.env.MYSQL_DATABASE,
 })
   .catch((err) => {
     console.error(err);
-    process.exit(1);
+    emitter.emit('error');
   });
 
 const db = mongoose.connection;
 
+// checking for errors
 db.on('error', (err) => {
   console.error(err);
-  process.exit(1);
 });
 
+// once opened
 db.once('open', () => {
   console.log('Connected to remote mongodb cluster🗃️');
 });
 
+// listening on specified port (for now 3000)
 server.listen(port, () => {
   console.log(`Alive on localhost:${port}🔥🔥🔥`);
 });
 
+// graceful shutdown
 const gracefulShutdown = () => {
+  console.log('Shutting down server...');
+  // disconnect all clients
+  io.disconnectSockets();
+  // close websocket connection
+  io.close((err) => {
+    console.error(err);
+  });
+  // force closing db connection
+  db.close(true)
+    .then(() => {
+      process.exit();
+    })
+    .catch(() => { })
+  // stop server from accepting new connections
   server.close(() => {
-    io.close();
-    db.close()
-      .then(() => {
-        process.exit();
-      })
-      .catch(() => { })
     console.log('server closed!');
   });
+  // close all remaining connections
+  server.closeAllConnections();
 };
 
+// situations when server should be shut down
 process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);
 process.on('SIGUSR2', gracefulShutdown);
+emitter.on('error', gracefulShutdown);

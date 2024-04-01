@@ -4,10 +4,11 @@ import {
   Route,
   //RouterProvider,
   Routes,
+  useNavigate,
   //Router,
 } from "react-router-dom";
 import io from "socket.io-client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // routes
 import Root from "./routes/Root";

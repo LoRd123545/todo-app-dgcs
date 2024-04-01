@@ -40,7 +40,7 @@ const add = async (req, res, next) => {
   const task = new Task({
     name: req.body.name,
     description: req.body.description,
-    dueDate: req.body.completion_date,
+    dueDate: req.body.dueDate,
     status: req.body.status,
     favourite: req.body.favourite,
     userID: accessToken.sub,
