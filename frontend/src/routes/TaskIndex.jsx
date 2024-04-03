@@ -1,38 +1,42 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Task from "../components/Task";
-import axios from "axios";
-import useAuth from "../useAuth";
+import { axiosIntance } from "../axios.js";
+//import useAuth from "../hooks/useAuth";
+import { useAuth } from "../AuthContext.jsx";
 
 function TaskIndex() {
   const [tasks, setTasks] = useState([]);
 
-  const [authenticated, keycloak] = useAuth();
-  const token = keycloak.token;
+  const [networkError, setNetworkError] = useState(false);
+  const keycloak = useAuth();
 
   useEffect(() => {
-    axios
+    axiosIntance
       .get("http://localhost:3000/tasks", {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + keycloak.token,
         },
         withCredentials: false,
       })
       .then((res) => {
         if (res.status === 200) {
           setTasks(res.data);
-        } else {
-          console.log("unauthorized");
-          setTasks([]);
         }
-        console.log(res.status);
       })
       .catch((err) => {
+        setNetworkError(true);
         console.error("err: " + err);
       });
-  }, [token]);
+  }, [keycloak]);
 
-  return authenticated ? (
+  if (networkError) {
+    return (
+      <div>It looks like our backend is not responding. Try again later!</div>
+    );
+  }
+
+  return keycloak.authenticated ? (
     <>
       <div className="container">
         <h1 className="heading">Twoje zadania</h1>

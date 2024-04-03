@@ -1,4 +1,4 @@
-import useAuth from "../useAuth";
+import useAuth from "../hooks/useAuth";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";

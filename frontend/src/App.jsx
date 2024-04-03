@@ -1,3 +1,4 @@
+// packages
 import {
   //createBrowserRouter,
   //createRoutesFromElements,
@@ -7,8 +8,13 @@ import {
   useNavigate,
   //Router,
 } from "react-router-dom";
-import io from "socket.io-client";
-import { useEffect, useState } from "react";
+
+// React
+import React, { useEffect, useState } from "react";
+
+// others
+import { socket } from "./socket.js";
+import { AuthProvider } from "./AuthContext.jsx";
 
 // routes
 import Root from "./routes/Root";
@@ -29,8 +35,6 @@ import TasksLayout from "./layouts/TasksLayout.jsx";
 // styles
 import "../public/stylesheets/main.css";
 
-const socket = io("http://localhost:3000");
-
 // const router = createBrowserRouter(
 //   createRoutesFromElements(
 //     <Route path="/" element={<RootLayout />}>
@@ -48,38 +52,56 @@ const socket = io("http://localhost:3000");
 // );
 
 function App() {
-  // for tests
+  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [fooEvents, setFooEvents] = useState([]);
+
   useEffect(() => {
-    socket.on("error", (err) => {
-      console.error(err);
-    });
-    socket.on("task-expired", (data) => {
-      console.log(
-        `${data.username}'s task with id = ${data.taskID} has just expired!`
-      );
-    });
-  }, [socket]);
+    const onConnect = () => {
+      setIsConnected(true);
+    };
+
+    const onDisconnect = () => {
+      setIsConnected(false);
+    };
+
+    const onFooEvent = (value) => {
+      setFooEvents((previous) => [...previous, value]);
+      console.log(value);
+    };
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+    socket.on("foo", onFooEvent);
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+      socket.off("foo", onFooEvent);
+    };
+  }, []);
 
   return (
-    <>
+    <div className="App">
       {/* <RouterProvider router={router} /> */}
-      <Routes>
-        <Route path="/" element={<RootLayout />}>
-          <Route index element={<Root />} />
-          <Route path="faq" element={<Faq />} />
-          <Route path="about" element={<About />} />
-          <Route path="logout" element={<Logout />} />
-          <Route path="tasks" element={<TasksLayout />}>
-            <Route index element={<TaskIndex />}></Route>
-            <Route path=":id" element={<TaskView />}></Route>
-            <Route path="add" element={<TaskAdd />}></Route>
-            <Route path=":id/edit" element={<TaskEdit />}></Route>
-            <Route path=":id/delete" element={<TaskDelete />}></Route>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<RootLayout />}>
+            <Route index element={<Root />} />
+            <Route path="faq" element={<Faq />} />
+            <Route path="about" element={<About />} />
+            <Route path="logout" element={<Logout />} />
+            <Route path="tasks" element={<TasksLayout />}>
+              <Route index element={<TaskIndex />}></Route>
+              <Route path=":id" element={<TaskView />}></Route>
+              <Route path="add" element={<TaskAdd />}></Route>
+              <Route path=":id/edit" element={<TaskEdit />}></Route>
+              <Route path=":id/delete" element={<TaskDelete />}></Route>
+            </Route>
+            <Route path="*" element={<PageNotFound />} />
           </Route>
-          <Route path="*" element={<PageNotFound />} />
-        </Route>
-      </Routes>
-    </>
+        </Routes>
+      </AuthProvider>
+    </div>
   );
 }
 

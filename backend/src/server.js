@@ -1,7 +1,6 @@
 /* node js modules */
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import http from 'node:http';
+import fs from 'node:fs/promises';
 
 /* packages */
 import cors from 'cors';
@@ -100,16 +99,36 @@ emitter.on('task-expired', (data) => {
 mongoose.connect(process.env.CONNECTION_URI, {
   dbName: process.env.MYSQL_DATABASE,
 })
-  .catch((err) => {
-    console.error(err);
-    emitter.emit('error');
+  .catch(async (err) => {
+    const newErr = {
+      name: err.name,
+      description: err.message,
+      info: `for more information check logs in directory ${process.env.PWD}/logs`,
+    };
+
+    await fs.writeFile(`${process.env.PWD}/logs/logs.txt`, JSON.stringify(err), {
+      flag: 'a',
+    });
+
+    console.error(newErr);
+    gracefulShutdown();
   });
 
 const db = mongoose.connection;
 
 // checking for errors
 db.on('error', (err) => {
-  console.error(err);
+  const newErr = {
+    name: err.name,
+    description: err.message,
+    cause: err.cause,
+    info: `for more information check logs in directory ${process.env.PWD}/logs`,
+  };
+
+
+
+  console.error(newErr);
+  gracefulShutdown();
 });
 
 // once opened
@@ -123,30 +142,32 @@ server.listen(port, () => {
 });
 
 // graceful shutdown
-const gracefulShutdown = () => {
+const gracefulShutdown = async () => {
   console.log('Shutting down server...');
+
   // disconnect all clients
   io.disconnectSockets();
+
   // close websocket connection
   io.close((err) => {
     console.error(err);
   });
+
   // force closing db connection
-  db.close(true)
-    .then(() => {
-      process.exit();
-    })
-    .catch(() => { })
+  await db.close(true);
+
   // stop server from accepting new connections
   server.close(() => {
     console.log('server closed!');
   });
   // close all remaining connections
   server.closeAllConnections();
+
+  // exit node js process
+  process.exit(0);
 };
 
 // situations when server should be shut down
 process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);
 process.on('SIGUSR2', gracefulShutdown);
-emitter.on('error', gracefulShutdown);
