@@ -53,6 +53,10 @@ services:
       - todo-keycloak-data:/opt/keycloak/data/
       # for importing keycloak realm
       - ./keycloak/:/opt/keycloak/data/import/
+      # for importing custom keycloak theme
+      - ./keycloak/themes/custom:/opt/keycloak/themes/custom
+      # disable theme cache
+      - ./keycloak/themes/disable-theme-cache.cli:/opt/jboss/startup-scripts/disable-theme-cache.cli
     healthcheck:
       test: timeout 10s bash -c ':> /dev/tcp/localhost/8080'
       interval: 1s
