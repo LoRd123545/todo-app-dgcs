@@ -1,7 +1,9 @@
 import schedule from 'node-schedule';
 
 import Task from '../models/task.js';
-import emitter from '../middleware/events.js';
+import emitter from '../events/events.js';
+
+const tasksExpiredJobs = new Map();
 
 const find = async (req, res, next) => {
   // data validation
@@ -59,12 +61,14 @@ const add = async (req, res, next) => {
   const currentDate = new Date();
 
   if (currentDate.getTime() < dueDate.getTime()) {
-    schedule.scheduleJob(task._id.toString(), dueDate, () => {
+    const job = schedule.scheduleJob(task._id.toString(), dueDate, () => {
       emitter.emit('task-expired', {
         username: accessToken.preferred_username,
         taskID: task._id
       });
     });
+
+    tasksExpiredJobs.set(task._id.toString(), job);
   }
 
   res.status(201).json({
@@ -84,6 +88,14 @@ const update = async (req, res, next) => {
       message: 'error occured while updating task'
     });
   }
+
+  const job = tasksExpiredJobs[req.params.id.toString()];
+
+  // not working
+  if (job !== undefined) {
+    job.reschedule(req.body.dueDate);
+    tasksExpiredJobs.set(req.params.id.toString(), job);
+  }
 }
 
 const remove = async (req, res, next) => {
@@ -97,6 +109,13 @@ const remove = async (req, res, next) => {
     res.status(500).json({
       message: 'error occured while deleting task'
     });
+  }
+
+  const job = tasksExpiredJobs[req.params.id.toString()];
+  tasksExpiredJobs.delete(tasksExpiredJobs[req.params.id.toString()]);
+
+  if (job !== undefined) {
+    job.cancel();
   }
 }
 
@@ -112,6 +131,12 @@ const removeAll = async (req, res, next) => {
       message: 'error occured while removing tasks'
     });
   }
+
+  Array.from(tasksExpiredJobs.values()).forEach((job) => {
+    job.cancel();
+  });
+
+  tasksExpiredJobs.clear();
 }
 
 export default {
