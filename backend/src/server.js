@@ -12,7 +12,7 @@ import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo'
 
 /* project modules */
-import emitter from './middleware/events.js';
+import emitter from './events/events.js';
 import keycloak from './config/kc-config.js';
 
 /* routers */
@@ -29,12 +29,9 @@ const {
 } = process.env;
 
 /* handy variables */
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
 const app = express();
 const server = http.createServer(app);
 const port = PORT || 3000;
-const sessionStore = new session.MemoryStore();
 const io = new Server(server, {
   cors: {
     origin: 'http://localhost:4000'
@@ -70,29 +67,25 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-/* app routes */
-app.use('/', homeRouter());
-app.use('/tasks', kc.protect(), tasksRouter());
-app.use('/account', kc.protect(), accountRouter());
-app.use('/admin', kc.protect('admin'), adminRouter());
-app.use('*', notFoundRouter());
-
+/* socket io */
 io.on('connection', socket => {
   console.log(`websocket: connected ${socket.id}`);
-  // emitter.on('task-expired', async (data) => {
-  //   socket.emit('task-expired', {
-  //     taskID: data.taskID,
-  //     username: data.username
-  //   });
-  // });
+
+  // client sends initial request with data about user
+  socket.on('user-data', (data) => {
+    socket.join(data.username);
+    console.log(data);
+  })
+
   socket.on('disconnect', () => {
     console.log(`websocket: disconnected ${socket.id}`);
   });
 });
 
 emitter.on('task-expired', (data) => {
+  console.log('task expired!');
   console.log(data);
-  io/*.to(data.username)*/.emit('task-expired', data);
+  io.to(data.username).emit('foo', data);
 });
 
 // connecting to mongodb
@@ -107,7 +100,7 @@ mongoose.connect(process.env.CONNECTION_URI, {
     };
 
     await fs.writeFile(`${process.env.PWD}/logs/logs.txt`, JSON.stringify(err), {
-      flag: 'a',
+      flag: 'a+',
     });
 
     console.error(newErr);
@@ -125,8 +118,6 @@ db.on('error', (err) => {
     info: `for more information check logs in directory ${process.env.PWD}/logs`,
   };
 
-
-
   console.error(newErr);
   gracefulShutdown();
 });
@@ -141,17 +132,24 @@ server.listen(port, () => {
   console.log(`Alive on localhost:${port}🔥🔥🔥`);
 });
 
+/* app routes */
+app.use('/', homeRouter());
+app.use('/tasks', kc.protect(), tasksRouter());
+app.use('/account', kc.protect(), accountRouter());
+app.use('/admin', kc.protect('admin'), adminRouter());
+app.use('*', notFoundRouter());
+
 // graceful shutdown
 const gracefulShutdown = async () => {
   console.log('Shutting down server...');
-
-  // disconnect all clients
-  io.disconnectSockets();
 
   // close websocket connection
   io.close((err) => {
     console.error(err);
   });
+
+  // disconnect all clients
+  io.disconnectSockets();
 
   // force closing db connection
   await db.close(true);
