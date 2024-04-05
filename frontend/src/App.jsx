@@ -58,10 +58,12 @@ function App() {
   useEffect(() => {
     const onConnect = () => {
       setIsConnected(true);
+      console.log(isConnected);
     };
 
     const onDisconnect = () => {
       setIsConnected(false);
+      console.log(isConnected);
     };
 
     const onFooEvent = (value) => {
