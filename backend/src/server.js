@@ -85,7 +85,7 @@ io.on('connection', socket => {
 emitter.on('task-expired', (data) => {
   console.log('task expired!');
   console.log(data);
-  io.to(data.username).emit('foo', data);
+  io.to(data.username).emit('task-expired', data);
 });
 
 // connecting to mongodb
@@ -136,7 +136,7 @@ server.listen(port, () => {
 app.use('/', homeRouter());
 app.use('/tasks', kc.protect(), tasksRouter());
 app.use('/account', kc.protect(), accountRouter());
-app.use('/admin', kc.protect('admin'), adminRouter());
+app.use('/admin', kc.protect('realm:todo-app-admin'), adminRouter());
 app.use('*', notFoundRouter());
 
 // graceful shutdown
