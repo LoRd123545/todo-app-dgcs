@@ -5,7 +5,7 @@ Simple todo app in which you can have account and store, add, update or delete t
 - _id: mongodb ObjectID
 - name: String
 - dueDate: Date
-- status: String
+- status: ['not-started, 'in-progress', 'done']
 - description: String
 - userID: String
 - favourite: Boolean
