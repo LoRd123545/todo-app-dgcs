@@ -1,10 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
-import useAuth from "../hooks/useAuth";
+import { useAuth } from "../AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 
 function TaskAdd() {
-  const [isLogin, keycloak] = useAuth();
+  const keycloak = useAuth();
   const navigate = useNavigate();
   const token = keycloak.token;
 
@@ -18,6 +18,10 @@ function TaskAdd() {
 
   function submit(e) {
     e.preventDefault();
+    const dataCopy = data;
+    dataCopy.dueDate = new Date(dataCopy.dueDate).toISOString();
+    setData(dataCopy);
+    console.log(data);
     axios
       .post("http://localhost:3000/tasks/", data, {
         headers: {
