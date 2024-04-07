@@ -17,13 +17,9 @@ export const useAuth = () => {
   const keycloak = useContext(AuthContext);
 
   useEffect(() => {
-    console.log("updated state: " + keycloak.token);
-
     if (localStorage.getItem("keycloakInitialized") === "true") return;
 
     localStorage.setItem("keycloakInitialized", true);
-
-    console.log("started initializing keycloak!");
 
     keycloak
       .init({
