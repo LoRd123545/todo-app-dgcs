@@ -38,15 +38,18 @@ const findOne = async (req, res, next) => {
 
 const add = async (req, res, next) => {
   const accessToken = req.kauth.grant.access_token.content;
+  const date = req.body.dueDate === undefined || req.body.dueDate === "" ? new Date() : new Date(req.body.dueDate);
 
   const task = new Task({
     name: req.body.name,
     description: req.body.description,
-    dueDate: req.body.dueDate,
+    dueDate: date,
     status: req.body.status,
     favourite: req.body.favourite,
     userID: accessToken.sub,
   });
+
+  console.log(task.dueDate);
 
   try {
     await task.save();
