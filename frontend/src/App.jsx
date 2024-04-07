@@ -69,16 +69,22 @@ function App() {
     const onFooEvent = (value) => {
       setFooEvents((previous) => [...previous, value]);
       console.log(value);
+      alert(
+        value.username +
+          "'s task with id " +
+          value.taskID +
+          " has just expired!"
+      );
     };
 
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
-    socket.on("foo", onFooEvent);
+    socket.on("task-expired", onFooEvent);
 
     return () => {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
-      socket.off("foo", onFooEvent);
+      socket.off("task-expired", onFooEvent);
     };
   }, []);
 
