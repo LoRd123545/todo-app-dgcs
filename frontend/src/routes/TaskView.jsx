@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import useAuth from "../hooks/useAuth";
-import axios from "axios";
+import { useAuth } from "../AuthContext";
+import { axiosIntance } from "../axios.js";
 import Task from "../components/Task";
 import { useParams } from "react-router-dom";
 
 function TaskView() {
-  const [authenticated, keycloak] = useAuth();
+  const keycloak = useAuth();
   const [task, setTask] = useState({});
   const { id } = useParams();
   const token = keycloak.token;
 
   useEffect(() => {
-    axios
+    axiosIntance
       .get(`http://localhost:3000/tasks/${id}`, {
         headers: {
           Authorization: "Bearer " + token,
