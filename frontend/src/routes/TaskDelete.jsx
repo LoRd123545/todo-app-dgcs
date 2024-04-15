@@ -1,17 +1,17 @@
-import useAuth from "../hooks/useAuth";
-import axios from "axios";
+import { useAuth } from "../AuthContext";
+import { axiosInstance } from "../axios.js";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function TaskDelete() {
   const [tasks, setTasks] = useState();
-  const [isLogin, keycloak] = useAuth();
+  const keycloak = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
   const token = keycloak.token;
 
   useEffect(() => {
-    axios
+    axiosInstance
       .delete(`http://localhost:3000/tasks/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
