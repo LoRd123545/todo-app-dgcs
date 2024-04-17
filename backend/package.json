@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon -L src/server.js",
-    "production": "node src/server.js"
+    "production": "node src/server.js",
+    "test": "",
+    "db-backup": ""
   },
   "keywords": [
     "todo",
