@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Task from '../models/task.js';
+import Task from '../models/taskSchema.js';
 
 async function getFilters(req, res, next) {
   const avaiableFilters = Object.keys(Task.schema.paths);
