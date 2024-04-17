@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import { useAuth } from "../AuthContext.jsx";
+import { useAuth } from "src/contexts/AuthContext.jsx";
 import { useEffect } from "react";
-import { socket } from "../socket.js";
+import { socket } from "src/socket.js";
 
 function TasksLayout() {
   const keycloak = useAuth();
@@ -21,7 +21,7 @@ function TasksLayout() {
     };
   }, []);
 
-  return <Outlet />;
+  return <Outlet context={keycloak} />;
 }
 
 export default TasksLayout;
