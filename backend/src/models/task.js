@@ -1,31 +1,84 @@
-import { Schema, model } from 'mongoose';
+import taskSchema from './taskSchema.js';
 
-const taskSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  dueDate: {
-    type: Date,
-    default: Date.now(),
-  },
-  status: {
-    type: String,
-    default: 'not-started',
-    enum: ['not-started', 'in-progress', 'done'],
-  },
-  description: {
-    type: String,
-    default: 'describe your task'
-  },
-  favourite: {
-    type: Boolean,
-    default: false,
-  },
-  userID: {
-    type: String,
-    required: true,
-  },
-});
+const getAllTasks = async (filters, sortBy) => {
+  return new Promise((acc, rej) => {
+    taskSchema.find(filters).sort(sortBy)
+      .then((data) => {
+        acc(data);
+      })
+      .catch((err) => {
+        rej(err);
+      });
+  });
+};
 
-export default model('tasks', taskSchema);
+const getTask = (id) => {
+  return new Promise((acc, rej) => {
+    taskSchema.findById(id)
+      .then((data) => {
+        acc(data);
+      })
+      .catch((err) => {
+        rej(err);
+      });
+  });
+}
+
+const addTask = (task) => {
+  return new Promise((acc, rej) => {
+    const newTask = new taskSchema(task);
+
+    newTask.save()
+      .then((data) => {
+        acc(newTask);
+      })
+      .catch((err) => {
+        rej(err);
+      });
+  });
+}
+
+const updateTask = (id, newTask) => {
+  return new Promise((acc, rej) => {
+    taskSchema.findByIdAndUpdate(id, newTask)
+      .then((data) => {
+        acc(data);
+      })
+      .catch((err) => {
+        rej(err);
+      });
+  });
+}
+
+const deleteTask = (id) => {
+  return new Promise((acc, rej) => {
+    taskSchema.findByIdAndDelete(id)
+      .then((data) => {
+        acc(data);
+      })
+      .catch((err) => {
+        rej(err);
+      });
+  })
+}
+
+const deleteAllTasks = () => {
+  return new Promise((acc, rej) => {
+    taskSchema.deleteMany({})
+      .then((data) => {
+        acc(data);
+      })
+      .catch((err) => {
+        rej(err);
+      });
+  });
+}
+
+export default {
+  getAllTasks,
+  getTask,
+  addTask,
+  updateTask,
+  deleteTask,
+  deleteAllTasks,
+}
