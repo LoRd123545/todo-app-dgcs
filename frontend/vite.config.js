@@ -8,10 +8,12 @@ export default defineConfig({
     port: 8080,
     strictPort: true,
   },
+  resolve: {
+    alias: {
+      src: "/src",
+    },
+  },
   server: {
-    // proxy: {
-    //   '/tasks': 'http://host.docker.internal:3000/'
-    // },
     watch: {
       usePolling: true
     },
