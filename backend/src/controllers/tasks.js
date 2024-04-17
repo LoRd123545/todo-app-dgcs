@@ -1,7 +1,9 @@
 import schedule from 'node-schedule';
 
-import Task from '../models/task.js';
+import Task from '../models/taskSchema.js';
+import db from '../models/task.js';
 import emitter from '../events/events.js';
+import taskSchema from '../models/taskSchema.js';
 
 const tasksExpiredJobs = new Map();
 
@@ -14,7 +16,7 @@ const find = async (req, res, next) => {
 
   try {
     req.filters.userID = req.kauth.grant.access_token.content.sub;
-    const tasks = await Task.find(req.filters).sort(sortBy);
+    const tasks = await db.getAllTasks(req.filters, sortBy);
     res.json(tasks);
   } catch (err) {
     console.error(err);
@@ -26,7 +28,7 @@ const find = async (req, res, next) => {
 
 const findOne = async (req, res, next) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await db.getTask(req.params.id);
     res.json(task);
   } catch (err) {
     console.error(err);
@@ -40,19 +42,19 @@ const add = async (req, res, next) => {
   const accessToken = req.kauth.grant.access_token.content;
   const date = req.body.dueDate === undefined || req.body.dueDate === "" ? new Date() : new Date(req.body.dueDate);
 
-  const task = new Task({
+  const newTask = {
     name: req.body.name,
     description: req.body.description,
     dueDate: date,
     status: req.body.status,
     favourite: req.body.favourite,
     userID: accessToken.sub,
-  });
+  };
 
-  console.log(task.dueDate);
+  let task;
 
   try {
-    await task.save();
+    task = await db.addTask(newTask);
   } catch (err) {
     console.error(err);
     return res.status(500).json({
@@ -81,7 +83,7 @@ const add = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    await Task.findByIdAndUpdate(req.params.id, req.body);
+    await db.updateTask(req.params.id, req.body);
     res.status(201).json({
       message: 'successfully updated task'
     });
@@ -103,7 +105,7 @@ const update = async (req, res, next) => {
 
 const remove = async (req, res, next) => {
   try {
-    await Task.findByIdAndDelete(req.params.id);
+    await db.deleteTask(req.params.id);
     res.json({
       message: 'succesfully deleted task'
     });
@@ -124,7 +126,7 @@ const remove = async (req, res, next) => {
 
 const removeAll = async (req, res, next) => {
   try {
-    await Task.deleteMany({});
+    await db.deleteAllTasks();
     res.json({
       message: 'successfully deleted all tasks'
     });
