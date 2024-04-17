@@ -75,7 +75,7 @@ io.on('connection', socket => {
   socket.on('user-data', (data) => {
     socket.join(data.username);
     console.log(data);
-  })
+  });
 
   socket.on('disconnect', () => {
     console.log(`websocket: disconnected ${socket.id}`);
