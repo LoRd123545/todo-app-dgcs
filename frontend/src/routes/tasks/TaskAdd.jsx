@@ -11,7 +11,7 @@ function TaskAdd() {
   const [data, setData] = useState({
     name: "",
     description: "",
-    dueDate: "",
+    dueDate: Date.now() + 86_400_000,
     status: "not-started",
   });
 
