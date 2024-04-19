@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
-import Task from "src/components/Task.jsx";
-import { axiosInstance } from "src/axios.js";
+import { TasksList } from "src/components/TasksList";
+import { axiosInstance } from "src/data/axios.js";
 
-function TaskIndex() {
+const GetAll = () => {
   const [tasks, setTasks] = useState([]);
 
   const [networkError, setNetworkError] = useState(false);
@@ -54,22 +54,12 @@ function TaskIndex() {
         </div>
         <br />
         <br />
-        {tasks.map((task) => {
-          return (
-            <Task
-              key={task._id}
-              id={task._id}
-              name={task.name}
-              status={task.status}
-              completion_date={task.dueDate}
-            />
-          );
-        })}
+        <TasksList tasks={tasks} />
       </div>
     </>
   ) : (
     <div>Loading...</div>
   );
-}
+};
 
-export default TaskIndex;
+export default GetAll;

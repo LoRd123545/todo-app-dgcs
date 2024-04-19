@@ -1,8 +1,8 @@
-import { axiosInstance } from "src/axios.js";
+import { axiosInstance } from "src/data/axios.js";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 
-function TaskDelete() {
+const Delete = () => {
   const [tasks, setTasks] = useState();
   const keycloak = useOutletContext();
   const { id } = useParams();
@@ -25,6 +25,6 @@ function TaskDelete() {
   }, [token]);
 
   return <></>;
-}
+};
 
-export default TaskDelete;
+export default Delete;

@@ -1,8 +1,8 @@
-import { axiosInstance } from "src/axios.js";
+import { axiosInstance } from "src/data/axios.js";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useOutletContext } from "react-router-dom";
 
-function TaskEdit() {
+const Edit = () => {
   const [task, setTask] = useState({});
   const navigate = useNavigate();
   const { id } = useParams();
@@ -147,6 +147,6 @@ function TaskEdit() {
       </div>
     </div>
   );
-}
+};
 
-export default TaskEdit;
+export default Edit;

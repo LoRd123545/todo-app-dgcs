@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-function Task(props) {
+const Task = (props) => {
   return (
     <>
       <div className="task">
@@ -11,7 +11,7 @@ function Task(props) {
         </Link>
         <br />
         <span className="task__text">{props.status}</span>
-        <span className="task__text">{props.completion_date}</span>
+        <span className="task__text">{props.dueDate}</span>
         <div className="task__icons">
           <button className="task__button--decoration-none">
             <Link to={`${props.id}/edit`}>
@@ -27,6 +27,6 @@ function Task(props) {
       </div>
     </>
   );
-}
+};
 
-export default Task;
+export { Task };

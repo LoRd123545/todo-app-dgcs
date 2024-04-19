@@ -5,7 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
 // others
-import { socket } from "./socket.js";
+import { socket } from "./data/socket.js";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 
 // routes
@@ -14,11 +14,13 @@ import Logout from "./routes/Logout";
 import Faq from "./routes/Faq";
 import About from "./routes/About";
 import PageNotFound from "./routes/PageNotFound.jsx";
-import TaskIndex from "./routes/tasks/TaskIndex.jsx";
-import TaskAdd from "./routes/tasks/TaskAdd.jsx";
-import TaskEdit from "./routes/tasks/TaskEdit.jsx";
-import TaskView from "./routes/tasks/TaskView.jsx";
-import TaskDelete from "./routes/tasks/TaskDelete.jsx";
+import {
+  AddTask,
+  GetAllTasks,
+  GetTask,
+  DeleteTask,
+  EditTask,
+} from "./routes/tasks";
 
 // layouts
 import RootLayout from "./layouts/RootLayout.jsx";
@@ -74,11 +76,11 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="logout" element={<Logout />} />
             <Route path="tasks" element={<TasksLayout />}>
-              <Route index element={<TaskIndex />}></Route>
-              <Route path=":id" element={<TaskView />}></Route>
-              <Route path="add" element={<TaskAdd />}></Route>
-              <Route path=":id/edit" element={<TaskEdit />}></Route>
-              <Route path=":id/delete" element={<TaskDelete />}></Route>
+              <Route index element={<GetAllTasks />}></Route>
+              <Route path=":id" element={<GetTask />}></Route>
+              <Route path="add" element={<AddTask />}></Route>
+              <Route path=":id/edit" element={<EditTask />}></Route>
+              <Route path=":id/delete" element={<DeleteTask />}></Route>
             </Route>
             <Route path="*" element={<PageNotFound />} />
           </Route>

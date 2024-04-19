@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
-function TaskAdd() {
+const Add = () => {
   const keycloak = useOutletContext();
   const navigate = useNavigate();
   const token = keycloak.token;
@@ -116,6 +116,6 @@ function TaskAdd() {
       </div>
     </div>
   );
-}
+};
 
-export default TaskAdd;
+export default Add;

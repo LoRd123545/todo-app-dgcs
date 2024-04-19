@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { useAuth } from "src/contexts/AuthContext.jsx";
 import { useEffect } from "react";
-import { socket } from "src/socket.js";
+import { socket } from "src/data/socket.js";
 
 function TasksLayout() {
   const keycloak = useAuth();

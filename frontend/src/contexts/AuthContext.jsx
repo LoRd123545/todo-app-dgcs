@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import client from "../keycloak.js";
+import client from "src/data/keycloak.js";
 
 const AuthContext = React.createContext(client);
 

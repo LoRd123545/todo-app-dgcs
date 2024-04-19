@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { axiosInstance } from "src/axios.js";
-import Task from "src/components/Task.jsx";
+import { axiosInstance } from "src/data/axios.js";
+import { Task } from "src/components/Task";
 import { useOutletContext, useParams } from "react-router-dom";
 
-function TaskView() {
+const Get = () => {
   const keycloak = useOutletContext();
   const [task, setTask] = useState({});
   const { id } = useParams();
@@ -34,6 +34,6 @@ function TaskView() {
       status={task.status}
     />
   );
-}
+};
 
-export default TaskView;
+export default Get;
