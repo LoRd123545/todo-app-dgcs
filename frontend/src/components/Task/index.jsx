@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import { Modal } from "src/components/Modal";
 
 const Task = (props) => {
+  const handleClick = () => {
+    props.deleteHandler(props.id, props.token);
+    setIsOpen(false);
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <div className="task">
@@ -19,10 +27,16 @@ const Task = (props) => {
             </Link>
           </button>
           <button className="task__button--decoration-none">
-            <Link to={`${props.id}/delete`}>
+            {/* <Link to={`${props.id}/delete`}>
               <FontAwesomeIcon icon={faTrash} />
-            </Link>
+            </Link> */}
+            <FontAwesomeIcon icon={faTrash} onClick={() => setIsOpen(true)} />
           </button>
+          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+            <div>Czy napewno chcesz usunąć to zadanie?</div>
+            <button onClick={handleClick}>tak</button>
+            <button onClick={() => setIsOpen(false)}>nie</button>
+          </Modal>
         </div>
       </div>
     </>
