@@ -9,18 +9,16 @@ import { socket } from "./data/socket.js";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 
 // routes
-import Root from "./routes/Root";
-import Logout from "./routes/Logout";
-import Faq from "./routes/Faq";
-import About from "./routes/About";
-import PageNotFound from "./routes/PageNotFound.jsx";
-import {
-  AddTask,
-  GetAllTasks,
-  GetTask,
-  DeleteTask,
-  EditTask,
-} from "./routes/tasks";
+import Root from "./pages/Root";
+import Logout from "./pages/Logout";
+import Faq from "./pages/Faq";
+import About from "./pages/About";
+import PageNotFound from "./pages/PageNotFound.jsx";
+import TasksIndex from "./pages/tasks/Index.jsx";
+import TaskView from "./pages/tasks/View.jsx";
+import TasksAdd from "./pages/tasks/Add.jsx";
+import TaskEdit from "./pages/tasks/Edit.jsx";
+import TaskDelete from "./pages/tasks/Delete.jsx";
 
 // layouts
 import RootLayout from "./layouts/RootLayout.jsx";
@@ -67,26 +65,24 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <AuthProvider>
-        <Routes>
-          <Route path="/" element={<RootLayout />}>
-            <Route index element={<Root />} />
-            <Route path="faq" element={<Faq />} />
-            <Route path="about" element={<About />} />
-            <Route path="logout" element={<Logout />} />
-            <Route path="tasks" element={<TasksLayout />}>
-              <Route index element={<GetAllTasks />}></Route>
-              <Route path=":id" element={<GetTask />}></Route>
-              <Route path="add" element={<AddTask />}></Route>
-              <Route path=":id/edit" element={<EditTask />}></Route>
-              <Route path=":id/delete" element={<DeleteTask />}></Route>
-            </Route>
-            <Route path="*" element={<PageNotFound />} />
+    <AuthProvider>
+      <Routes>
+        <Route path="/" element={<RootLayout />}>
+          <Route index element={<Root />} />
+          <Route path="faq" element={<Faq />} />
+          <Route path="about" element={<About />} />
+          <Route path="logout" element={<Logout />} />
+          <Route path="tasks" element={<TasksLayout />}>
+            <Route index element={<TasksIndex />}></Route>
+            <Route path=":id" element={<TaskView />}></Route>
+            <Route path="add" element={<TasksAdd />}></Route>
+            <Route path=":id/edit" element={<TaskEdit />}></Route>
+            <Route path=":id/delete" element={<TaskDelete />}></Route>
           </Route>
-        </Routes>
-      </AuthProvider>
-    </div>
+          <Route path="*" element={<PageNotFound />} />
+        </Route>
+      </Routes>
+    </AuthProvider>
   );
 }
 
