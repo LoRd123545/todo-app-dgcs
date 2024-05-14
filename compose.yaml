@@ -27,6 +27,7 @@ services:
       - ./frontend:/app
       # to prevent dependencies errors
       - frontend-node_modules:/app/node_modules
+    # linux doesn't know what is host.docker.internal
     extra_hosts:
       - host.docker.internal:host-gateway
     env_file:
@@ -34,13 +35,6 @@ services:
     depends_on:
       - keycloak
       - backend
-  # database service
-  # mysql:
-  #   image: mysql:8.0
-  #   volumes:
-  #     - todo-mysql-data:/var/lib/mysql
-  #   env_file:
-  #     - ./.env
   # keycloak service
   keycloak:
     image: quay.io/keycloak/keycloak:23.0.6
@@ -67,7 +61,6 @@ services:
       - ./keycloak/keycloak.env
 # volume mapping
 volumes:
-  todo-mysql-data: # old
   todo-keycloak-data:
   frontend-node_modules:
   backend-node_modules:
