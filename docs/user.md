@@ -16,3 +16,16 @@ To create a new todo, follow these steps:
 - Enter Todo Details: Provide a title for your todo and any additional details or notes.
 - Set Due Date: If applicable, specify a due date for your todo.
 - Save: Click on the "Save" button to create your todo.
+
+# Editing and Deleting Todos
+
+To make changes to an existing todo or remove it from your list, follow these steps:
+
+- Edit Todo: Click on the todo you wish to edit to open its details.
+- Modify Details: Update the title, description, due date, or any other relevant information.
+- Save Changes: Click on the "Save" button to confirm your changes.
+
+To delete a todo:
+
+- Delete Todo: Click on the delete icon next to the todo you want to remove.
+- Confirmation: Confirm the deletion when prompted.
