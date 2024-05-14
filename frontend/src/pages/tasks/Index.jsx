@@ -10,6 +10,7 @@ const Index = () => {
 
   const [networkError, setNetworkError] = useState(false);
   const keycloak = useOutletContext();
+  const [authenticated, setAuthenticated] = useState(keycloak.authenticated);
 
   const handleDelete = (id, token) => {
     taskService.remove(id, token);
@@ -23,6 +24,11 @@ const Index = () => {
   };
 
   useEffect(() => {
+    setAuthenticated(keycloak.authenticated);
+    console.log("authenticated: " + keycloak.authenticated);
+  }, [keycloak.authenticated]);
+
+  useEffect(() => {
     taskService
       .get(keycloak.token)
       .then((res) => {
@@ -34,7 +40,7 @@ const Index = () => {
         setNetworkError(true);
         console.error("err: " + err);
       });
-  }, [keycloak]);
+  }, [authenticated]);
 
   if (networkError) {
     return (
