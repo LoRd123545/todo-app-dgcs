@@ -6,10 +6,6 @@ const TasksUpdateContext = React.createContext();
 export const TasksProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
 
-  useEffect(() => {
-    console.log(tasks);
-  }, [tasks]);
-
   return (
     <TasksContext.Provider value={tasks}>
       <TasksUpdateContext.Provider value={setTasks}>
