@@ -18,6 +18,8 @@ When user enters the app he is interacting with frontend service. If user wants 
 
 Whenever user perform operations on tasks through ui frontend talks to backend and backend talks to database.
 
+![image](img/TODO-APP-STRUCTURE.png)
+
 # SERVICES
 
 ## BACKEND
