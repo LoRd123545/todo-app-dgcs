@@ -3,7 +3,7 @@
   "realm": "demo",
   "displayName": "Todo-app",
   "displayNameHtml": "",
-  "notBefore": 1710778891,
+  "notBefore": 1712503208,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
   "refreshTokenMaxReuse": 0,
@@ -585,8 +585,8 @@
   "webAuthnPolicyPasswordlessExtraOrigins": [],
   "users": [
     {
-      "id": "9f09df31-acc6-48af-93d6-bf8a8bd42714",
-      "createdTimestamp": 1709739418708,
+      "id": "d618a095-5b84-4582-a629-8391147dd3d5",
+      "createdTimestamp": 1711186919713,
       "username": "service-account-backend",
       "enabled": true,
       "totp": false,
@@ -796,9 +796,7 @@
       ],
       "webOrigins": [
         "",
-        "http://backend:3000",
-        "*",
-        "http://frontend:8080"
+        "*"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -1043,9 +1041,7 @@
         "http://localhost:4000/*"
       ],
       "webOrigins": [
-        "http://backend:3000",
-        "*",
-        "http://frontend:8080"
+        "*"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -1798,6 +1794,10 @@
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
   "smtpServer": {},
+  "loginTheme": "keycloak",
+  "accountTheme": "keycloak.v2",
+  "adminTheme": "keycloak.v2",
+  "emailTheme": "keycloak",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"
