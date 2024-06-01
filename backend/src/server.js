@@ -34,7 +34,7 @@ const server = http.createServer(app);
 const port = PORT || 3000;
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:4000'
+    origin: '*'
   }
 });
 
