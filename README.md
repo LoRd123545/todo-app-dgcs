@@ -47,5 +47,5 @@ In order to use this app you need to have docker installed on your host machine.
 9. go to `role mapping` tab, click assign role, then from the dropdown select `filter by clients`
 10. in the search field type admin and click enter
 11. select `todo-app-admin` role and click `assign`
-12. access app in browser on [localhost:3000](http://localhost:3000)
+12. access app in browser on [localhost:4000](http://localhost:4000)
 13. when you're requested to log in, do it with username and password from previous steps
