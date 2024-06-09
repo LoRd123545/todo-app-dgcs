@@ -5,7 +5,7 @@
   "resource": "backend",
   "verify-token-audience": true,
   "credentials": {
-    "secret": "9i1rwKrTjh5cymPooeRzFyiDFKOozcK3"
+    "secret": "**********"
   },
   "use-resource-role-mappings": true,
   "confidential-port": 0,
