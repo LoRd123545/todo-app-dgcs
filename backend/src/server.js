@@ -60,7 +60,7 @@ const kcAdminClient = keycloak.init();
 
 /* general config */
 app.use(cors({
-  origin: '*'//'http://frontend:8080'
+  origin: '*'
 }));
 app.use(express.json());
 app.use(express.urlencoded({
@@ -129,7 +129,7 @@ db.once('open', () => {
 
 // listening on specified port (for now 3000)
 server.listen(port, () => {
-  console.log(`Alive on localhost:${port}🔥🔥🔥`);
+  console.log(`Alive on ${server.address().address}:${port}🔥🔥🔥`);
 });
 
 /* app routes */
