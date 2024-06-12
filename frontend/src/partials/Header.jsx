@@ -24,7 +24,10 @@ function Header() {
             </Link>
           </li>
           <li>
-            <Link className="header__link" to="/account">
+            <Link
+              className="header__link"
+              to="http://localhost:9000/realms/demo/account"
+            >
               Konto
             </Link>
           </li>
