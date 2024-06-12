@@ -8,6 +8,7 @@ const Index = () => {
   const tasks = useTasks();
   const setTasks = useTasksUpdate();
 
+  const [status, setStatus] = useState("");
   const [networkError, setNetworkError] = useState(false);
   const keycloak = useOutletContext();
   const [authenticated, setAuthenticated] = useState(keycloak.authenticated);
@@ -30,7 +31,7 @@ const Index = () => {
 
   useEffect(() => {
     taskService
-      .get(keycloak.token)
+      .get(keycloak.token, status)
       .then((res) => {
         if (res.status === 200) {
           setTasks(res.data);
@@ -40,7 +41,8 @@ const Index = () => {
         setNetworkError(true);
         console.error("err: " + err);
       });
-  }, [authenticated]);
+    console.log(status);
+  }, [authenticated, status]);
 
   if (networkError) {
     return (
@@ -58,12 +60,16 @@ const Index = () => {
           Nowe Zadanie
         </Link>
         <div className="select container__select">
-          <select name="filtr" id="filtr">
+          <select
+            name="filtr"
+            id="filtr"
+            onChange={(e) => setStatus(e.target.value)}
+          >
             <option value="">Wybierz</option>
-            <option value="/tasks">Wszystkie</option>
-            <option value="/tasks?status=done">Zakończone</option>
-            <option value="/tasks?status=in-progress">W trakcie</option>
-            <option value="/tasks?status=not-started">Do zrobienia</option>
+            <option value="">Wszystkie</option>
+            <option value="done">Zakończone</option>
+            <option value="in-progress">W trakcie</option>
+            <option value="not-started">Do zrobienia</option>
           </select>
         </div>
         <br />
